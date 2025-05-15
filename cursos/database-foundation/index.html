@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Fundamentos de Bases de Datos con Oracle - MoriDevEdu</title>
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <style>
+        /* Estilos adicionales para elementos interactivos y específicos del curso */
+        .course-layout { display: flex; gap: 2rem; margin-top: 2rem; }
+        .course-navigation { flex: 0 0 280px; }
+        .course-content-area { flex: 1; }
+        .module-section:not(:last-child) { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
+        .module-section { padding-top: 70px; margin-top: -70px; }
+
+        .intro-db-types { display: flex; justify-content: space-around; text-align: center; margin: 2rem 0; }
+        .db-type-card { padding: 1rem; border: 1px solid #ddd; border-radius: 8px; width: 30%; box-shadow: var(--shadow); }
+        .db-type-card i { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--primary-color); }
+        
+        .interactive-zone {
+            border: 2px dashed var(--primary-color); padding: 1.5rem; margin: 1.5rem 0;
+            border-radius: 8px; background-color: #f9f9f9;
+        }
+        .interactive-zone h5, .interactive-zone h4 {
+            margin-top: 0; color: var(--primary-color);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .clickable-concept { cursor: pointer; color: var(--secondary-color); text-decoration: underline; font-weight: bold; }
+        .concept-explanation {
+            background-color: white; padding: 10px; margin-top: 10px; border-left: 3px solid var(--accent-color);
+            border-radius: 4px; display: none; /* Oculto por defecto */
+        }
+        .entity-diagram-placeholder, .data-modeler-placeholder, .sql-script-runner-placeholder {
+            border: 1px dashed #aaa; padding: 2rem; text-align: center; background-color: #e9ecef;
+            margin: 1rem 0; font-style: italic; color: #6c757d; min-height: 150px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .entity-box {
+            border: 2px solid var(--secondary-color); background-color: white; padding: 10px; margin: 10px;
+            border-radius: 5px; text-align: center; width: 150px;
+        }
+        .relationship-line {
+            border-top: 2px dashed var(--accent-color); margin: 0 5px; flex-grow: 1;
+            position: relative; top: -30px; /* Ajustar para alinear con el centro de las cajas */
+        }
+        .normalization-example table { width: 100%; margin-top: 0.5rem; }
+        .normalization-example th, .normalization-example td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+        .bad-practice { background-color: #ffebee; }
+        .good-practice { background-color: #e8f5e9; }
+
+        /* Para el script runner simulado */
+        #sqlOutputArea, #sqlTableVizArea {
+            background-color: white; border: 1px solid #ccc; padding: 1rem; margin-top: 1rem;
+            min-height: 100px; font-family: 'Consolas', monospace; white-space: pre-wrap;
+        }
+        #sqlTableVizArea table { width: auto; } /* No llenar todo el ancho */
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Inicio</a></li>
+                <li><a href="../../index.html#cursos">Cursos</a></li>
+                <li><a href="../../index.html#about">Sobre Nosotros</a></li>
+                <li><a href="../../index.html#contact">Contacto</a></li>
+            </ul>
+            <div class="mobile-menu"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <div class="course-hero">
+        <div class="container course-header">
+            <h1 class="course-title" style="color:white;">Fundamentos de Bases de Datos con Oracle</h1>
+            <p class="course-description" style="color:white;">
+                Descubre el poder detrás de la información. Aprende a diseñar, modelar y gestionar bases de datos relacionales utilizando Oracle, una de las tecnologías líderes en el mundo empresarial. Desde el concepto hasta la creación de scripts SQL.
+            </p>
+            <div class="course-meta">
+                <span class="course-meta-item"><i class="fas fa-layer-group"></i> Nivel: Fundamentos</span>
+                <span class="course-meta-item"><i class="fas fa-clock"></i> Duración Estimada: 50 horas</span>
+                <span class="course-meta-item"><i class="fas fa-database"></i> Enfoque: Modelado de Datos, SQL, Oracle</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="../../index.html">Inicio</a></li>
+                <li><a href="../../index.html#cursos">Cursos</a></li>
+                <li><a href="#">Fundamentos de Bases de Datos (Oracle)</a></li>
+            </ul>
+        </div>
+
+        <div class="course-layout">
+            <aside class="course-navigation">
+                <h3 class="course-nav-title"><i class="fas fa-stream"></i> Módulos del Curso</h3>
+                <ul class="course-nav-list">
+                    <li class="course-nav-item"><a href="#modulo0" class="course-nav-link active"><i class="fas fa-info-circle"></i> Introducción a las BD</a></li>
+                    <li class="course-nav-item"><a href="#modulo13" class="course-nav-link"><i class="fas fa-drafting-compass"></i> Módulo 1: Modelado Conceptual</a></li>
+                    <li class="course-nav-item"><a href="#modulo14" class="course-nav-link"><i class="fas fa-cogs"></i> Módulo 2: Modelo Físico y SQL</a></li>
+                    <li class="course-nav-item"><a href="#modulo15" class="course-nav-link"><i class="fas fa-tools"></i> Módulo 3: Data Modeler</a></li>
+                    <li class="course-nav-item"><a href="#modulo16" class="course-nav-link"><i class="fas fa-scroll"></i> Módulo 4: Scripts SQL</a></li>
+                </ul>
+                <div style="padding: 1rem; margin-top:1rem; background-color: #f9f9f9; border-radius: 8px;">
+                    <h4><i class="fas fa-download"></i> Herramientas Clave</h4>
+                    <ul style="list-style: none; padding-left: 0.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><a href="https://www.oracle.com/database/technologies/xe-downloads.html" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-database"></i> Oracle DB XE (Gratuita)</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="https://www.oracle.com/database/sqldeveloper/technologies/sql-developer-data-modeler/" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-project-diagram"></i> SQL Developer Data Modeler</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="course-content-area">
+                <section id="modulo0" class="module-section" style="padding-top:0; margin-top:0;">
+                    <h2 class="lesson-title"><i class="fas fa-info-circle"></i> Introducción: El Universo de las Bases de Datos</h2>
+                    <p>Imagina una gigantesca biblioteca digital, perfectamente organizada, donde cada pieza de información tiene su lugar y puede ser encontrada en segundos. ¡Eso es, en esencia, una base de datos! Son sistemas cruciales diseñados para <strong>almacenar, organizar, proteger y permitir el acceso eficiente a la información</strong>. Hoy en día, casi todas las aplicaciones que usas, desde tu red social favorita hasta el sistema de tu banco, dependen vitalmente de ellas.</p>
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb"></i> <strong>Analogía:</strong> Piensa en una base de datos como una biblioteca, los datos son los libros, el esquema de la base de datos es el catálogo, y el Sistema Gestor de Base de Datos (DBMS) es el bibliotecario experto que te ayuda a encontrar y gestionar todo.
+                    </div>
+                    <p><strong>Oracle Database</strong> es uno de los "bibliotecarios" más robustos y utilizados a nivel mundial, especialmente en entornos empresariales que demandan alta performance, seguridad y escalabilidad.</p>
+                    
+                    <h3>Un Vistazo a los Tipos de Bases de Datos:</h3>
+                    <p>No todas las "bibliotecas" son iguales. Existen diferentes enfoques para organizar la información:</p>
+                    <div class="intro-db-types">
+                        <div class="db-type-card">
+                            <i class="fas fa-table"></i>
+                            <h4>Relacionales (SQL)</h4>
+                            <p>Organizan los datos en tablas estructuradas (filas y columnas) con relaciones bien definidas entre ellas. Usan SQL (Lenguaje de Consulta Estructurado). <br><em>Ej: Oracle DB, MySQL, PostgreSQL.</em></p>
+                        </div>
+                        <div class="db-type-card">
+                            <i class="fas fa-file-alt"></i>
+                            <h4>NoSQL</h4>
+                            <p>Ofrecen modelos de datos más flexibles (documentos, clave-valor, grafos) para datos no estructurados o semi-estructurados. Gran escalabilidad. <br><em>Ej: MongoDB, Cassandra, Redis.</em></p>
+                        </div>
+                        <div class="db-type-card">
+                            <i class="fas fa-cloud"></i>
+                            <h4>En la Nube (Cloud Databases)</h4>
+                            <p>Alojadas y gestionadas por proveedores de nube. Accesibles desde cualquier lugar y ofrecen escalabilidad bajo demanda. Pueden ser SQL o NoSQL. <br><em>Ej: Amazon RDS, Azure SQL Database, Google Cloud SQL.</em></p>
+                        </div>
+                    </div>
+                    <p>En este curso, <strong>nos enfocaremos en el mundo de las bases de datos relacionales (SQL)</strong>, utilizando el poder de Oracle para modelar, construir y gestionar la información.</p>
+                </section>
+
+                <section id="modulo13" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-drafting-compass"></i> Módulo 1: Modelado Conceptual de Bases de Datos</h2>
+                    <p>Antes de construir cualquier cosa, ¡necesitamos un plano! El modelado de bases de datos es como diseñar el plano arquitectónico de nuestra "biblioteca de datos". Un buen modelo asegura que la información esté organizada lógicamente, sea fácil de acceder y se eviten problemas futuros como datos duplicados o inconsistentes.</p>
+
+                    <h3>🔹 ¿Por qué modelar? La Importancia de un Buen Diseño</h3>
+                    <p>Imagina intentar construir una casa sin planos: ¡sería un caos! Un modelo de datos bien pensado:</p>
+                    <ul>
+                        <li>Asegura la <strong>integridad y consistencia</strong> de los datos.</li>
+                        <li>Facilita la <strong>comprensión</strong> de la estructura de la información.</li>
+                        <li>Reduce la <strong>redundancia</strong> de datos (ahorrando espacio y evitando errores).</li>
+                        <li>Optimiza el <strong>rendimiento</strong> de las consultas.</li>
+                        <li>Sirve como <strong>documentación</strong> para desarrolladores y usuarios.</li>
+                    </ul>
+
+                    <h3>Pasos para Modelar tu Universo de Datos:</h3>
+                    <p>Modelar una base de datos es un proceso que parte de entender una necesidad del mundo real. Tomemos como ejemplo un sistema para una <strong>pequeña tienda online</strong>.</p>
+                    
+                    <div class="interactive-zone">
+                        <h4><i class="fas fa-list-check"></i> Paso 1: Definir los Requisitos 📝</h4>
+                        <p>¿Qué información es crucial para nuestra tienda online? <span class="clickable-concept" onclick="toggleExplanation('req-expl')">Haz clic para reflexionar.</span></p>
+                        <div id="req-expl" class="concept-explanation">
+                            Necesitaremos guardar información sobre:
+                            <ul>
+                                <li>Nuestros <strong>Productos</strong> (nombre, descripción, precio, stock).</li>
+                                <li>Nuestros <strong>Clientes</strong> (nombre, email, dirección de envío).</li>
+                                <li>Las <strong>Ventas</strong> que realizamos (qué cliente compró qué producto, cuándo, cantidad).</li>
+                            </ul>
+                            Estos son los pilares de nuestra base de datos.
+                        </div>
+                    </div>
+
+                    <div class="interactive-zone">
+                        <h4><i class="fas fa-cubes"></i> Paso 2: Identificar Entidades y Atributos 🏗️</h4>
+                        <p>Las <strong>Entidades</strong> son los "sustantivos" principales de nuestro sistema (objetos o conceptos sobre los que guardamos información). Los <strong>Atributos</strong> son las características o propiedades de esas entidades.</p>
+                        <p>Para nuestra tienda, las entidades clave y algunos de sus atributos serían:</p>
+                        <div style="display:flex; justify-content:space-around; text-align:center; flex-wrap:wrap;">
+                            <div class="entity-box"><strong>Cliente</strong><hr>ID_Cliente (PK) <br>Nombre<br>Apellido<br>Email<br>Dirección</div>
+                            <div class="entity-box"><strong>Producto</strong><hr>ID_Producto (PK)<br>NombreProd<br>Descripción<br>PrecioUnit<br>StockDisp</div>
+                            <div class="entity-box"><strong>Venta</strong><hr>ID_Venta (PK)<br>FechaVenta<br>MontoTotal<br><em>ID_Cliente (FK)</em><br></div>
+                        </div>
+                        <p class="alert alert-info" style="margin-top:1rem;"><i class="fas fa-key"></i> <strong>(PK)</strong> indica Clave Primaria: un identificador único para cada registro en la entidad. <strong>(FK)</strong> indica Clave Foránea: un campo que enlaza con la Clave Primaria de otra entidad.</p>
+                        
+                        <h5><i class="fas fa-mouse-pointer"></i> Mini-Juego: Identifica Entidades y Atributos</h5>
+                        <p>Escenario: Una <strong>Biblioteca</strong>. Arrastra (mentalmente) los siguientes ítems a "Entidades" o "Atributos": <em>Libro, Título, Autor, ISBN, Socio, NombreSocio, Préstamo, FechaPréstamo.</em></p>
+                        <div class="entity-diagram-placeholder">
+                            <p>[Simulación de Arrastrar y Soltar: "Libro", "Socio", "Préstamo" serían Entidades. El resto, Atributos de estas.]</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-zone">
+                        <h4><i class="fas fa-link"></i> Paso 3: Establecer Relaciones entre Entidades 🔗</h4>
+                        <p>¿Cómo se conectan nuestras entidades? Usamos relaciones:</p>
+                        <ul>
+                            <li><strong>Un Cliente puede realizar muchas Ventas (1:N).</strong> Una Venta pertenece a un solo Cliente.</li>
+                            <li><strong>Una Venta puede incluir muchos Productos, y un Producto puede estar en muchas Ventas (M:N).</strong> Esta relación M:N se resuelve con una tabla intermedia llamada, por ejemplo, <code>Detalle_Venta</code>.</li>
+                        </ul>
+                        <p><code>Detalle_Venta</code> contendría: <em>ID_Detalle (PK), ID_Venta (FK), ID_Producto (FK), Cantidad, PrecioVentaUnidad.</em></p>
+                        <div style="display:flex; justify-content:center; align-items:center; margin-top:1rem;">
+                            <div class="entity-box">Cliente</div>
+                            <div class="relationship-line">1..*</div>
+                            <div class="entity-box">Venta</div>
+                            <div class="relationship-line">1..*</div>
+                            <div class="entity-box">Detalle_Venta</div>
+                            <div class="relationship-line">*..1</div>
+                             <div class="entity-box">Producto</div>
+                        </div>
+                        <p style="text-align:center; font-size:0.9em;">(Diagrama simplificado. Las líneas representan relaciones, los símbolos indican cardinalidad: 1..* significa "uno a muchos")</p>
+                        <h5><i class="fas fa-project-diagram"></i> Visualizador de Relaciones (Conceptual)</h5>
+                        <p>Elige dos entidades y el tipo de relación. <span class="clickable-concept" onclick="toggleExplanation('rel-expl')">Haz clic para ver ejemplos comunes.</span></p>
+                         <div id="rel-expl" class="concept-explanation">
+                            <ul>
+                                <li><strong>Profesor - Curso (M:N):</strong> Un profesor imparte muchos cursos, un curso puede ser impartido por muchos profesores (si hay co-docencia o diferentes secciones). Se resuelve con una tabla `Imparte(ID_Profesor_FK, ID_Curso_FK)`.</li>
+                                <li><strong>País - Ciudad (1:N):</strong> Un país tiene muchas ciudades, una ciudad pertenece a un solo país.</li>
+                                <li><strong>Usuario - PerfilUsuario (1:1):</strong> Un usuario tiene un solo perfil, un perfil pertenece a un solo usuario.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="interactive-zone">
+                        <h4><i class="fas fa-ruler-combined"></i> Paso 4: Crear el Esquema Lógico (Diagrama Entidad-Relación - DER) 📐</h4>
+                        <p>El DER es la representación gráfica de nuestro modelo. Muestra entidades, atributos y relaciones. Herramientas como Oracle SQL Developer Data Modeler nos ayudan a crearlos.</p>
+                        <div class="entity-diagram-placeholder">
+                            <i class="fas fa-image fa-3x" style="color:#bdc3c7;"></i>
+                            <p>[Aquí iría una imagen de un DER simple para la Tienda, mostrando las tablas Cliente, Producto, Venta y Detalle_Venta con sus atributos PK y FK, y las líneas de relación con cardinalidad (patas de gallo).]</p>
+                            <p><em>Al pasar el mouse sobre una PK o FK, se podría mostrar una tooltip explicando su función (simulado).</em></p>
+                        </div>
+                    </div>
+                    
+                    <h3>🔹 Concepto Clave: Normalización 📊 - ¡Organizando para la Eficiencia!</h3>
+                    <p>La normalización es un proceso para refinar la estructura de nuestras tablas, eliminando la redundancia de datos y mejorando su integridad. Imagina que tienes la dirección de un cliente repetida en cada una de sus 100 ventas; si el cliente se muda, ¡tendrías que actualizarla en 100 sitios! La normalización evita esto.</p>
+                    <p>Se organiza en "Formas Normales" (1NF, 2NF, 3NF son las más comunes):</p>
+                    <div class="normalization-example">
+                        <p><strong>No Normalizado (Ejemplo Malo):</strong> Tabla `PedidoCompleto`</p>
+                        <table>
+                            <tr class="bad-practice"><th>ID_Pedido</th><th>Cliente</th><th>Productos (Nombre, Cantidad)</th><th>DirecciónCliente</th></tr>
+                            <tr><td>101</td><td>Ana Solis</td><td>Laptop(1), Mouse(1)</td><td>Calle Falsa 123</td></tr>
+                             <tr><td>102</td><td>Luis Cruz</td><td>Teclado(2)</td><td>Av. Siempre Viva 742</td></tr>
+                        </table>
+                        <p>Problemas: "Productos" es una lista (viola 1NF), "DirecciónCliente" se repetiría para cada pedido de Ana.</p>
+                    </div>
+
+                    <ul>
+                        <li><strong>1NF (Primera Forma Normal): Atomicidad.</strong> <span class="clickable-concept" onclick="toggleExplanation('nf1-expl')">¿Qué significa?</span>
+                            <div id="nf1-expl" class="concept-explanation">Cada celda de la tabla debe contener un único valor (atómico). No listas ni grupos de valores. <br><em>Solución para `PedidoCompleto`:</em> Separar los productos en una tabla `Detalle_Pedido`.</div>
+                        </li>
+                        <li><strong>2NF (Segunda Forma Normal): Dependencia completa de la PK (Clave Primaria).</strong> <span class="clickable-concept" onclick="toggleExplanation('nf2-expl')">¿Qué significa?</span>
+                            <div id="nf2-expl" class="concept-explanation">Se aplica si tienes una clave primaria compuesta (múltiples columnas). Todos los atributos que no son clave deben depender de *toda* la clave primaria compuesta, no solo de una parte. <br><em>Ejemplo:</em> Si `Detalle_Pedido` tuviera `(ID_Pedido, ID_Producto)` como PK y un atributo `Nombre_Producto`, este último solo depende de `ID_Producto`, violando 2NF. Se saca `Nombre_Producto` a la tabla `Producto`.</div>
+                        </li>
+                        <li><strong>3NF (Tercera Forma Normal): Sin dependencias transitivas.</strong> <span class="clickable-concept" onclick="toggleExplanation('nf3-expl')">¿Qué significa?</span>
+                            <div id="nf3-expl" class="concept-explanation">Ningún atributo que no sea clave debe depender de otro atributo que tampoco sea clave. <br><em>Ejemplo:</em> Si en la tabla `Empleado` tienes `ID_Empleado (PK), Nombre_Empleado, ID_Departamento, Nombre_Departamento`. Aquí, `Nombre_Departamento` depende de `ID_Departamento` (que no es la PK de `Empleado`). Esto es una dependencia transitiva. <br><em>Solución:</em> Crear una tabla `Departamento(ID_Departamento PK, Nombre_Departamento)`. En `Empleado` quedaría `ID_Departamento` como FK.</div>
+                        </li>
+                    </ul>
+                    <p>La normalización puede parecer compleja, pero resulta en bases de datos más limpias, eficientes y fáciles de mantener.</p>
+                    <div class="interactive-zone">
+                        <h5><i class="fas fa-check-double"></i> Mini-Quiz de Normalización</h5>
+                        <p>Tabla: <code>Libro(ISBN (PK), Titulo, ID_Autor, Nombre_Autor, Editorial)</code><br>
+                        ¿Qué Forma Normal (probablemente) viola esta tabla si <code>Nombre_Autor</code> depende de <code>ID_Autor</code>, y <code>ID_Autor</code> no es parte de la PK de <code>Libro</code>?</p>
+                        <p><span class="clickable-concept" onclick="this.nextElementSibling.style.display='block';">Ver Respuesta</span> <span class="concept-explanation" style="display:inline-block; padding:5px;">Probablemente viola la 3NF (dependencia transitiva: Titulo -> ID_Autor -> Nombre_Autor). Deberíamos tener una tabla Autor(ID_Autor, Nombre_Autor).</span></p>
+                    </div>
+                </section>
+
+                <section id="modulo14" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-cogs"></i> Módulo 2: Creando el Modelo Físico en Oracle (SQL)</h2>
+                    <p>Una vez que tenemos nuestro "plano" conceptual (modelo lógico y DER), es hora de traducirlo a la realidad de cómo se almacenarán los datos en Oracle. Esto es el <strong>Modelo Físico</strong>. Aquí entran en juego los tipos de datos específicos de Oracle, las restricciones y las optimizaciones.</p>
+
+                    <h3>Del Lógico al Físico: Materializando el Diseño</h3>
+                    <p>El modelo físico detalla:</p>
+                    <ul>
+                        <li>Nombres exactos de <strong>tablas y columnas</strong>.</li>
+                        <li><strong>Tipos de datos Oracle</strong> para cada columna (<code>NUMBER</code>, <code>VARCHAR2</code>, <code>DATE</code>, etc.).</li>
+                        <li><strong>Restricciones (Constraints)</strong> para asegurar la integridad de los datos (<code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>, <code>UNIQUE</code>, <code>NOT NULL</code>, <code>CHECK</code>).</li>
+                        <li><strong>Índices</strong> para acelerar las búsquedas.</li>
+                        <li>Otras estructuras específicas del DBMS como <strong>tablespaces</strong> o <strong>particiones</strong> (conceptos más avanzados que mencionaremos).</li>
+                    </ul>
+                    <div class="entity-diagram-placeholder">
+                        <i class="fas fa-exchange-alt fa-3x" style="color:#bdc3c7;"></i>
+                        <p>[Diagrama conceptual: Modelo Lógico (cajas y líneas simples) -> Flecha de Transformación -> Modelo Físico (cajas con tipos de datos Oracle, PK/FK marcados, índices mostrados).]</p>
+                    </div>
+
+                    <h4>Tipos de Datos Comunes en Oracle SQL:</h4>
+                    <div class="interactive-zone">
+                        <h5><i class="fas fa-ruler-vertical"></i> Selector de Tipo de Dato Oracle (Conceptual)</h5>
+                        <p>Para cada tipo de información, Oracle ofrece un tipo de dato adecuado. ¡Elegir bien es clave!</p>
+                        <ul>
+                            <li><strong><code>NUMBER(p, s)</code></strong>: Para números. <code>p</code> es la precisión (total de dígitos), <code>s</code> es la escala (dígitos después del punto decimal).
+                                <ul class="concept-explanation" style="display:block; border:none; padding-left:10px;">
+                                    <li><code>NUMBER(5)</code>: Entero hasta 99999.</li>
+                                    <li><code>NUMBER(7,2)</code>: Número como 12345.67.</li>
+                                    <li><code>NUMBER</code> (sin p,s): Número de punto flotante de alta precisión.</li>
+                                </ul>
+                            </li>
+                            <li><strong><code>VARCHAR2(size [BYTE | CHAR])</code></strong>: Cadenas de texto de longitud variable. <code>size</code> es la longitud máxima. <code>BYTE</code> (defecto) o <code>CHAR</code> (para caracteres multibyte). ¡El tipo de dato más común para texto!</li>
+                            <li><strong><code>CHAR(size [BYTE | CHAR])</code></strong>: Cadenas de texto de longitud fija. Si el texto es más corto, se rellena con espacios. Usar con cuidado.</li>
+                            <li><strong><code>DATE</code></strong>: Almacena fecha y hora (siglo, año, mes, día, hora, minuto, segundo).</li>
+                            <li><strong><code>TIMESTAMP</code></strong>: Similar a <code>DATE</code> pero con fracciones de segundo y opcionalmente zona horaria.</li>
+                            <li><strong><code>CLOB</code> (Character Large Object)</strong>: Para textos muy largos (documentos, descripciones extensas).</li>
+                            <li><strong><code>BLOB</code> (Binary Large Object)</strong>: Para datos binarios grandes (imágenes, videos, archivos).</li>
+                        </ul>
+                        <p><em>Intenta asociar: ¿Qué tipo usarías para... un DNI? ¿El precio de un producto? ¿La descripción de un libro?</em></p>
+                    </div>
+
+                    <h4>Definiendo Tablas con <code>CREATE TABLE</code> y Restricciones:</h4>
+                    <p>El comando SQL principal para crear la estructura es <code>CREATE TABLE</code>.</p>
+                    <pre><code class="language-sql">
+CREATE TABLE Cliente (
+    ID_Cliente      NUMBER(10)      CONSTRAINT pk_cliente PRIMARY KEY,
+    Nombre          VARCHAR2(50)    CONSTRAINT nn_cliente_nombre NOT NULL,
+    Apellido        VARCHAR2(50)    CONSTRAINT nn_cliente_apellido NOT NULL,
+    Email           VARCHAR2(100)   CONSTRAINT uq_cliente_email UNIQUE,
+    Telefono        VARCHAR2(20),
+    FechaRegistro   DATE            DEFAULT SYSDATE, -- Valor por defecto: fecha actual
+    PuntosFidelidad NUMBER(5)       CONSTRAINT ck_cliente_puntos CHECK (PuntosFidelidad >= 0)
+);
+
+CREATE TABLE Producto (
+    ID_Producto     NUMBER(10)      CONSTRAINT pk_producto PRIMARY KEY,
+    NombreProd      VARCHAR2(100)   CONSTRAINT nn_prod_nombre NOT NULL,
+    Descripcion     CLOB,
+    PrecioUnit      NUMBER(10,2)    CONSTRAINT nn_prod_precio NOT NULL 
+                                    CONSTRAINT ck_prod_precio CHECK (PrecioUnit > 0),
+    StockDisp       NUMBER(6)       DEFAULT 0 
+                                    CONSTRAINT ck_prod_stock CHECK (StockDisp >= 0)
+);
+
+CREATE TABLE Venta (
+    ID_Venta        NUMBER(12)      CONSTRAINT pk_venta PRIMARY KEY,
+    ID_Cliente_FK   NUMBER(10)      CONSTRAINT nn_venta_cliente NOT NULL,
+    FechaVenta      TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    MontoTotal      NUMBER(12,2)    CONSTRAINT ck_venta_monto CHECK (MontoTotal >= 0),
+    -- Definiendo la Clave Foránea (FK)
+    CONSTRAINT fk_venta_cliente FOREIGN KEY (ID_Cliente_FK)
+        REFERENCES Cliente(ID_Cliente)
+        -- ON DELETE SET NULL -- Opcional: qué hacer si se borra el cliente
+        -- ON DELETE CASCADE -- Opcional: borrar ventas si se borra el cliente
+);
+-- Nota: La tabla Detalle_Venta para la relación M:N se crearía de forma similar.
+                    </code></pre>
+                    <p><strong>Explicación de las Restricciones (Constraints):</strong></p>
+                    <ul>
+                        <li><code>CONSTRAINT nombre_constraint TIPO_CONSTRAINT (columnas)</code>: Forma explícita de nombrar una restricción. Facilita su gestión.</li>
+                        <li><code>PRIMARY KEY</code>: Identificador único de la fila. Implícitamente <code>NOT NULL</code> y <code>UNIQUE</code>.</li>
+                        <li><code>NOT NULL</code>: La columna no puede tener valores nulos.</li>
+                        <li><code>UNIQUE</code>: Todos los valores en la columna (o combinación de columnas) deben ser únicos. Permite un valor nulo.</li>
+                        <li><code>CHECK</code>: Asegura que los valores cumplan una condición lógica.</li>
+                        <li><code>FOREIGN KEY ... REFERENCES ...</code>: Establece una relación con otra tabla, asegurando la integridad referencial.</li>
+                        <li><code>DEFAULT</code>: Asigna un valor por defecto si no se especifica uno al insertar.</li>
+                    </ul>
+                    <div class="interactive-zone">
+                        <h5><i class="fas fa-tools"></i> Constructor de <code>CREATE TABLE</code> (Simplificado)</h5>
+                        <p>Elige un nombre de tabla, añade columnas con tipos y restricciones, ¡y mira cómo se forma el SQL!</p>
+                        <div class="entity-diagram-placeholder">
+                            <p>[Simulación: Inputs para NombreTabla, NombreCol1, TipoCol1, RestriccionesCol1 (checkboxes para PK, NN, UQ). Al añadir columnas, se actualiza un `<pre>` con el `CREATE TABLE` SQL.]</p>
+                        </div>
+                    </div>
+
+                    <h4>Acelerando Consultas con Índices:</h4>
+                    <p>Un índice es como el índice de un libro: permite a Oracle encontrar datos más rápidamente sin tener que leer toda la tabla (Full Table Scan).</p>
+                    <pre><code class="language-sql">
+-- Crear un índice en la columna Email de la tabla Cliente para búsquedas rápidas por email
+CREATE INDEX idx_cliente_email ON Cliente(Email);
+
+-- Crear un índice compuesto si a menudo buscas por Apellido y Nombre juntos
+CREATE INDEX idx_cliente_apellinom ON Cliente(Apellido, Nombre);
+                    </code></pre>
+                    <ul>
+                        <li><strong>Cuándo crear índices:</strong> En columnas usadas frecuentemente en cláusulas <code>WHERE</code>, <code>JOIN</code>, o para <code>ORDER BY</code>. En Claves Foráneas es buena práctica.</li>
+                        <li><strong>Impacto:</strong> Aceleran las lecturas (<code>SELECT</code>), pero pueden ralentizar un poco las escrituras (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) porque el índice también debe actualizarse. ¡No abuses de ellos!</li>
+                    </ul>
+                    <div class="interactive-zone">
+                        <h5><i class="fas fa-tachometer-alt"></i> Sin Índice vs. Con Índice (Visualización Conceptual)</h5>
+                        <p>Imagina buscar un nombre en una guía telefónica enorme...</p>
+                        <div style="display:flex; justify-content:space-around;">
+                            <div style="width:45%; text-align:center;"><strong>Sin Índice (Lento)</strong><br><i class="fas fa-search fa-2x" style="animation: scan 2s linear infinite;"></i><br>Revisando cada página...</div>
+                            <div style="width:45%; text-align:center;"><strong>Con Índice (Rápido)</strong><br><i class="fas fa-book-open fa-2x"></i><br>¡Directo a la letra 'P'!</div>
+                        </div>
+                        <style>@keyframes scan { 0%{transform:translateX(-10px)} 50%{transform:translateX(10px)} 100%{transform:translateX(-10px)}}</style>
+                    </div>
+                </section>
+
+                <section id="modulo15" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-tools"></i> Módulo 3: Modelado Visual con Oracle SQL Developer Data Modeler</h2>
+                    <p>Diseñar bases de datos complejas directamente con código SQL puede ser propenso a errores y difícil de visualizar. Aquí es donde brillan herramientas como <strong>Oracle SQL Developer Data Modeler (SDDM)</strong>. Es una herramienta gráfica, gratuita, que te permite diseñar, documentar y generar los esquemas de tu base de datos de forma visual e intuitiva.</p>
+
+                    <h3>¿Qué puedes hacer con SQL Developer Data Modeler?</h3>
+                    <ul>
+                        <li><strong>Diseñar Modelos Lógicos:</strong> Representar entidades, atributos y relaciones sin preocuparte aún por los detalles específicos de Oracle.</li>
+                        <li><strong>Ingeniería a Modelo Relacional/Físico:</strong> Convertir tu modelo lógico en un modelo físico específico para Oracle (u otros DBMS), asignando tipos de datos, definiendo tablas, etc.</li>
+                        <li><strong>Generar DDL:</strong> Crear automáticamente los scripts SQL (<code>CREATE TABLE</code>, <code>ALTER TABLE</code>, etc.) para implementar tu diseño en la base de datos.</li>
+                        <li><strong>Ingeniería Inversa:</strong> Crear un modelo visual a partir de una base de datos existente o un script DDL. ¡Muy útil para documentar sistemas legados!</li>
+                        <li><strong>Comparar y Sincronizar Modelos:</strong> Comparar diferentes versiones de tu modelo o tu modelo con una base de datos real.</li>
+                        <li><strong>Documentar:</strong> Generar informes y documentación sobre tu modelo.</li>
+                    </ul>
+
+                    <h3>Flujo de Trabajo Básico en Data Modeler:</h3>
+                    <div class="interactive-zone">
+                        <h4><i class="fas fa-shoe-prints"></i> Pasos Visuales (Simulados)</h4>
+                        <ol>
+                            <li><strong>Crear un Nuevo Diseño Lógico:</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-logico')">Ver más...</span>
+                                <div id="sddm-logico" class="concept-explanation">
+                                    En SDDM, irías a `Archivo > Nuevo > Diseño Lógico`. Aquí arrastras y sueltas "Entidades" desde la paleta, les das nombres (ej: Cliente, Producto) y añades "Atributos" (ej: Nombre, Precio) con sus tipos de datos lógicos (ej: Cadena, Número).
+                                    <div class="data-modeler-placeholder"><i class="fas fa-object-group fa-2x"></i><p>Panel de Diseño Lógico: Arrastrando Entidades (Cliente, Producto) y añadiendo Atributos.</p></div>
+                                </div>
+                            </li>
+                            <li><strong>Definir Relaciones:</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-rel')">Ver más...</span>
+                                <div id="sddm-rel" class="concept-explanation">
+                                    Usas herramientas para dibujar líneas de relación entre entidades (ej: de Cliente a Venta). Especificas la cardinalidad (1:N, M:N). Para M:N, SDDM puede ayudarte a crear la tabla de intersección.
+                                    <div class="data-modeler-placeholder"><i class="fas fa-link fa-2x"></i><p>Dibujando una Relación 1:N entre Cliente y Venta, y una M:N entre Venta y Producto (que creará Detalle_Venta).</p></div>
+                                </div>
+                            </li>
+                            <li><strong>Ingeniería a Modelo Relacional (Físico):</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-fisico')">Ver más...</span>
+                                <div id="sddm-fisico" class="concept-explanation">
+                                    Seleccionas tu modelo lógico y usas la opción "Ingeniería a Modelo Relacional". Eliges "Oracle [versión]". SDDM convierte tus entidades en tablas, atributos en columnas con tipos de datos Oracle, y relaciones en claves foráneas.
+                                    <div class="data-modeler-placeholder"><i class="fas fa-cogs fa-2x"></i><p>Vista del Modelo Físico: Las entidades ahora son tablas con tipos de datos Oracle (VARCHAR2, NUMBER). Las FKs son visibles.</p></div>
+                                </div>
+                            </li>
+                            <li><strong>Generar DDL (Script SQL):</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-ddl')">Ver más...</span>
+                                <div id="sddm-ddl" class="concept-explanation">
+                                    Con el modelo físico seleccionado, vas a `Archivo > Exportar > Archivo DDL`. Configuras las opciones (qué objetos generar, para qué versión de Oracle) y SDDM crea el script SQL con todos los `CREATE TABLE`, `ALTER TABLE ADD CONSTRAINT`, etc.
+                                    <div class="data-modeler-placeholder"><i class="fas fa-file-code fa-2x"></i><p>Ventana de Generación de DDL: Previsualización del script SQL listo para ser ejecutado en la base de datos.</p></div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <h4>Ejemplo de Representación Gráfica en Data Modeler:</h4>
+                    <p>Imagina el siguiente diagrama simplificado que podrías ver en SDDM para nuestra tienda (como mencionaste: 📌 Clientes → 📌 Productos → 📌 Ventas):</p>
+                    <div class="data-modeler-placeholder" style="background-image: url('../../img/placeholder_sddm_diagram.png'); background-size:contain; background-repeat:no-repeat; background-position: center; min-height:300px; color:transparent;">
+                        <p style="background:rgba(255,255,255,0.7); padding:5px; color:black;">
+                            <strong>[Diagrama Visual de SQL Developer Data Modeler]</strong><br>
+                            - Entidad <strong>Cliente</strong> (Caja con atributos: ID_Cliente (PK), Nombre, Email (UQ))<br>
+                            - Entidad <strong>Producto</strong> (Caja con atributos: ID_Producto (PK), NombreProd, PrecioUnit)<br>
+                            - Entidad <strong>Venta</strong> (Caja con atributos: ID_Venta (PK), ID_Cliente_FK (FK), FechaVenta)<br>
+                            - Entidad <strong>Detalle_Venta</strong> (Tabla de cruce para M:N entre Venta y Producto, con ID_Venta_FK, ID_Producto_FK como PK compuesta)<br>
+                            - Líneas conectando las cajas, con símbolos de "pata de gallo" (crow's foot) indicando cardinalidad (1:N, M:N).<br>
+                            <em>Al pasar el mouse sobre una FK, se resaltaría la PK a la que apunta en la otra tabla.</em>
+                        </p>
+                    </div>
+                    <p>SDDM te permite ver claramente cómo se conectan tus datos, identificar posibles problemas de diseño y generar la base de tu base de datos de manera eficiente.</p>
+                    <div class="alert alert-success"><i class="fas fa-lightbulb"></i> Descarga e instala Oracle SQL Developer Data Modeler. ¡Experimentar con la herramienta es la mejor forma de aprender!</div>
+                </section>
+
+                <section id="modulo16" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-scroll"></i> Módulo 4: Creando tu Base de Datos con Scripts SQL</h2>
+                    <p>Un script SQL es simplemente un archivo de texto que contiene una secuencia de comandos SQL. Son increíblemente útiles para:</p>
+                    <ul>
+                        <li><strong>Automatizar la creación</strong> de la estructura de la base de datos (tablas, índices, restricciones, vistas, etc.).</li>
+                        <li><strong>Poblar la base de datos</strong> con datos iniciales o de prueba.</li>
+                        <li><strong>Realizar modificaciones</strong> consistentes en la estructura (ej: añadir una columna).</li>
+                        <li><strong>Recrear la base de datos</strong> fácilmente en diferentes entornos (desarrollo, pruebas, producción).</li>
+                        <li><strong>Control de versiones</strong> de tu esquema de base de datos.</li>
+                    </ul>
+
+                    <h3>🔹 Estructura de un Script de Creación Típico:</h3>
+                    <p>Un buen script suele seguir un orden lógico:</p>
+                    <ol>
+                        <li><strong>(Opcional) Comandos para limpiar/eliminar objetos existentes:</strong> Para que el script sea re-ejecutable (ej: <code>DROP TABLE nombre_tabla;</code>). En Oracle, esto puede ser más complejo si hay dependencias de FK, a veces se requiere un orden específico o deshabilitar constraints temporalmente.
+                            <pre><code class="language-sql">-- Cuidado con DROP en producción! Usar con precaución.
+-- BEGIN
+--    EXECUTE IMMEDIATE 'DROP TABLE Detalle_Venta';
+-- EXCEPTION
+--    WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; -- Ignora error "table does not exist"
+-- END;
+-- / 
+-- (Repetir para Venta, Producto, Cliente en orden inverso de dependencias)
+                            </code></pre>
+                            <p><em>(El bloque PL/SQL anterior es una forma de manejar errores si la tabla no existe. En desarrollo, un simple <code>DROP TABLE ... CASCADE CONSTRAINTS;</code> puede ser más directo si se conocen las implicaciones.)</em></p>
+                        </li>
+                        <li><strong>Creación de Tablas (<code>CREATE TABLE</code>):</strong> Define la estructura y restricciones primarias.</li>
+                        <li><strong>Creación de Secuencias (<code>CREATE SEQUENCE</code>):</strong> (Común en Oracle para generar IDs únicos si no se usan IDENTITY columns de Oracle 12c+).</li>
+                        <li><strong>(Opcional) Modificación de Tablas (<code>ALTER TABLE</code>):</strong> Para añadir restricciones de Clave Foránea después de que todas las tablas referenciadas existan.</li>
+                        <li><strong>Creación de Índices (<code>CREATE INDEX</code>).</strong></li>
+                        <li><strong>Inserción de Datos (<code>INSERT INTO</code>).</strong></li>
+                        <li><strong>Comandos <code>COMMIT;</code></strong> Para guardar permanentemente los cambios de DML (Data Manipulation Language como INSERT, UPDATE, DELETE).</li>
+                        <li><strong>(Opcional) Creación de Vistas, Procedimientos, Funciones, Triggers.</strong></li>
+                        <li><strong>Consultas de Verificación (<code>SELECT</code>).</strong></li>
+                    </ol>
+
+                    <h3>Ejemplo de Script SQL para la Tienda Online (Oracle):</h3>
+                    <div class="interactive-zone">
+                        <h4><i class="fas fa-play-circle"></i> Simulador de Ejecución de Script SQL</h4>
+                        <p>Observa el script y presiona "Ejecutar Siguiente" para ver (conceptualmente) cómo se crea la base de datos paso a paso. Las tablas y datos aparecerán visualmente abajo.</p>
+                        <pre id="sqlScriptContent" style="max-height: 300px; overflow-y: auto; background-color: #2d2d2d; color: #f0f0f0; padding: 10px; border-radius: 5px;"><code class="language-sql">
+-- Borrado de tablas (simplificado para demo, en orden inverso de creación y dependencias)
+-- DROP TABLE Detalle_Venta;
+-- DROP TABLE Venta;
+-- DROP TABLE Producto;
+-- DROP TABLE Cliente;
+-- DROP SEQUENCE seq_cliente_id;
+-- DROP SEQUENCE seq_producto_id;
+-- DROP SEQUENCE seq_venta_id;
+-- DROP SEQUENCE seq_detalle_id;
+
+-- Creación de Secuencias para IDs
+CREATE SEQUENCE seq_cliente_id START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_producto_id START WITH 100 INCREMENT BY 1;
+CREATE SEQUENCE seq_venta_id START WITH 1000 INCREMENT BY 1;
+CREATE SEQUENCE seq_detalle_id START WITH 5000 INCREMENT BY 1;
+
+-- Tabla Cliente
+CREATE TABLE Cliente (
+    ID_Cliente      NUMBER(10) DEFAULT seq_cliente_id.NEXTVAL PRIMARY KEY,
+    Nombre          VARCHAR2(50) NOT NULL,
+    Apellido        VARCHAR2(50) NOT NULL,
+    Email           VARCHAR2(100) UNIQUE,
+    FechaRegistro   DATE DEFAULT SYSDATE
+);
+
+-- Tabla Producto
+CREATE TABLE Producto (
+    ID_Producto     NUMBER(10) DEFAULT seq_producto_id.NEXTVAL PRIMARY KEY,
+    NombreProd      VARCHAR2(100) NOT NULL,
+    PrecioUnit      NUMBER(10,2) NOT NULL CHECK (PrecioUnit > 0),
+    StockDisp       NUMBER(6) DEFAULT 0 CHECK (StockDisp >= 0)
+);
+
+-- Tabla Venta
+CREATE TABLE Venta (
+    ID_Venta        NUMBER(12) DEFAULT seq_venta_id.NEXTVAL PRIMARY KEY,
+    ID_Cliente_FK   NUMBER(10) NOT NULL,
+    FechaVenta      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    MontoTotal      NUMBER(12,2),
+    CONSTRAINT fk_v_cliente FOREIGN KEY (ID_Cliente_FK) REFERENCES Cliente(ID_Cliente)
+);
+
+-- Tabla Detalle_Venta (para relación M:N entre Venta y Producto)
+CREATE TABLE Detalle_Venta (
+    ID_DetalleVenta NUMBER(12) DEFAULT seq_detalle_id.NEXTVAL PRIMARY KEY,
+    ID_Venta_FK     NUMBER(12) NOT NULL,
+    ID_Producto_FK  NUMBER(10) NOT NULL,
+    Cantidad        NUMBER(5) NOT NULL CHECK (Cantidad > 0),
+    PrecioVenta     NUMBER(10,2) NOT NULL, -- Precio al momento de la venta
+    CONSTRAINT fk_dv_venta FOREIGN KEY (ID_Venta_FK) REFERENCES Venta(ID_Venta),
+    CONSTRAINT fk_dv_producto FOREIGN KEY (ID_Producto_FK) REFERENCES Producto(ID_Producto),
+    CONSTRAINT uq_dv_venta_prod UNIQUE (ID_Venta_FK, ID_Producto_FK) -- Un producto solo una vez por venta
+);
+
+-- Insertar datos en Cliente
+INSERT INTO Cliente (Nombre, Apellido, Email) VALUES ('Carlos', 'Santana', 'carlos.s@example.com');
+INSERT INTO Cliente (Nombre, Apellido, Email) VALUES ('Laura', 'Pausini', 'laura.p@example.com');
+COMMIT;
+
+-- Insertar datos en Producto
+INSERT INTO Producto (NombreProd, PrecioUnit, StockDisp) VALUES ('Guitarra Eléctrica Pro', 799.99, 10);
+INSERT INTO Producto (NombreProd, PrecioUnit, StockDisp) VALUES ('Micrófono Condensador', 149.50, 25);
+INSERT INTO Producto (NombreProd, PrecioUnit, StockDisp) VALUES ('Teclado MIDI 61 teclas', 220.00, 15);
+COMMIT;
+
+-- Simular una Venta (requeriría lógica para MontoTotal y Detalle_Venta)
+-- Ejemplo: Carlos (ID_Cliente_FK será 1 si es el primero) compra una guitarra
+INSERT INTO Venta (ID_Cliente_FK, FechaVenta, MontoTotal) VALUES (
+    (SELECT ID_Cliente FROM Cliente WHERE Email = 'carlos.s@example.com'), 
+    TO_TIMESTAMP('2025-05-15 10:30:00', 'YYYY-MM-DD HH24:MI:SS'), 
+    799.99
+);
+COMMIT;
+
+-- Insertar detalle de esa venta
+INSERT INTO Detalle_Venta (ID_Venta_FK, ID_Producto_FK, Cantidad, PrecioVenta) VALUES (
+    (SELECT ID_Venta FROM Venta WHERE ID_Cliente_FK = (SELECT ID_Cliente FROM Cliente WHERE Email = 'carlos.s@example.com')), -- Asumiendo es la última venta de Carlos
+    (SELECT ID_Producto FROM Producto WHERE NombreProd = 'Guitarra Eléctrica Pro'),
+    1,
+    799.99
+);
+COMMIT;
+
+-- Consultar los datos
+SELECT 'Clientes:' AS Tabla, COUNT(*) AS Registros FROM Cliente
+UNION ALL
+SELECT 'Productos:', COUNT(*) FROM Producto
+UNION ALL
+SELECT 'Ventas:', COUNT(*) FROM Venta
+UNION ALL
+SELECT 'Detalle Ventas:', COUNT(*) FROM Detalle_Venta;
+
+SELECT c.Nombre, c.Apellido, p.NombreProd, dv.Cantidad, dv.PrecioVenta, v.FechaVenta
+FROM Cliente c
+JOIN Venta v ON c.ID_Cliente = v.ID_Cliente_FK
+JOIN Detalle_Venta dv ON v.ID_Venta = dv.ID_Venta_FK
+JOIN Producto p ON dv.ID_Producto_FK = p.ID_Producto;
+                        </code></pre>
+                        <button id="btnRunNextSql" class="btn btn-primary" style="margin-top:10px;"><i class="fas fa-step-forward"></i> Ejecutar Siguiente (Conceptual)</button>
+                        <button id="btnResetSqlSim" class="btn btn-accent"><i class="fas fa-undo"></i> Reiniciar Simulación</button>
+                        
+                        <h4>Salida/Visualización Conceptual:</h4>
+                        <div id="sqlTableVizArea">
+                            <p><em>Las tablas aparecerán aquí a medida que se ejecuten los <code>CREATE</code>...</em></p>
+                            </div>
+                        <div id="sqlOutputArea">
+                            <p><em>Los resultados de los <code>SELECT</code> aparecerán aquí...</em></p>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Ejecución del Script:</strong></p>
+                    <ul>
+                        <li><strong>En Oracle SQL Developer:</strong> Abre una nueva "Hoja de Trabajo SQL" (Worksheet), pega el contenido del script y presiona F5 (Ejecutar Script) o el botón correspondiente.</li>
+                        <li><strong>En SQL*Plus (línea de comandos):</strong> Guarda el script en un archivo (ej: <code>crear_tienda.sql</code>), conéctate a tu base de datos y ejecuta <code>@ruta/a/tu/crear_tienda.sql</code>.</li>
+                    </ul>
+                    <p>Los scripts son tus aliados para construir y mantener tus bases de datos de forma ordenada y reproducible.</p>
+                </section>
+                <div class="lesson-navigation" style="margin-top:2rem;">
+                    <a href="#modulo15" class="lesson-nav-button prev"><i class="fas fa-arrow-left"></i> Módulo Anterior</a>
+                    <span style="flex-grow:1; text-align:center; color: #777;">¡Ahora puedes construir tus propias BD!</span>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+        <div class="container footer-content">
+             <div class="footer-logo">
+                <a href="../../index.html" class="logo" style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
+                <p>Empoderando a través del conocimiento de datos.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Navegación del Curso</h4>
+                <ul>
+                    <li><a href="#modulo0">Introducción</a></li>
+                    <li><a href="#modulo13">Modelado Conceptual</a></li>
+                    <li><a href="#modulo14">Modelo Físico y SQL</a></li>
+                    <li><a href="#modulo15">Data Modeler</a></li>
+                    <li><a href="#modulo16">Scripts SQL</a></li>
+                    <li><a href="../../index.html#cursos">Todos los Cursos</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Recursos Oracle</h4>
+                <ul>
+                    <li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/" target="_blank">Documentación Oracle DB</a></li>
+                    <li><a href="https://livesql.oracle.com/" target="_blank">Oracle Live SQL</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; <span id="currentYearDb"></span> MoriDevEdu. Todos los derechos reservados.</p>
+             <p>Una iniciativa de <a href="https://diegomori.online" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none;">diegomori.online</a> - MoriDev con apoyo de MoriCarp.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menú móvil
+        const mobileMenuToggleDb = document.querySelector('.mobile-menu');
+        const navLinksDb = document.querySelector('.nav-links');
+        if (mobileMenuToggleDb && navLinksDb) {
+            mobileMenuToggleDb.addEventListener('click', () => {
+                navLinksDb.classList.toggle('active');
+                const icon = mobileMenuToggleDb.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+        }
+        document.getElementById('currentYearDb').textContent = new Date().getFullYear();
+
+        // Navegación activa y smooth scroll para menú del curso
+        const courseNavLinksDb = document.querySelectorAll('.course-nav-link');
+        const moduleSectionsDb = document.querySelectorAll('.module-section');
+        let observerDb;
+        function makeLinkActiveDb(link) {
+            courseNavLinksDb.forEach(l => l.classList.remove('active'));
+            if (link) link.classList.add('active');
+        }
+        function onIntersectionDb(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const link = document.querySelector(`.course-nav-link[href="#${entry.target.id}"]`);
+                    makeLinkActiveDb(link);
+                }
+            });
+        }
+        if (moduleSectionsDb.length > 0) {
+            observerDb = new IntersectionObserver(onIntersectionDb, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
+            moduleSectionsDb.forEach(section => observerDb.observe(section));
+        }
+        courseNavLinksDb.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    makeLinkActiveDb(this);
+                    const offsetTop = targetElement.offsetTop - 60;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            });
+        });
+        // Activar primer link o link del hash
+        if(courseNavLinksDb.length > 0) {
+            const currentHash = window.location.hash;
+            let linkToActivate = courseNavLinksDb[0]; // Por defecto el primero
+            if (currentHash) {
+                const hashedLink = document.querySelector(`.course-nav-link[href="${currentHash}"]`);
+                if (hashedLink) {
+                    linkToActivate = hashedLink;
+                }
+            }
+            makeLinkActiveDb(linkToActivate);
+        }
+        
+
+        // Toggle para explicaciones conceptuales
+        function toggleExplanation(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.style.display = el.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        // --- Simulación de SQL Script Runner ---
+        const btnRunNextSql = document.getElementById('btnRunNextSql');
+        const btnResetSqlSim = document.getElementById('btnResetSqlSim');
+        const sqlScriptContentEl = document.getElementById('sqlScriptContent');
+        const sqlOutputArea = document.getElementById('sqlOutputArea');
+        const sqlTableVizArea = document.getElementById('sqlTableVizArea');
+        
+        let originalSqlScript = "";
+        let sqlCommands = [];
+        let currentSqlCmdIndex = 0;
+        let createdTablesViz = {}; // Para simular tablas creadas
+
+        function initializeSqlSim() {
+            if (!sqlScriptContentEl) return;
+            originalSqlScript = sqlScriptContentEl.querySelector('code').textContent;
+            resetSqlSimulation();
+        }
+
+        function resetSqlSimulation() {
+            currentSqlCmdIndex = 0;
+            // Separar por ; pero manejando los que están dentro de comentarios o strings (simplificado)
+            // Para una simulación real, se necesitaría un parser SQL más robusto.
+            // Esta simplificación puede fallar con SQL complejo.
+            sqlCommands = originalSqlScript.split(';').map(cmd => cmd.trim()).filter(cmd => cmd.length > 0 && !cmd.startsWith('--'));
+            sqlOutputArea.innerHTML = "<p><em>Los resultados de los <code>SELECT</code> aparecerán aquí...</em></p>";
+            sqlTableVizArea.innerHTML = "<p><em>Las tablas aparecerán aquí a medida que se ejecuten los <code>CREATE</code>...</em></p>";
+            createdTablesViz = {};
+            highlightNextCommand();
+        }
+
+        function highlightNextCommand() {
+            if (!sqlScriptContentEl) return;
+            let tempScript = originalSqlScript;
+            let executedLength = 0;
+            for(let i = 0; i < currentSqlCmdIndex; i++) {
+                executedLength += sqlCommands[i].length + 1; // +1 por el ;
+            }
+            if (currentSqlCmdIndex < sqlCommands.length) {
+                const nextCmd = sqlCommands[currentSqlCmdIndex];
+                const startIndex = tempScript.indexOf(nextCmd, executedLength); // Buscar después de lo ya ejecutado
+                if (startIndex !== -1) {
+                     tempScript = tempScript.substring(0, startIndex) +
+                                 '<mark style="background-color:yellow; color:black;">' + nextCmd + '</mark>' +
+                                 tempScript.substring(startIndex + nextCmd.length);
+                }
+            }
+            sqlScriptContentEl.querySelector('code').innerHTML = tempScript;
+        }
+        
+        function simulateSqlCommand(command) {
+            command = command.toUpperCase(); // SQL es case-insensitive para keywords
+            if (command.startsWith('CREATE TABLE')) {
+                const tableNameMatch = command.match(/CREATE TABLE\s+(\w+)/);
+                if (tableNameMatch) {
+                    const tableName = tableNameMatch[1];
+                    createdTablesViz[tableName] = []; // Simula tabla vacía
+                    sqlTableVizArea.innerHTML += `<p>✅ Tabla '<strong>${tableName}</strong>' creada (simulado).</p>`;
+                    // Simplificado: no parseamos columnas aquí
+                }
+            } else if (command.startsWith('INSERT INTO')) {
+                const tableNameMatch = command.match(/INSERT INTO\s+(\w+)/);
+                if (tableNameMatch) {
+                    const tableName = tableNameMatch[1];
+                    if (createdTablesViz[tableName]) {
+                        // Simular añadir una fila. Para una visualización real, necesitaríamos parsear VALUES
+                        createdTablesViz[tableName].push({simulatedData: 'Nueva Fila'}); 
+                        sqlOutputArea.innerHTML += `<p>➡️ Fila insertada en '<strong>${tableName}</strong>' (simulado).</p>`;
+                        updateTableVisual(tableName);
+                    } else {
+                         sqlOutputArea.innerHTML += `<p>⚠️ Tabla '<strong>${tableName}</strong>' no existe para INSERT (simulado).</p>`;
+                    }
+                }
+            } else if (command.startsWith('SELECT')) {
+                // Simulación muy básica de SELECT
+                let output = `🔍 Resultado de: ${command.substring(0,60)}...\n`;
+                Object.keys(createdTablesViz).forEach(tableName => {
+                    if (command.includes(tableName)) { // Si el SELECT menciona la tabla
+                        output += `  Tabla ${tableName}: ${createdTablesViz[tableName].length} fila(s) (simulado).\n`;
+                    }
+                });
+                sqlOutputArea.innerHTML += `<pre>${output}</pre>`;
+            } else if (command.startsWith('COMMIT')) {
+                 sqlOutputArea.innerHTML += `<p>💾 COMMIT ejecutado (cambios guardados, simulado).</p>`;
+            } else if (command.startsWith('CREATE SEQUENCE')) {
+                const seqNameMatch = command.match(/CREATE SEQUENCE\s+(\w+)/);
+                if (seqNameMatch) {
+                    sqlOutputArea.innerHTML += `<p>🌀 Secuencia '<strong>${seqNameMatch[1]}</strong>' creada (simulado).</p>`;
+                }
+            }
+            // Añadir más simulaciones para DROP, etc. si se desea
+        }
+
+        function updateTableVisual(tableName) {
+            // Esta función podría actualizar una representación visual de la tabla en sqlTableVizArea
+            // Por ahora, solo contamos filas.
+            const tableInfo = sqlTableVizArea.querySelector(`#viz-${tableName}`);
+            if (tableInfo) {
+                tableInfo.textContent = `Tabla ${tableName}: ${createdTablesViz[tableName].length} fila(s)`;
+            } else {
+                sqlTableVizArea.innerHTML += `<div id="viz-${tableName}">Tabla ${tableName}: ${createdTablesViz[tableName].length} fila(s)</div>`;
+            }
+        }
+
+        if (btnRunNextSql) {
+            btnRunNextSql.addEventListener('click', () => {
+                if (currentSqlCmdIndex < sqlCommands.length) {
+                    const commandToRun = sqlCommands[currentSqlCmdIndex];
+                    simulateSqlCommand(commandToRun);
+                    currentSqlCmdIndex++;
+                    highlightNextCommand();
+                    if (currentSqlCmdIndex >= sqlCommands.length) {
+                        sqlOutputArea.innerHTML += "<p>🏁 Fin del script (simulado).</p>";
+                    }
+                } else {
+                     sqlOutputArea.innerHTML += "<p>🏁 Script ya finalizado. Reinicia la simulación.</p>";
+                }
+            });
+        }
+        if (btnResetSqlSim) {
+            btnResetSqlSim.addEventListener('click', resetSqlSimulation);
+        }
+        
+        // Inicializar simulador al cargar la página
+        document.addEventListener('DOMContentLoaded', initializeSqlSim);
+
+    </script>
+</body>
+</html>

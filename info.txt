@@ -1,0 +1,20 @@
+sitio-educativo-ti/
+├── index.html                  # Página principal
+├── css/
+│   ├── main.css                # Estilos principales
+│   ├── normalize.css           # Reset CSS
+│   └── responsive.css          # Estilos responsivos
+├── js/
+│   ├── main.js                 # JavaScript principal
+│   └── interactivos/           # Scripts para contenido interactivo
+├── img/                        # Imágenes generales
+├── assets/
+│   ├── pdfs/                   # Documentos descargables
+│   └── ejemplos/               # Código de ejemplo
+├── cursos/
+│   ├── algoritmia/             # Curso de Algoritmia
+│   ├── java-fundamentals/      # Curso de Java Fundamentals
+│   ├── desarrollo-web/         # Curso de Desarrollo Web
+│   ├── database-foundation/    # Curso de Database Foundation
+│   └── redhat-admin/           # Curso de Red Hat System Administration
+└── seminario/                  # Sección de Seminario

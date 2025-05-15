@@ -1,0 +1,3140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Algoritmia de Programación del Software - MoriDevEdu</title>
+    
+    <!-- Bibliotecas CSS externas -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --danger-color: #e63946;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-code: 'Fira Code', 'Courier New', monospace;
+            --transition-speed: 0.3s;
+            --body-bg: #fafafa;
+            --card-bg: #ffffff;
+            --code-bg: #2d2b57;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #5468ff;
+            --secondary-color: #7b68ee;
+            --accent-color: #ff0a78;
+            --light-color: #1e1e2c;
+            --dark-color: #f8f9fa;
+            --gray-color: #a9a9a9;
+            --body-bg: #121212;
+            --card-bg: #1e1e2c;
+            --code-bg: #2d2b55;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--body-bg);
+            transition: background-color var(--transition-speed) ease;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+    overflow-x: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+pre, code, .visualization-container {
+max-width: 100%;
+    overflow-x: auto;
+}
+        /* Navegación */
+        nav {
+            background-color: var(--primary-color);
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+        }
+
+        nav.scrolled {
+            background-color: rgba(67, 97, 238, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-links li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Tema oscuro */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Hero Section */
+        .course-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 130px 0 70px;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 30px;
+        }
+
+        .course-header {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .course-title {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeInDown 1.2s;
+        }
+
+        .course-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            animation: fadeInUp 1.8s;
+        }
+
+        .course-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .course-meta-item:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        /* Migas de pan */
+        .breadcrumb {
+            margin: 20px 0;
+        }
+
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb li {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '/';
+            margin: 0 0.5rem;
+            color: var(--gray-color);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* Layout del curso */
+        .course-layout {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-direction: column;
+    
+
+        }
+
+        .course-navigation {
+            flex: 0 0 280px;
+            position: sticky;
+            top: 90px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-right: 10px;
+            -ms-overflow-style: none; /* IE y Edge */
+            scrollbar-width: thin; /* Firefox */
+        }
+
+        .course-navigation::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .course-navigation::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .course-navigation::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .course-content-area {
+            flex: 1;
+        }
+
+        .course-nav-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .course-nav-list {
+            list-style: none;
+        }
+
+        .course-nav-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .course-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all var(--transition-speed) ease;
+            font-weight: 500;
+        }
+
+        .course-nav-link:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .course-nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Secciones de módulos */
+        .module-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 3rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .module-section:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+        }
+
+        .lesson-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Estilos para elementos interactivos */
+        .interactive-element {
+            background-color: rgba(67, 97, 238, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .interactive-element:hover {
+            background-color: rgba(67, 97, 238, 0.08);
+        }
+
+        .interactive-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Ejercicios */
+        .exercise-box {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .exercise-box:hover {
+            background-color: rgba(76, 201, 240, 0.15);
+            transform: translateX(5px);
+        }
+
+        .exercise-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--success-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 5px 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Soluciones ocultas */
+        .solution-content {
+            display: none;
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* Código */
+        pre {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        pre .code-toolbar {
+            margin: 0;
+            padding: 0;
+        }
+
+        .code-header {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .code-action-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .code-action-button:hover {
+            opacity: 1;
+        }
+
+        code {
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            padding: 1rem;
+            display: block;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        code.inline {
+            display: inline;
+            padding: 2px 5px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Gráficos y visualizaciones */
+        .visualization-container {
+            width: 100%;
+            height: 300px;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .visualization-container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navegación entre lecciones */
+        .lesson-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-nav-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .lesson-nav-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+        }
+
+        .lesson-nav-button.prev {
+            padding-left: 12px;
+        }
+
+        .lesson-nav-button.next {
+            padding-right: 12px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding-top: 3rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .footer-logo p {
+            margin: 1rem 0;
+            opacity: 0.9;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(3px);
+            display: inline-block;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--success-color);
+            text-decoration: none;
+        }
+
+        /* Calculadora de interés */
+        .interest-calculator {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            margin: 2rem 0;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .calculator-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #d7dcdf;
+            outline: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--secondary-color);
+            transform: scale(1.2);
+        }
+
+        .range-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .calculator-results {
+            background-color: rgba(67, 97, 238, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .result-label {
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Efecto de typing */
+        .typing-effect {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end);
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* Modo responsivo */
+        @media (max-width: 992px) {
+            .course-layout {
+                flex-direction: column;
+            }
+
+            .course-navigation {
+                position: static;
+                width: 100%;
+                height: auto;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-color);
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height var(--transition-speed) ease;
+            }
+
+            .nav-links.active {
+                max-height: 300px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 15px;
+                border-radius: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .course-title {
+                font-size: 2rem;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .module-section {
+                padding: 20px;
+            }
+
+            .lesson-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .course-hero {
+                padding: 110px 0 50px;
+            }
+
+            .course-title {
+                font-size: 1.8rem;
+            }
+
+            .lesson-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .lesson-nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--primary-color) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Puntos de código */
+        .code-dots {
+            display: flex;
+            gap: 5px;
+            margin-right: 10px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-dot-red {
+            background-color: #ff5f56;
+        }
+
+        .code-dot-yellow {
+            background-color: #ffbd2e;
+        }
+
+        .code-dot-green {
+            background-color: #27c93f;
+        }
+
+        /* Regex tester */
+        .regex-tester {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .regex-tester h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .regex-fields {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .regex-result {
+            margin-top: 1rem;
+            font-family: var(--font-code);
+            min-height: 100px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+        }
+
+        .highlight {
+            background-color: rgba(76, 201, 240, 0.3);
+            padding: 0 3px;
+            border-radius: 3px;
+        }
+
+        /* Tarjetas animadas */
+        .card-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 5px;
+            width: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            z-index: -1;
+            transition: height var(--transition-speed) ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Progress Bar for Interest Calculator */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0de;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* Spinner for loading indicators */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 100px auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Acciones adicionales */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 8px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            color: var(--dark-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .action-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Floating action button (to top) */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed) ease;
+            z-index: 900;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Animations for diagrams */
+        .diagram-container {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .process-step {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .process-step:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+            transform: translateX(5px);
+        }
+
+        .process-step i {
+            color: var(--primary-color);
+        }
+
+        .active-step {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .active-step i {
+            color: white;
+        }
+
+        /* Data table for database module */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .data-table tr:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* File type icons */
+        .file-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        /* Terminal emulation */
+        .terminal {
+            background-color: #1e1e2c;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            font-family: var(--font-code);
+            color: #f8f8f2;
+            overflow-x: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+        }
+
+        .terminal-prompt {
+            color: #50fa7b;
+            margin-right: 0.5rem;
+        }
+
+        .terminal-input {
+            color: #f8f8f2;
+        }
+
+        .terminal-output {
+            color: #8be9fd;
+            padding-left: 1rem;
+        }
+
+        .terminal-error {
+            color: #ff5555;
+            padding-left: 1rem;
+        }
+
+        /* Notas de información */
+        .info-box {
+            background-color: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .warning-box {
+            background-color: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: var(--success-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-title {
+            font-weight: 600;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav id="mainNav">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i> MoriDevEdu
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Inicio</a></li>
+                <li><a href="../../index.html">Cursos</a></li>
+                <li><a href="../../index.html">Sobre Nosotros</a></li>
+                <li><a href="../../index.html">Contacto</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <button id="themeToggle" class="theme-toggle" aria-label="Cambiar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="course-hero">
+        <div class="container course-header">
+            <h1 class="course-title animate__animated animate__fadeInDown">Algoritmia de Programación del Software</h1>
+            <p class="course-description animate__animated animate__fadeIn">
+                Domina los pilares de la algoritmia para diseñar y construir aplicaciones de software eficientes y robustas.
+                Este curso te guiará desde los conceptos básicos de cálculo y lógica hasta el manejo avanzado de datos,
+                errores, archivos, bases de datos y la creación de interfaces gráficas intuitivas.
+            </p>
+            <div class="course-meta animate__animated animate__fadeInUp">
+                <span class="course-meta-item"><i class="fas fa-layer-group"></i> Nivel: Fundamentos a Intermedio</span>
+                <span class="course-meta-item"><i class="fas fa-clock"></i> Duración Estimada: 40 horas</span>
+                <span class="course-meta-item"><i class="fas fa-code"></i> Lenguaje Principal: Python</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Cursos</a></li>
+                <li><a href="#">Algoritmia de Programación del Software</a></li>
+            </ul>
+        </div>
+
+        <div class="course-layout">
+            <aside class="course-navigation">
+                <h3 class="course-nav-title"><i class="fas fa-stream"></i> Módulos del Curso</h3>
+                <ul class="course-nav-list">
+                    <li class="course-nav-item"><a href="#modulo1" class="course-nav-link active"><i class="fas fa-calculator"></i> Módulo 1: Aplicaciones de Cálculo</a></li>
+                    <li class="course-nav-item"><a href="#modulo2" class="course-nav-link"><i class="fas fa-file-code"></i> Módulo 2: Lógica y Manejo de Ficheros</a></li>
+                    <li class="course-nav-item"><a href="#modulo3" class="course-nav-link"><i class="fas fa-bug"></i> Módulo 3: Errores y Expresiones Regulares</a></li>
+                    <li class="course-nav-item"><a href="#modulo4" class="course-nav-link"><i class="fas fa-database"></i> Módulo 4: Bases de Datos y GUI</a></li>
+                </ul>
+                <div style="padding: 1rem; margin-top:1rem; background-color: rgba(67, 97, 238, 0.05); border-radius: 8px;">
+                    <h4 class="interactive-title"><i class="fas fa-download"></i> Recursos Adicionales</h4>
+                    <ul style="list-style: none; padding-left: 0.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-file-pdf"></i> Syllabus Completo</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-file-archive"></i> Código de Ejemplos</a></li>
+                    </ul>
+                </div>
+                
+                <div style="padding: 1rem; margin-top:1rem; background-color: rgba(76, 201, 240, 0.05); border-radius: 8px;">
+                    <h4 class="interactive-title"><i class="fas fa-laptop-code"></i> Tu Progreso</h4>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="courseProgress" style="width: 25%;"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem;">
+                        <span id="progressPercent">25%</span> completado
+                    </p>
+                </div>
+            </aside>
+
+            <main class="course-content-area">
+                <section id="modulo1" class="module-section" data-aos="fade-up">
+                    <h2 class="lesson-title"><i class="fas fa-calculator"></i> Módulo 1: Desarrollo de Aplicaciones de Cálculo</h2>
+                    <p>Las aplicaciones de cálculo son esenciales en innumerables campos, desde la ciencia y la ingeniería hasta las finanzas y la vida cotidiana. En este módulo, exploraremos cómo construir estas aplicaciones de manera efectiva, prestando atención a la precisión, el rendimiento y la lógica subyacente.</p>
+
+                    <div class="card-group">
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                            <i class="fas fa-microchip"></i>
+                            <h3>Precisión Numérica</h3>
+                            <p>Aprende a seleccionar los tipos de datos adecuados para evitar errores de redondeo y garantizar precisión en cálculos críticos.</p>
+                        </div>
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <h3>Rendimiento Optimizado</h3>
+                            <p>Implementa algoritmos eficientes que minimicen el uso de recursos y maximicen la velocidad de ejecución.</p>
+                        </div>
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fas fa-sitemap"></i>
+                            <h3>Lógica Estructurada</h3>
+                            <p>Diseña flujos de control claros que faciliten el mantenimiento y la comprensión del código.</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-element" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-cogs"></i> Componentes Clave</h4>
+                        <p>Para desarrollar una aplicación de cálculo robusta, es crucial considerar:</p>
+                        <ul>
+                            <li><strong>Selección de Tipos de Datos:</strong> La elección correcta de tipos de datos (enteros, flotantes de precisión simple o doble, decimales) es vital. Un tipo de dato inadecuado puede llevar a errores de precisión o a un uso ineficiente de la memoria.
+                                <ul>
+                                    <li><code class="inline">int</code>: Para números enteros (ej: contadores, índices).</li>
+                                    <li><code class="inline">float</code>: Para números con decimales (ej: mediciones científicas, cálculos financieros básicos). Cuidado con la precisión limitada.</li>
+                                    <li><code class="inline">Decimal</code> (en Python, del módulo <code class="inline">decimal</code>): Para cálculos financieros que requieren alta precisión y evitar errores de representación de los flotantes binarios.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Estructuras de Control de Flujo:</strong> Permiten dirigir la lógica de la aplicación.
+                                <ul>
+                                    <li>Condicionales (<code class="inline">if</code>, <code class="inline">elif</code>, <code class="inline">else</code>; <code class="inline">switch</code> en otros lenguajes): Para tomar decisiones basadas en ciertos criterios.</li>
+                                    <li>Bucles (<code class="inline">for</code>, <code class="inline">while</code>): Para repetir operaciones, como iterar sobre conjuntos de datos o realizar cálculos sucesivos.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Optimización y Eficiencia:</strong> No solo se trata de obtener el resultado correcto, sino de obtenerlo rápidamente y con un uso razonable de recursos. Esto implica:
+                                <ul>
+                                    <li>Seleccionar algoritmos eficientes (ej: evitar bucles anidados innecesarios).</li>
+                                    <li>Minimizar operaciones costosas dentro de bucles.</li>
+                                    <li>Considerar el perfilado de código para identificar cuellos de botella.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Interfaz de Usuario (UI/UX):</strong> Decidir si la aplicación necesita una Interfaz Gráfica de Usuario (GUI) para facilitar la interacción, o si una Interfaz de Línea de Comandos (CLI) es suficiente (común para herramientas de backend o scripts).</li>
+                            <li><strong>Pruebas y Validaciones Exhaustivas:</strong> Probar la aplicación con un rango diverso de entradas, incluyendo valores límite y casos erróneos, es fundamental para asegurar su fiabilidad.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box" data-aos="fade-up">
+                        <div class="info-title"><i class="fas fa-info-circle"></i> ¿Sabías que?</div>
+                        <p>Los errores de redondeo en cálculos financieros con valores <code class="inline">float</code> pueden llevar a diferencias significativas en grandes volúmenes de transacciones. Por eso en aplicaciones bancarias y financieras se usa casi exclusivamente el tipo <code class="inline">Decimal</code>.</p>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;" data-aos="fade-up">Ejemplo Práctico: Calculadora de Interés Simple</h3>
+                    <p data-aos="fade-up">Veamos un ejemplo sencillo en Python para calcular el interés simple. Este es un componente fundamental en aplicaciones financieras.</p>
+                    
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>calculador_interes.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" id="copyBtn1" onclick="copyCode('code1')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code1">
+# calculador_interes.py
+def calcular_interes_simple(capital, tasa_anual, tiempo_anios):
+    """Calcula el interés simple y el monto total."""
+    if not all(isinstance(arg, (int, float)) for arg in [capital, tasa_anual, tiempo_anios]):
+        raise TypeError("Todos los argumentos deben ser numéricos.")
+    if capital < 0 or tasa_anual < 0 or tiempo_anios < 0:
+        raise ValueError("Capital, tasa y tiempo no pueden ser negativos.")
+    
+    interes = (capital * tasa_anual * tiempo_anios) / 100
+    monto_total = capital + interes
+    return interes, monto_total
+
+# Ejemplo de uso
+try:
+    cap = 1000.0  # Capital inicial
+    tasa = 5.0    # Tasa de interés anual (%)
+    tiempo = 2    # Tiempo en años
+
+    interes_generado, total_final = calcular_interes_simple(cap, tasa, tiempo)
+    print(f"Capital Inicial: ${cap:,.2f}")
+    print(f"Tasa Anual: {tasa}%")
+    print(f"Tiempo: {tiempo} años")
+    print(f"Interés Generado: ${interes_generado:,.2f}")
+    print(f"Monto Total: ${total_final:,.2f}")
+
+except (TypeError, ValueError) as e:
+    print(f"Error: {e}")
+                        </code></pre>
+                    </div>
+
+                    <div class="terminal" data-aos="fade-up">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-input">python calculador_interes.py</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Capital Inicial: $1,000.00</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Tasa Anual: 5.0%</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Tiempo: 2 años</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Interés Generado: $100.00</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Monto Total: $1,100.00</span>
+                        </div>
+                    </div>
+
+                    <p data-aos="fade-up">
+                        <strong>Lenguajes Comunes:</strong> Python (con bibliotecas como NumPy para cálculo científico), Java, C++, y R (para estadística) son excelentes opciones para desarrollar aplicaciones de cálculo.
+                    </p>
+
+                    <div class="interest-calculator" data-aos="fade-up">
+                        <h3 class="interactive-title"><i class="fas fa-calculator"></i> Calculadora Interactiva de Interés</h3>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="capital">Capital Inicial ($)</label>
+                                <input type="range" id="capital" min="100" max="10000" step="100" value="1000" class="form-range">
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span>$100</span>
+                                    <span class="range-value" id="capitalValue">$1,000</span>
+                                    <span>$10,000</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="interestRate">Tasa de Interés Anual (%)</label>
+                                <input type="range" id="interestRate" min="0.1" max="20" step="0.1" value="5" class="form-range">
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span>0.1%</span>
+                                    <span class="range-value" id="rateValue">5.0%</span>
+                                    <span>20%</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="years">Tiempo (Años)</label>
+                                <input type="range" id="years" min="1" max="30" step="1" value="2" class="form-range">
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span>1 año</span>
+                                    <span class="range-value" id="yearsValue">2 años</span>
+                                    <span>30 años</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="interestType">Tipo de Interés</label>
+                                <select id="interestType" class="form-control">
+                                    <option value="simple" selected>Interés Simple</option>
+                                    <option value="compound">Interés Compuesto</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="calculator-results">
+                            <div class="result-item">
+                                <span class="result-label">Capital Inicial:</span>
+                                <span class="result-value" id="resultCapital">$1,000.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Interés Generado:</span>
+                                <span class="result-value" id="resultInterest">$100.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Monto Total:</span>
+                                <span class="result-value" id="resultTotal">$1,100.00</span>
+                            </div>
+                        </div>
+                        <div id="interestChart" class="visualization-container">
+                            <!-- Aquí se mostrará el gráfico con Chart.js -->
+                        </div>
+                    </div>
+
+                    <div class="exercise-box" data-aos="fade-up">
+                        <h4 class="exercise-title"><i class="fas fa-pencil-ruler"></i> Ejercicio Propuesto</h4>
+                        <p>Modifica la función <code class="inline">calcular_interes_simple</code> para que calcule el interés compuesto. Investiga la fórmula del interés compuesto y aplícala.</p>
+                        <button class="solution-toggle btn btn-primary btn-sm"><i class="fas fa-lightbulb"></i> Ver Pista/Solución</button>
+                        <div class="solution-content">
+                            <p><strong>Pista:</strong> La fórmula del interés compuesto es $A = P (1 + r/n)^{nt}$, donde $P$ es el capital principal, $r$ la tasa de interés anual, $n$ el número de veces que el interés se compone por año, y $t$ el número de años. Para simplificar, puedes asumir que $n=1$ (composición anual).</p>
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <div class="code-dot code-dot-red"></div>
+                                    <div class="code-dot code-dot-yellow"></div>
+                                    <div class="code-dot code-dot-green"></div>
+                                </div>
+                                <span>Solución</span>
+                                <div class="code-actions">
+                                    <button class="code-action-button" onclick="copyCode('solutionCode1')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre><code class="language-python" id="solutionCode1">
+def calcular_interes_compuesto(capital, tasa_anual, tiempo_anios, composiciones_anuales=1):
+    # Validaciones similares al anterior
+    if not all(isinstance(arg, (int, float)) for arg in [capital, tasa_anual, tiempo_anios, composiciones_anuales]):
+        raise TypeError("Todos los argumentos deben ser numéricos.")
+    if capital < 0 or tasa_anual < 0 or tiempo_anios < 0 or composiciones_anuales <= 0:
+        raise ValueError("Los valores no pueden ser negativos y el número de composiciones debe ser positivo.")
+    
+    tasa_decimal = tasa_anual / 100
+    monto_total = capital * (1 + tasa_decimal / composiciones_anuales)**(composiciones_anuales * tiempo_anios)
+    interes_generado = monto_total - capital
+    return interes_generado, monto_total
+
+# Ejemplo de uso
+cap = 1000.0  # Capital inicial
+tasa = 5.0    # Tasa de interés anual (%)
+tiempo = 2    # Tiempo en años
+composiciones = 12  # Mensual
+
+interes, total = calcular_interes_compuesto(cap, tasa, tiempo, composiciones)
+print(f"Capital Inicial: ${cap:,.2f}")
+print(f"Tasa Anual: {tasa}%")
+print(f"Tiempo: {tiempo} años")
+print(f"Composiciones anuales: {composiciones}")
+print(f"Interés Generado: ${interes:,.2f}")
+print(f"Monto Total: ${total:,.2f}")
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="modulo2" class="module-section" data-aos="fade-up">
+                    <h2 class="lesson-title"><i class="fas fa-file-code"></i> Módulo 2: Programación Lógica y Manejo de Ficheros</h2>
+                    <p>Este módulo se adentra en dos áreas cruciales: cómo aplicar principios de programación lógica para la toma de decisiones y cómo interactuar con el sistema de archivos para leer y escribir datos de manera persistente.</p>
+
+                    <h3 data-aos="fade-up">Programación Lógica</h3>
+                    <p data-aos="fade-up">La programación lógica se basa en la idea de definir un conjunto de hechos y reglas, y luego realizar consultas para deducir nueva información. Prolog es el lenguaje paradigmático, pero sus conceptos pueden aplicarse en otros lenguajes.</p>
+                    
+                    <div class="diagram-container" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-project-diagram"></i> Componentes de la Programación Lógica</h4>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-database"></i> <strong>Hechos:</strong> Afirmaciones que se consideran verdaderas (ej: "Juan es padre de Ana").
+                        </div>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-cogs"></i> <strong>Reglas:</strong> Implicaciones que permiten inferir nuevos hechos (ej: "Si X es padre de Y, y Y es padre de Z, entonces X es abuelo de Z").
+                        </div>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-question-circle"></i> <strong>Consultas:</strong> Preguntas al sistema basadas en los hechos y reglas establecidos.
+                        </div>
+                    </div>
+
+                    <p data-aos="fade-up">En lenguajes imperativos como Python, simulamos la programación lógica mediante:</p>
+                    <ul data-aos="fade-up">
+                        <li>Funciones que encapsulan reglas de decisión.</li>
+                        <li>Estructuras de datos (listas, diccionarios) para almacenar "hechos" o estados.</li>
+                        <li>Condicionales complejos y recursión para emular el proceso de inferencia.</li>
+                    </ul>
+
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>sistema_recomendacion_simple.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" onclick="copyCode('code2')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code2">
+# sistema_recomendacion_simple.py
+def recomendar_actividad(clima, dia_semana):
+    """Recomienda una actividad basada en el clima y el día."""
+    if clima == "soleado":
+        if dia_semana in ["sabado", "domingo"]:
+            return "Perfecto para ir a la playa o un picnic."
+        else:
+            return "Buen día para un paseo corto después del trabajo."
+    elif clima == "lluvioso":
+        return "Ideal para una tarde de películas o leer un libro en casa."
+    elif clima == "nublado":
+        return "Podrías visitar un museo o una cafetería."
+    else:
+        return "No tengo una recomendación para ese clima."
+
+print(f"Clima: soleado, Día: sabado -> Recomendación: {recomendar_actividad('soleado', 'sabado')}")
+print(f"Clima: lluvioso, Día: lunes -> Recomendación: {recomendar_actividad('lluvioso', 'lunes')}")
+                        </code></pre>
+                    </div>
+
+                    <div class="interactive-element" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-lightbulb"></i> Sistema de Recomendación Interactivo</h4>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="weather">Clima:</label>
+                                <select id="weather" class="form-control">
+                                    <option value="soleado">Soleado</option>
+                                    <option value="lluvioso">Lluvioso</option>
+                                    <option value="nublado">Nublado</option>
+                                    <option value="nevado">Nevado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="day">Día de la semana:</label>
+                                <select id="day" class="form-control">
+                                    <option value="lunes">Lunes</option>
+                                    <option value="martes">Martes</option>
+                                    <option value="miercoles">Miércoles</option>
+                                    <option value="jueves">Jueves</option>
+                                    <option value="viernes">Viernes</option>
+                                    <option value="sabado">Sábado</option>
+                                    <option value="domingo">Domingo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="calculator-results">
+                            <div class="result-item">
+                                <span class="result-label">Recomendación:</span>
+                                <span class="result-value" id="activityRecommendation">Perfecto para ir a la playa o un picnic.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;" data-aos="fade-up">Manejo de Ficheros</h3>
+                    <p data-aos="fade-up">Las aplicaciones a menudo necesitan almacenar y recuperar datos. El manejo de ficheros es fundamental para la persistencia de datos.</p>
+                    
+                    <div class="card-group" data-aos="fade-up">
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>Operaciones Básicas</h3>
+                            <p>Aprende a abrir, leer, escribir y cerrar ficheros de manera segura y eficiente.</p>
+                        </div>
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                            <i class="fas fa-key"></i>
+                            <h3>Modos de Apertura</h3>
+                            <p>Domina los diferentes modos ('r', 'w', 'a', 'r+', 'b') para controlar cómo interactúas con los archivos.</p>
+                        </div>
+                        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                            <i class="fas fa-file-code"></i>
+                            <h3>Formatos de Archivo</h3>
+                            <p>Trabaja con diferentes formatos como TXT, CSV, JSON y XML según las necesidades de tu aplicación.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box" data-aos="fade-up">
+                        <div class="info-title"><i class="fas fa-info-circle"></i> Buena Práctica</div>
+                        <p>Siempre usa <code class="inline">with open(...) as file:</code> en Python para manejar ficheros. Este enfoque de "context manager" garantiza que el archivo se cierre adecuadamente incluso si ocurren excepciones durante su procesamiento.</p>
+                    </div>
+                    
+                    <ul data-aos="fade-up">
+                        <li><strong>Modos de Apertura:</strong>
+                            <ul>
+                                <li><code class="inline">'r'</code>: Lectura (predeterminado). Error si el archivo no existe.</li>
+                                <li><code class="inline">'w'</code>: Escritura. Crea el archivo si no existe, lo sobrescribe si existe.</li>
+                                <li><code class="inline">'a'</code>: Añadir. Crea el archivo si no existe, añade contenido al final si existe.</li>
+                                <li><code class="inline">'r+'</code>: Lectura y escritura.</li>
+                                <li><code class="inline">'b'</code>: Modo binario (ej: <code class="inline">'rb'</code>, <code class="inline">'wb'</code>), para archivos no textuales como imágenes o ejecutables.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Context Manager (<code class="inline">with open(...)</code>):</strong> La forma recomendada en Python, ya que asegura que el fichero se cierre automáticamente, incluso si ocurren errores.</li>
+                    </ul>
+
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>manejo_ficheros.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" onclick="copyCode('code3')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code3">
+# manejo_ficheros.py
+# Escribir en un fichero
+try:
+    with open("datos_usuarios.txt", "w", encoding="utf-8") as archivo:
+        archivo.write("Usuario1:Ana:30\n")
+        archivo.write("Usuario2:Luis:25\n")
+    print("Archivo 'datos_usuarios.txt' escrito correctamente.")
+except IOError:
+    print("Error: No se pudo escribir en el archivo.")
+
+# Leer de un fichero
+try:
+    with open("datos_usuarios.txt", "r", encoding="utf-8") as archivo:
+        print("\nContenido de 'datos_usuarios.txt':")
+        for linea in archivo:
+            print(linea.strip()) # .strip() elimina espacios en blanco y saltos de línea
+except FileNotFoundError:
+    print("Error: El archivo 'datos_usuarios.txt' no fue encontrado.")
+except IOError:
+    print("Error: No se pudo leer el archivo.")
+                        </code></pre>
+                    </div>
+
+                    <div class="terminal" data-aos="fade-up">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-input">python manejo_ficheros.py</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Archivo 'datos_usuarios.txt' escrito correctamente.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output"></span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Contenido de 'datos_usuarios.txt':</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Usuario1:Ana:30</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">Usuario2:Luis:25</span>
+                        </div>
+                    </div>
+
+                    <h4 data-aos="fade-up">Formatos de Ficheros Comunes:</h4>
+                    <div class="card-group" data-aos="fade-up">
+                        <div class="feature-card">
+                            <div class="file-icon"><i class="fas fa-file-alt"></i></div>
+                            <h3>Texto Plano (.txt)</h3>
+                            <p>Simple, legible por humanos, sin estructura definida.</p>
+                            <p><strong>Uso:</strong> Datos simples, logs, notas.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="file-icon"><i class="fas fa-file-csv"></i></div>
+                            <h3>CSV (.csv)</h3>
+                            <p>Valores separados por comas, ideal para datos tabulares.</p>
+                            <p><strong>Uso:</strong> Datos estructurados en filas y columnas, compatible con hojas de cálculo.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="file-icon"><i class="fas fa-file-code"></i></div>
+                            <h3>JSON (.json)</h3>
+                            <p>Formato ligero de intercambio de datos, legible por humanos.</p>
+                            <p><strong>Uso:</strong> APIs web, configuraciones, datos jerárquicos.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="file-icon"><i class="fas fa-file-code"></i></div>
+                            <h3>XML (.xml)</h3>
+                            <p>Formato extensible y autodescriptivo.</p>
+                            <p><strong>Uso:</strong> Configuraciones complejas, intercambio de datos entre sistemas heterogéneos.</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-element" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-project-diagram"></i> Comparación de Formatos de Archivo</h4>
+                        <div class="visualization-container">
+                            <!-- Contenedor para visualizar formatos -->
+                            <div id="fileFormatContainer" style="width: 100%; height: 100%;">
+                                <!-- Aquí se mostrará la visualización de formatos de archivo -->
+                            </div>
+                        </div>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="formatSelect">Selecciona un formato:</label>
+                                <select id="formatSelect" class="form-control">
+                                    <option value="txt">Texto Plano (.txt)</option>
+                                    <option value="csv">CSV (.csv)</option>
+                                    <option value="json">JSON (.json)</option>
+                                    <option value="xml">XML (.xml)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="exercise-box" data-aos="fade-up">
+                        <h4 class="exercise-title"><i class="fas fa-tasks"></i> Ejercicio Propuesto</h4>
+                        <p>Crea un script que lea un archivo CSV llamado <code class="inline">productos.csv</code> con columnas (<code class="inline">ID,Nombre,Precio,Stock</code>). Luego, el script debe generar un archivo JSON llamado <code class="inline">productos_oferta.json</code> que contenga solo los productos cuyo precio sea menor a un valor X (ej: $50) y tengan stock mayor a 0.</p>
+                        <button class="solution-toggle btn btn-primary btn-sm"><i class="fas fa-lightbulb"></i> Ver Pista/Solución</button>
+                        <div class="solution-content">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <div class="code-dot code-dot-red"></div>
+                                    <div class="code-dot code-dot-yellow"></div>
+                                    <div class="code-dot code-dot-green"></div>
+                                </div>
+                                <span>convertidor_csv_json.py</span>
+                                <div class="code-actions">
+                                    <button class="code-action-button" onclick="copyCode('solutionCode2')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre><code class="language-python" id="solutionCode2">
+import csv
+import json
+
+def convertir_csv_a_json(archivo_csv, archivo_json, precio_maximo=50):
+    """
+    Lee un archivo CSV de productos y crea un JSON con productos en oferta.
+    Solo incluye productos con precio < precio_maximo y stock > 0.
+    """
+    productos_oferta = []
+    
+    try:
+        # Leer el archivo CSV
+        with open(archivo_csv, 'r', encoding='utf-8') as f:
+            lector_csv = csv.DictReader(f)
+            for fila in lector_csv:
+                # Convertir valores a tipos adecuados
+                producto = {
+                    'id': int(fila['ID']),
+                    'nombre': fila['Nombre'],
+                    'precio': float(fila['Precio']),
+                    'stock': int(fila['Stock'])
+                }
+                
+                # Filtrar productos
+                if producto['precio'] < precio_maximo and producto['stock'] > 0:
+                    productos_oferta.append(producto)
+        
+        # Escribir el archivo JSON
+        with open(archivo_json, 'w', encoding='utf-8') as f:
+            json.dump({'productos_oferta': productos_oferta}, f, indent=4, ensure_ascii=False)
+        
+        print(f"Archivo '{archivo_json}' creado exitosamente con {len(productos_oferta)} productos en oferta.")
+        return True
+    
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo '{archivo_csv}'.")
+    except (KeyError, ValueError) as e:
+        print(f"Error en el formato del archivo CSV: {e}")
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+    
+    return False
+
+# Programa principal
+if __name__ == "__main__":
+    archivo_entrada = "productos.csv"
+    archivo_salida = "productos_oferta.json"
+    precio_limite = 50
+    
+    convertir_csv_a_json(archivo_entrada, archivo_salida, precio_limite)
+                            </code></pre>
+                            <p style="margin-top: 1rem;"><strong>Ejemplo de contenido para productos.csv:</strong></p>
+                            <pre><code class="language-csv">
+ID,Nombre,Precio,Stock
+1,Teclado Mecánico,89.99,15
+2,Mouse Inalámbrico,45.50,8
+3,Auriculares Bluetooth,65.75,0
+4,Cable USB 2m,12.99,42
+5,Adaptador HDMI,19.50,12
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="modulo3" class="module-section" data-aos="fade-up">
+                    <h2 class="lesson-title"><i class="fas fa-bug"></i> Módulo 3: Manejo de Errores y Expresiones Regulares</h2>
+                    <p>Construir software robusto implica anticipar y gestionar problemas. Este módulo cubre el manejo efectivo de errores y el uso de expresiones regulares para la validación y procesamiento de texto avanzado.</p>
+
+                    <h3 data-aos="fade-up">Manejo de Errores (Excepciones)</h3>
+                    <p data-aos="fade-up">Un error no gestionado puede detener abruptamente una aplicación. El manejo de excepciones permite controlar estos fallos de forma elegante.</p>
+                    
+                    <div class="diagram-container" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-exclamation-triangle"></i> Estructura del Manejo de Excepciones</h4>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-code"></i> <strong>try:</strong> Envuelve el código que podría generar una excepción.
+                        </div>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-exclamation-circle"></i> <strong>except TipoError:</strong> Captura y maneja tipos específicos de errores.
+                        </div>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-check-circle"></i> <strong>else:</strong> Se ejecuta si no ocurre ninguna excepción en el bloque try.
+                        </div>
+                        <div class="process-step" onclick="highlightStep(this)">
+                            <i class="fas fa-sync-alt"></i> <strong>finally:</strong> Se ejecuta siempre, ocurra o no una excepción.
+                        </div>
+                    </div>
+                    
+                    <div class="card-group" data-aos="fade-up">
+                        <div class="feature-card">
+                            <i class="fas fa-divide"></i>
+                            <h3>ZeroDivisionError</h3>
+                            <p>Se produce al intentar dividir por cero.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h3>ValueError</h3>
+                            <p>Argumento de tipo correcto pero valor inapropiado.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-random"></i>
+                            <h3>TypeError</h3>
+                            <p>Operación aplicada a un objeto de tipo inapropiado.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-list-ol"></i>
+                            <h3>IndexError</h3>
+                            <p>Índice fuera de rango en una secuencia.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-key"></i>
+                            <h3>KeyError</h3>
+                            <p>Clave no encontrada en un diccionario.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-file-excel"></i>
+                            <h3>FileNotFoundError</h3>
+                            <p>El archivo especificado no existe.</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>manejo_errores_avanzado.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" onclick="copyCode('code4')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code4">
+# manejo_errores_avanzado.py
+def dividir_numeros():
+    try:
+        num_str = input("Introduce el numerador: ")
+        den_str = input("Introduce el denominador: ")
+        
+        numerador = float(num_str)
+        denominador = float(den_str)
+        
+        if denominador == 0:
+            raise ZeroDivisionError("El denominador no puede ser cero (lanzado manualmente).")
+            
+        resultado = numerador / denominador
+        
+    except ValueError:
+        print("Error: Ambos deben ser números válidos.")
+    except ZeroDivisionError as zde:
+        print(f"Error de división: {zde}")
+    except Exception as e: # Captura genérica para otros errores inesperados
+        print(f"Ocurrió un error inesperado: {type(e).__name__} - {e}")
+    else:
+        print(f"El resultado de la división es: {resultado:.2f}")
+    finally:
+        print("Bloque 'finally': Esta parte se ejecuta siempre.")
+
+dividir_numeros()
+                        </code></pre>
+                    </div>
+
+                    <div class="interactive-element" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-bug"></i> Simulador de Errores</h4>
+                        <p>Prueba diferentes escenarios para ver cómo se comporta el manejo de excepciones:</p>
+                        <div class="calculator-form">
+                            <div class="form-group">
+                                <label for="numerator">Numerador:</label>
+                                <input type="text" id="numerator" class="form-control" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="denominator">Denominador:</label>
+                                <input type="text" id="denominator" class="form-control" value="2">
+                            </div>
+                            <button id="calculateBtn" class="btn btn-primary">Calcular</button>
+                        </div>
+                        <div class="terminal" style="margin-top: 1rem;">
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-input" id="commandLineInput">python manejo_errores_avanzado.py</span>
+                            </div>
+                            <div id="exceptionOutput">
+                                <!-- Aquí se mostrará el resultado de la simulación -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="warning-box" data-aos="fade-up">
+                        <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Importante</div>
+                        <p>Evita usar bloques <code class="inline">except:</code> sin especificar un tipo de excepción (captura genérica) en código de producción, ya que puede capturar errores inesperados y dificultar la depuración. Siempre es mejor capturar tipos específicos de excepciones.</p>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;" data-aos="fade-up">Expresiones Regulares (Regex)</h3>
+                    <p data-aos="fade-up">Las expresiones regulares son secuencias de caracteres que definen un patrón de búsqueda. Son increíblemente poderosas para validar datos, buscar y reemplazar texto, y extraer información.</p>
+
+                    <div class="card-group" data-aos="fade-up">
+                        <div class="feature-card">
+                            <i class="fas fa-font"></i>
+                            <h3>Literales</h3>
+                            <p>Caracteres que se buscan a sí mismos.</p>
+                            <p><code class="inline">python</code> busca exactamente "python".</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-magic"></i>
+                            <h3>Metacaracteres</h3>
+                            <p>Caracteres con significado especial.</p>
+                            <p><code class="inline">.</code> (cualquier caracter), <code class="inline">^</code> (inicio), <code class="inline">$</code> (fin).</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-list"></i>
+                            <h3>Clases de caracteres</h3>
+                            <p>Conjuntos predefinidos de caracteres.</p>
+                            <p><code class="inline">\d</code> (dígito), <code class="inline">\w</code> (alfanumérico), <code class="inline">\s</code> (espacio).</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-asterisk"></i>
+                            <h3>Cuantificadores</h3>
+                            <p>Indican cuántas veces debe aparecer un elemento.</p>
+                            <p><code class="inline">*</code> (0+), <code class="inline">+</code> (1+), <code class="inline">?</code> (0-1), <code class="inline">{n}</code> (exacto).</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>validador_correo_regex.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" onclick="copyCode('code5')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code5">
+# validador_correo_regex.py
+import re
+
+def validar_correo(email):
+    # Patrón simplificado para demostración. Un patrón robusto es más complejo.
+    patron = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    if re.fullmatch(patron, email): # fullmatch para coincidencia completa de la cadena
+        return True
+    else:
+        return False
+
+correos_prueba = ["usuario@dominio.com", "test.user+tag@sub.example.co.uk", "invalido", "usuario@dominio", "@dominio.com"]
+for correo in correos_prueba:
+    if validar_correo(correo):
+        print(f"'{correo}' es un correo VÁLIDO.")
+    else:
+        print(f"'{correo}' es un correo INVÁLIDO.")
+                        </code></pre>
+                    </div>
+
+                    <div class="terminal" data-aos="fade-up">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-input">python validador_correo_regex.py</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">'usuario@dominio.com' es un correo VÁLIDO.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">'test.user+tag@sub.example.co.uk' es un correo VÁLIDO.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-error">'invalido' es un correo INVÁLIDO.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-error">'usuario@dominio' es un correo INVÁLIDO.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-error">'@dominio.com' es un correo INVÁLIDO.</span>
+                        </div>
+                    </div>
+
+                    <div class="regex-tester" data-aos="fade-up">
+                        <h3><i class="fas fa-spell-check"></i> Probador de Expresiones Regulares</h3>
+                        <div class="regex-fields">
+                            <div class="form-group">
+                                <label for="regexPattern">Patrón de expresión regular:</label>
+                                <input type="text" id="regexPattern" class="form-control" value="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                            </div>
+                            <div class="form-group">
+                                <label for="regexText">Texto para probar:</label>
+                                <textarea id="regexText" class="form-control" rows="5">usuario@dominio.com
+test.user+tag@sub.example.co.uk
+invalido
+usuario@dominio
+@dominio.com</textarea>
+                            </div>
+                            <button id="testRegexBtn" class="btn btn-primary">Probar Regex</button>
+                        </div>
+                        <div id="regexResult" class="regex-result">
+                            <!-- Aquí se mostrarán los resultados del regex -->
+                        </div>
+                    </div>
+
+                    <div class="exercise-box" data-aos="fade-up">
+                        <h4 class="exercise-title"><i class="fas fa-vial"></i> Ejercicio Propuesto</h4>
+                        <p>Escribe una función que use expresiones regulares para extraer todos los números de teléfono con formato (XXX) XXX-XXXX o XXX-XXX-XXXX de un texto dado.</p>
+                        <button class="solution-toggle btn btn-primary btn-sm"><i class="fas fa-lightbulb"></i> Ver Pista/Solución</button>
+                        <div class="solution-content">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <div class="code-dot code-dot-red"></div>
+                                    <div class="code-dot code-dot-yellow"></div>
+                                    <div class="code-dot code-dot-green"></div>
+                                </div>
+                                <span>extractor_telefonos.py</span>
+                                <div class="code-actions">
+                                    <button class="code-action-button" onclick="copyCode('solutionCode3')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre><code class="language-python" id="solutionCode3">
+import re
+
+def extraer_telefonos(texto):
+    """
+    Extrae todos los números de teléfono con formato (XXX) XXX-XXXX o XXX-XXX-XXXX de un texto.
+    """
+    # Patrón para ambos formatos de teléfono
+    patron = r'(\(\d{3}\)\s\d{3}-\d{4}|\d{3}-\d{3}-\d{4})'
+    
+    # Buscar todas las coincidencias
+    telefonos = re.findall(patron, texto)
+    
+    return telefonos
+
+# Texto de prueba
+texto_ejemplo = """
+Contactos:
+- Juan Pérez: (555) 123-4567
+- María García: 789-456-1230
+- Carlos López: carlos@example.com
+- Ana Martínez: (999) 888-7777
+- Teléfono de la oficina: 555-123-4567
+- Formato incorrecto: 5551234567
+"""
+
+# Extraer y mostrar teléfonos
+telefonos_encontrados = extraer_telefonos(texto_ejemplo)
+print("Números de teléfono encontrados:")
+for telefono in telefonos_encontrados:
+    print(f"- {telefono}")
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="modulo4" class="module-section" data-aos="fade-up">
+                    <h2 class="lesson-title"><i class="fas fa-database"></i> Módulo 4: Bases de Datos y Entornos Gráficos (GUI)</h2>
+                    <p>Este módulo final combina el almacenamiento persistente de datos mediante bases de datos con la creación de interfaces de usuario gráficas para hacer las aplicaciones más interactivas y amigables.</p>
+
+                    <h3 data-aos="fade-up">Bases de Datos (BD)</h3>
+                    <p data-aos="fade-up">Las bases de datos permiten almacenar, organizar y recuperar grandes volúmenes de información de manera eficiente y estructurada.</p>
+                    
+                    <div class="card-group" data-aos="fade-up">
+                        <div class="feature-card">
+                            <i class="fas fa-table"></i>
+                            <h3>Relacionales (SQL)</h3>
+                            <p>Datos organizados en tablas con filas y columnas, relacionadas mediante claves.</p>
+                            <p><strong>Ejemplos:</strong> MySQL, PostgreSQL, SQLite, SQL Server, Oracle.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-project-diagram"></i>
+                            <h3>No Relacionales (NoSQL)</h3>
+                            <p>Modelos más flexibles: documentos, clave-valor, grafos, columnares.</p>
+                            <p><strong>Ejemplos:</strong> MongoDB, Redis, Cassandra, Neo4j.</p>
+                        </div>
+                    </div>
+
+                    <div class="interactive-element" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-server"></i> Operaciones CRUD</h4>
+                        <p>Las operaciones fundamentales que se realizan sobre los datos en una base de datos:</p>
+                        <div class="diagram-container">
+                            <div class="process-step" onclick="highlightStep(this)">
+                                <i class="fas fa-plus-circle"></i> <strong>Create (Crear):</strong> Insertar nuevos registros en la base de datos.
+                            </div>
+                            <div class="process-step" onclick="highlightStep(this)">
+                                <i class="fas fa-search"></i> <strong>Read (Leer):</strong> Consultar y recuperar información existente.
+                            </div>
+                            <div class="process-step" onclick="highlightStep(this)">
+                                <i class="fas fa-edit"></i> <strong>Update (Actualizar):</strong> Modificar registros existentes en la base de datos.
+                            </div>
+                            <div class="process-step" onclick="highlightStep(this)">
+                                <i class="fas fa-trash-alt"></i> <strong>Delete (Eliminar):</strong> Borrar registros de la base de datos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box" data-aos="fade-up">
+                        <div class="info-title"><i class="fas fa-info-circle"></i> SQLite</div>
+                        <p>SQLite es una base de datos SQL ligera, basada en ficheros, ideal para aplicaciones de escritorio, móviles o para desarrollo y prototipado. No requiere un servidor separado y Python tiene soporte integrado mediante el módulo <code class="inline">sqlite3</code>.</p>
+                    </div>
+
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>crud_sqlite.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" onclick="copyCode('code6')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code6">
+# crud_sqlite.py
+import sqlite3
+
+def conectar_bd(nombre_bd="empresa.db"):
+    """Conecta a la BD y devuelve la conexión y el cursor."""
+    conexion = sqlite3.connect(nombre_bd)
+    cursor = conexion.cursor()
+    return conexion, cursor
+
+def crear_tabla_empleados(cursor):
+    """Crea la tabla de empleados si no existe."""
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS empleados (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT NOT NULL,
+        puesto TEXT,
+        salario REAL
+    )
+    """)
+    print("Tabla 'empleados' verificada/creada.")
+
+def insertar_empleado(conexion, cursor, nombre, puesto, salario):
+    """Inserta un nuevo empleado."""
+    try:
+        cursor.execute("INSERT INTO empleados (nombre, puesto, salario) VALUES (?, ?, ?)", 
+                       (nombre, puesto, salario))
+        conexion.commit() # Guardar cambios
+        print(f"Empleado '{nombre}' insertado con ID: {cursor.lastrowid}")
+    except sqlite3.Error as e:
+        print(f"Error al insertar empleado: {e}")
+
+def consultar_empleados(cursor):
+    """Consulta y muestra todos los empleados."""
+    print("\n--- Listado de Empleados ---")
+    cursor.execute("SELECT id, nombre, puesto, salario FROM empleados")
+    for fila in cursor.fetchall():
+        print(f"ID: {fila[0]}, Nombre: {fila[1]}, Puesto: {fila[2]}, Salario: ${fila[3]:.2f}")
+    print("---------------------------")
+
+# --- Script Principal ---
+conn, curr = conectar_bd()
+crear_tabla_empleados(curr)
+
+# Insertar algunos datos (ejecutar solo una vez o añadir lógica para evitar duplicados)
+# insertar_empleado(conn, curr, "Ana Torres", "Desarrolladora", 60000.0)
+# insertar_empleado(conn, curr, "Luis Vera", "Diseñador UX", 55000.0)
+# insertar_empleado(conn, curr, "Carlos Solis", "Gerente de Proyecto", 75000.0)
+
+consultar_empleados(curr)
+
+# Cerrar conexión
+conn.close()
+print("Conexión a la BD cerrada.")
+                        </code></pre>
+                    </div>
+
+                    <div class="warning-box" data-aos="fade-up">
+                        <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> Seguridad en Bases de Datos</div>
+                        <p>Es crucial prevenir la inyección SQL usando consultas parametrizadas (como en el ejemplo <code class="inline">(?, ?, ?)</code>) en lugar de formatear cadenas SQL con datos del usuario. La inyección SQL es uno de los vectores de ataque más comunes en aplicaciones web.</p>
+                    </div>
+
+                    <div class="visualization-container" data-aos="fade-up">
+                        <h4 class="interactive-title" style="margin-bottom: 1rem;"><i class="fas fa-table"></i> Tabla de Empleados</h4>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Puesto</th>
+                                    <th>Salario</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeesTable">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Ana Torres</td>
+                                    <td>Desarrolladora</td>
+                                    <td>$60,000.00</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-outline btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Luis Vera</td>
+                                    <td>Diseñador UX</td>
+                                    <td>$55,000.00</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-outline btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Carlos Solis</td>
+                                    <td>Gerente de Proyecto</td>
+                                    <td>$75,000.00</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-outline btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;" data-aos="fade-up">Entornos Gráficos (GUI)</h3>
+                    <p data-aos="fade-up">Una GUI hace que la interacción con la aplicación sea más intuitiva para el usuario final.</p>
+
+                    <div class="card-group" data-aos="fade-up">
+                        <div class="feature-card">
+                            <i class="fas fa-desktop"></i>
+                            <h3>Bibliotecas GUI</h3>
+                            <p><strong>Python:</strong> Tkinter, PyQt, Kivy, Flet.<br>
+                            <strong>Java:</strong> Swing, JavaFX.<br>
+                            <strong>JavaScript:</strong> Electron.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-mouse-pointer"></i>
+                            <h3>Eventos</h3>
+                            <p>Las GUIs reaccionan a acciones del usuario (clics, teclas) mediante funciones callback.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-puzzle-piece"></i>
+                            <h3>Widgets</h3>
+                            <p>Componentes visuales como botones, etiquetas, campos, menús.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-th"></i>
+                            <h3>Layout Managers</h3>
+                            <p>Organizan los widgets en la ventana (pack, grid, place en Tkinter).</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-up">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <div class="code-dot code-dot-red"></div>
+                                <div class="code-dot code-dot-yellow"></div>
+                                <div class="code-dot code-dot-green"></div>
+                            </div>
+                            <span>gui_simple_tkinter.py</span>
+                            <div class="code-actions">
+                                <button class="code-action-button" onclick="copyCode('code7')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code class="language-python" id="code7">
+# gui_simple_tkinter.py
+import tkinter as tk
+from tkinter import messagebox
+
+def saludar():
+    nombre = campo_nombre.get()
+    if nombre:
+        messagebox.showinfo("Saludo", f"¡Hola, {nombre}!\nBienvenido a MoriDevEdu.")
+    else:
+        messagebox.showwarning("Entrada Vacía", "Por favor, introduce tu nombre.")
+
+# Crear la ventana principal
+ventana = tk.Tk()
+ventana.title("MoriDevEdu GUI Simple")
+ventana.geometry("350x150") # Ancho x Alto
+
+# Etiqueta
+etiqueta_nombre = tk.Label(ventana, text="Introduce tu nombre:")
+etiqueta_nombre.pack(pady=5)
+
+# Campo de entrada
+campo_nombre = tk.Entry(ventana, width=30)
+campo_nombre.pack(pady=5)
+
+# Botón
+boton_saludar = tk.Button(ventana, text="Saludar", command=saludar, bg="#4361ee", fg="white")
+boton_saludar.pack(pady=10)
+
+# Iniciar el bucle principal de la GUI
+ventana.mainloop()
+                        </code></pre>
+                    </div>
+
+                    <div class="interactive-element" data-aos="fade-up">
+                        <h4 class="interactive-title"><i class="fas fa-desktop"></i> Demo de Interfaz de Usuario</h4>
+                        <div class="visualization-container">
+                            <div id="guiDemo" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                <div style="background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; width: 350px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                                    <div style="margin-bottom: 15px; font-weight: bold; text-align: center;">MoriDevEdu GUI Simple</div>
+                                    <div style="margin-bottom: 10px;">Introduce tu nombre:</div>
+                                    <input type="text" id="demoNameInput" style="width: 100%; padding: 8px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Tu nombre">
+                                    <button id="demoGreetBtn" style="background-color: #4361ee; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; width: 100%;">Saludar</button>
+                                </div>
+                                <div id="demoMessageBox" style="display: none; background-color: #f8f8f8; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-top: 20px; max-width: 300px; text-align: center;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="exercise-box" data-aos="fade-up">
+                        <h4 class="exercise-title"><i class="fas fa-paint-brush"></i> Ejercicio Propuesto</h4>
+                        <p>Expande la GUI de Tkinter para incluir campos para "Puesto" y "Salario". Al hacer clic en un botón "Guardar Empleado", los datos ingresados deben insertarse en la tabla <code class="inline">empleados</code> de la base de datos SQLite. Muestra un mensaje de confirmación o error.</p>
+                        <button class="solution-toggle btn btn-primary btn-sm"><i class="fas fa-lightbulb"></i> Ver Pista/Solución</button>
+                        <div class="solution-content">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <div class="code-dot code-dot-red"></div>
+                                    <div class="code-dot code-dot-yellow"></div>
+                                    <div class="code-dot code-dot-green"></div>
+                                </div>
+                                <span>gestor_empleados_gui.py</span>
+                                <div class="code-actions">
+                                    <button class="code-action-button" onclick="copyCode('solutionCode4')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre><code class="language-python" id="solutionCode4">
+# gestor_empleados_gui.py
+import tkinter as tk
+from tkinter import messagebox, ttk
+import sqlite3
+import re
+
+class GestorEmpleadosApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Gestor de Empleados - MoriDevEdu")
+        self.root.geometry("500x400")
+        self.root.configure(padx=20, pady=20)
+        
+        # Conectar a la BD
+        self.conn = sqlite3.connect("empresa.db")
+        self.cursor = self.conn.cursor()
+        self.crear_tabla_empleados()
+        
+        # Variables
+        self.var_nombre = tk.StringVar()
+        self.var_puesto = tk.StringVar()
+        self.var_salario = tk.StringVar()
+        
+        # Marco principal
+        main_frame = ttk.Frame(root)
+        main_frame.pack(fill="both", expand=True)
+        
+        # Formulario
+        form_frame = ttk.LabelFrame(main_frame, text="Datos del Empleado")
+        form_frame.pack(fill="x", padx=10, pady=10)
+        
+        # Campos del formulario
+        ttk.Label(form_frame, text="Nombre:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        ttk.Entry(form_frame, textvariable=self.var_nombre, width=30).grid(row=0, column=1, padx=5, pady=5)
+        
+        ttk.Label(form_frame, text="Puesto:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        ttk.Entry(form_frame, textvariable=self.var_puesto, width=30).grid(row=1, column=1, padx=5, pady=5)
+        
+        ttk.Label(form_frame, text="Salario:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
+        ttk.Entry(form_frame, textvariable=self.var_salario, width=30).grid(row=2, column=1, padx=5, pady=5)
+        
+        # Botones
+        btn_frame = ttk.Frame(main_frame)
+        btn_frame.pack(fill="x", padx=10, pady=10)
+        
+        ttk.Button(btn_frame, text="Guardar Empleado", command=self.guardar_empleado).pack(side="left", padx=5)
+        ttk.Button(btn_frame, text="Limpiar Campos", command=self.limpiar_campos).pack(side="left", padx=5)
+        ttk.Button(btn_frame, text="Ver Empleados", command=self.mostrar_empleados).pack(side="left", padx=5)
+        
+        # Tabla de empleados
+        self.tree = ttk.Treeview(main_frame, columns=("ID", "Nombre", "Puesto", "Salario"), show="headings")
+        self.tree.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        # Configurar columnas
+        self.tree.heading("ID", text="ID")
+        self.tree.heading("Nombre", text="Nombre")
+        self.tree.heading("Puesto", text="Puesto")
+        self.tree.heading("Salario", text="Salario")
+        
+        self.tree.column("ID", width=50)
+        self.tree.column("Nombre", width=150)
+        self.tree.column("Puesto", width=150)
+        self.tree.column("Salario", width=100)
+        
+        # Cargar datos iniciales
+        self.cargar_empleados()
+    
+    def crear_tabla_empleados(self):
+        self.cursor.execute("""
+        CREATE TABLE IF NOT EXISTS empleados (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            puesto TEXT,
+            salario REAL
+        )
+        """)
+        self.conn.commit()
+    
+    def validar_datos(self):
+        nombre = self.var_nombre.get().strip()
+        puesto = self.var_puesto.get().strip()
+        salario = self.var_salario.get().strip()
+        
+        if not nombre:
+            messagebox.showerror("Error", "El nombre es obligatorio.")
+            return False
+        
+        if not puesto:
+            messagebox.showerror("Error", "El puesto es obligatorio.")
+            return False
+        
+        if not salario:
+            messagebox.showerror("Error", "El salario es obligatorio.")
+            return False
+        
+        # Validar que salario sea un número
+        if not re.match(r'^\d+(\.\d+)?$', salario):
+            messagebox.showerror("Error", "El salario debe ser un número válido.")
+            return False
+        
+        return True
+    
+    def guardar_empleado(self):
+        if not self.validar_datos():
+            return
+        
+        nombre = self.var_nombre.get().strip()
+        puesto = self.var_puesto.get().strip()
+        salario = float(self.var_salario.get().strip())
+        
+        try:
+            self.cursor.execute("INSERT INTO empleados (nombre, puesto, salario) VALUES (?, ?, ?)", 
+                               (nombre, puesto, salario))
+            self.conn.commit()
+            
+            messagebox.showinfo("Éxito", f"Empleado '{nombre}' guardado correctamente.")
+            self.limpiar_campos()
+            self.cargar_empleados()
+        except sqlite3.Error as e:
+            messagebox.showerror("Error en la Base de Datos", f"No se pudo guardar el empleado: {e}")
+    
+    def limpiar_campos(self):
+        self.var_nombre.set("")
+        self.var_puesto.set("")
+        self.var_salario.set("")
+    
+    def cargar_empleados(self):
+        # Limpiar tabla
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        
+        # Cargar datos de la BD
+        self.cursor.execute("SELECT id, nombre, puesto, salario FROM empleados ORDER BY id DESC")
+        for row in self.cursor.fetchall():
+            self.tree.insert("", "end", values=(row[0], row[1], row[2], f"${row[3]:,.2f}"))
+    
+    def mostrar_empleados(self):
+        self.cargar_empleados()
+    
+    def __del__(self):
+        if hasattr(self, 'conn') and self.conn:
+            self.conn.close()
+
+# Iniciar aplicación
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = GestorEmpleadosApp(root)
+    root.mainloop()
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="lesson-navigation" style="margin-top:2rem;">
+                    <a href="#modulo3" class="lesson-nav-button prev"><i class="fas fa-arrow-left"></i> Módulo Anterior</a>
+                    <span style="flex-grow:1; text-align:center; color: #777;">Fin del curso</span>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <a href="#" class="logo" style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
+                <p>Educación de calidad en tecnologías de la información.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Cursos</a></li>
+                    <li><a href="#modulo1">Aplicaciones de Cálculo</a></li>
+                    <li><a href="#modulo2">Lógica y Ficheros</a></li>
+                    <li><a href="#modulo3">Errores y Regex</a></li>
+                    <li><a href="#modulo4">Bases de Datos y GUI</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; <span id="currentYear"></span> MoriDevEdu. Todos los derechos reservados.</p>
+            <p>Una iniciativa de <a href="https://diegomori.online" target="_blank" rel="noopener noreferrer">diegomori.online</a> - MoriDev con apoyo de MoriCarp.</p>
+        </div>
+    </footer>
+
+    <!-- Bibliotecas JS externas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<script>
+// Script principal de funcionalidades
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar AOS (Animate on Scroll)
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+
+    // Función para resaltar pasos en diagramas
+    window.highlightStep = function(element) {
+        // Toggle active class
+        element.classList.toggle('active-step');
+    };
+
+    // Función para copiar códigos
+    window.copyCode = function(elementId) {
+        const codeElement = document.getElementById(elementId);
+        if (codeElement) {
+            const textToCopy = codeElement.textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Código copiado al portapapeles!');
+            });
+        }
+    };
+
+    // Toggle de soluciones
+    const solutionToggles = document.querySelectorAll('.solution-toggle');
+    solutionToggles.forEach(button => {
+        button.addEventListener('click', function() {
+            const solutionContent = this.nextElementSibling;
+            if (solutionContent.style.display === 'block') {
+                solutionContent.style.display = 'none';
+                this.innerHTML = '<i class="fas fa-lightbulb"></i> Ver Pista/Solución';
+            } else {
+                solutionContent.style.display = 'block';
+                this.innerHTML = '<i class="fas fa-times"></i> Ocultar Solución';
+            }
+        });
+    });
+
+    // Cambio de tema oscuro/claro
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            document.body.setAttribute('data-theme', 
+                document.body.getAttribute('data-theme') === 'dark' ? '' : 'dark');
+            this.innerHTML = document.body.getAttribute('data-theme') === 'dark' ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+    }
+
+    // Menú móvil
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    if (mobileMenu && navLinks) {
+        mobileMenu.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Actualizar año en el footer
+    const currentYearElement = document.getElementById('currentYear');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+
+    // Botón volver arriba
+    const backToTopButton = document.getElementById('backToTop');
+    if (backToTopButton) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    }
+
+    // Calculadora de interés
+    setupInterestCalculator();
+
+    // Probador de regex
+    setupRegexTester();
+
+    // Simulador de errores
+    setupExceptionSimulator();
+
+    // Visualizador de formatos de archivo
+    setupFileFormatVisualizer();
+
+    // Demo de GUI
+    setupGuiDemo();
+
+    // Navbar con efecto scroll
+    window.addEventListener('scroll', function() {
+        const nav = document.getElementById('mainNav');
+        if (nav) {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+    });
+});
+
+// Calculadora de interés
+function setupInterestCalculator() {
+    const capital = document.getElementById('capital');
+    const interestRate = document.getElementById('interestRate');
+    const years = document.getElementById('years');
+    const interestType = document.getElementById('interestType');
+    
+    if (!capital || !interestRate || !years || !interestType) return;
+
+    const capitalValue = document.getElementById('capitalValue');
+    const rateValue = document.getElementById('rateValue');
+    const yearsValue = document.getElementById('yearsValue');
+    const resultCapital = document.getElementById('resultCapital');
+    const resultInterest = document.getElementById('resultInterest');
+    const resultTotal = document.getElementById('resultTotal');
+    
+    let chart = null;
+    
+    function updateCalculator() {
+        const cap = parseFloat(capital.value);
+        const rate = parseFloat(interestRate.value);
+        const time = parseFloat(years.value);
+        const type = interestType.value;
+        
+        capitalValue.textContent = `$${cap.toLocaleString()}`;
+        rateValue.textContent = `${rate.toFixed(1)}%`;
+        yearsValue.textContent = `${time} ${time === 1 ? 'año' : 'años'}`;
+        
+        let interest, total;
+        if (type === 'simple') {
+            interest = (cap * rate * time) / 100;
+            total = cap + interest;
+        } else { // compound
+            total = cap * Math.pow(1 + rate/100, time);
+            interest = total - cap;
+        }
+        
+        resultCapital.textContent = `$${cap.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        resultInterest.textContent = `$${interest.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        resultTotal.textContent = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        
+        updateChart(cap, rate, time, type);
+    }
+    
+    function updateChart(cap, rate, time, type) {
+        const chartContainer = document.getElementById('interestChart');
+        if (!chartContainer) return;
+        
+        const yearLabels = [];
+        const capitalData = [];
+        const interestData = [];
+        
+        for (let i = 0; i <= time; i++) {
+            yearLabels.push(`Año ${i}`);
+            
+            if (type === 'simple') {
+                const yearInterest = (cap * rate * i) / 100;
+                capitalData.push(cap);
+                interestData.push(yearInterest);
+            } else { // compound
+                const yearTotal = cap * Math.pow(1 + rate/100, i);
+                const yearInterest = yearTotal - cap;
+                capitalData.push(cap);
+                interestData.push(yearInterest);
+            }
+        }
+        
+        // Destroy previous chart if exists
+        if (chart) {
+            chart.destroy();
+        }
+        
+        // Create canvas for chart
+        chartContainer.innerHTML = '<canvas id="interestChartCanvas"></canvas>';
+        const ctx = document.getElementById('interestChartCanvas').getContext('2d');
+        
+        // Create new chart
+        chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: yearLabels,
+                datasets: [
+                    {
+                        label: 'Capital Inicial',
+                        data: capitalData,
+                        backgroundColor: 'rgba(67, 97, 238, 0.5)',
+                        borderColor: 'rgba(67, 97, 238, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Interés Acumulado',
+                        data: interestData,
+                        backgroundColor: 'rgba(76, 201, 240, 0.5)',
+                        borderColor: 'rgba(76, 201, 240, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    
+    capital.addEventListener('input', updateCalculator);
+    interestRate.addEventListener('input', updateCalculator);
+    years.addEventListener('input', updateCalculator);
+    interestType.addEventListener('change', updateCalculator);
+    
+    // Initial calculation
+    updateCalculator();
+}
+
+// Probador de regex
+function setupRegexTester() {
+    const regexPattern = document.getElementById('regexPattern');
+    const regexText = document.getElementById('regexText');
+    const testRegexBtn = document.getElementById('testRegexBtn');
+    const regexResult = document.getElementById('regexResult');
+    
+    if (!regexPattern || !regexText || !testRegexBtn || !regexResult) return;
+    
+    testRegexBtn.addEventListener('click', function() {
+        try {
+            const pattern = regexPattern.value;
+            const text = regexText.value;
+            const lines = text.split('\n');
+            const regex = new RegExp(pattern);
+            
+            let resultHTML = '';
+            
+            lines.forEach(line => {
+                if (line.trim() === '') {
+                    resultHTML += '<br>';
+                    return;
+                }
+                
+                if (regex.test(line)) {
+                    // Highlight matches
+                    const highlightedLine = line.replace(regex, match => `<span class="highlight">${match}</span>`);
+                    resultHTML += `<div style="color: green;"><i class="fas fa-check-circle"></i> ${highlightedLine}</div>`;
+                } else {
+                    resultHTML += `<div style="color: red;"><i class="fas fa-times-circle"></i> ${line}</div>`;
+                }
+            });
+            
+            regexResult.innerHTML = resultHTML;
+        } catch (error) {
+            regexResult.innerHTML = `<div style="color: red;"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+        }
+    });
+    
+    // Trigger initial test
+    testRegexBtn.click();
+}
+
+// Simulador de errores
+function setupExceptionSimulator() {
+    const numerator = document.getElementById('numerator');
+    const denominator = document.getElementById('denominator');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const exceptionOutput = document.getElementById('exceptionOutput');
+    const commandLineInput = document.getElementById('commandLineInput');
+    
+    if (!numerator || !denominator || !calculateBtn || !exceptionOutput || !commandLineInput) return;
+    
+    calculateBtn.addEventListener('click', function() {
+        const num = numerator.value;
+        const den = denominator.value;
+        
+        commandLineInput.textContent = `python manejo_errores_avanzado.py`;
+        
+        let output = '';
+        
+        // Simulate input
+        output += `<div class="terminal-line"><span class="terminal-output">Introduce el numerador: ${num}</span></div>`;
+        output += `<div class="terminal-line"><span class="terminal-output">Introduce el denominador: ${den}</span></div>`;
+        
+        // Simulate error handling
+        try {
+            const numVal = parseFloat(num);
+            const denVal = parseFloat(den);
+            
+            if (isNaN(numVal) || isNaN(denVal)) {
+                output += `<div class="terminal-line"><span class="terminal-error">Error: Ambos deben ser números válidos.</span></div>`;
+            } else if (denVal === 0) {
+                output += `<div class="terminal-line"><span class="terminal-error">Error de división: El denominador no puede ser cero (lanzado manualmente).</span></div>`;
+            } else {
+                const result = numVal / denVal;
+                output += `<div class="terminal-line"><span class="terminal-output">El resultado de la división es: ${result.toFixed(2)}</span></div>`;
+            }
+        } catch (e) {
+            output += `<div class="terminal-line"><span class="terminal-error">Ocurrió un error inesperado: ${e.name} - ${e.message}</span></div>`;
+        }
+        
+        output += `<div class="terminal-line"><span class="terminal-output">Bloque 'finally': Esta parte se ejecuta siempre.</span></div>`;
+        
+        exceptionOutput.innerHTML = output;
+    });
+    
+    // Trigger initial calculation
+    calculateBtn.click();
+}
+
+// Visualizador de formatos de archivo
+function setupFileFormatVisualizer() {
+    const formatSelect = document.getElementById('formatSelect');
+    const fileFormatContainer = document.getElementById('fileFormatContainer');
+    
+    if (!formatSelect || !fileFormatContainer) return;
+    
+    const formatExamples = {
+        txt: `Este es un ejemplo de archivo de texto plano.
+Este formato es simple y fácil de leer, pero sin estructura definida.
+Cada línea es simplemente una secuencia de caracteres.`,
+        
+        csv: `ID,Nombre,Puesto,Salario
+1,Ana Torres,Desarrolladora,60000
+2,Luis Vera,Diseñador UX,55000
+3,Carlos Solis,Gerente de Proyecto,75000`,
+        
+        json: `{
+  "empleados": [
+    {
+      "id": 1,
+      "nombre": "Ana Torres",
+      "puesto": "Desarrolladora",
+      "salario": 60000
+    },
+    {
+      "id": 2,
+      "nombre": "Luis Vera",
+      "puesto": "Diseñador UX",
+      "salario": 55000
+    },
+    {
+      "id": 3,
+      "nombre": "Carlos Solis",
+      "puesto": "Gerente de Proyecto",
+      "salario": 75000
+    }
+  ]
+}`,
+        
+        xml: `<?xml version="1.0" encoding="UTF-8"?>
+<empleados>
+  <empleado>
+    <id>1</id>
+    <nombre>Ana Torres</nombre>
+    <puesto>Desarrolladora</puesto>
+    <salario>60000</salario>
+  </empleado>
+  <empleado>
+    <id>2</id>
+    <nombre>Luis Vera</nombre>
+    <puesto>Diseñador UX</puesto>
+    <salario>55000</salario>
+  </empleado>
+  <empleado>
+    <id>3</id>
+    <nombre>Carlos Solis</nombre>
+    <puesto>Gerente de Proyecto</puesto>
+    <salario>75000</salario>
+  </empleado>
+</empleados>`
+    };
+    
+    function updateFormatDisplay() {
+        const format = formatSelect.value;
+        const formatContent = formatExamples[format] || '';
+        
+        fileFormatContainer.innerHTML = `
+            <div style="font-family: monospace; white-space: pre; padding: 1rem; height: 100%; overflow: auto;">
+                ${formatContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
+            </div>
+        `;
+    }
+    
+    formatSelect.addEventListener('change', updateFormatDisplay);
+    
+    // Initial display
+    updateFormatDisplay();
+}
+
+// Demo de GUI
+function setupGuiDemo() {
+    const demoNameInput = document.getElementById('demoNameInput');
+    const demoGreetBtn = document.getElementById('demoGreetBtn');
+    const demoMessageBox = document.getElementById('demoMessageBox');
+    
+    if (!demoNameInput || !demoGreetBtn || !demoMessageBox) return;
+    
+    demoGreetBtn.addEventListener('click', function() {
+        const nombre = demoNameInput.value.trim();
+        
+        if (nombre) {
+            demoMessageBox.style.display = 'block';
+            demoMessageBox.innerHTML = `
+                <div style="font-weight: bold; margin-bottom: 8px;">Saludo</div>
+                <div>¡Hola, ${nombre}!<br>Bienvenido a MoriDevEdu.</div>
+                <button id="closeMessageBtn" style="margin-top: 10px; background-color: #4361ee; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Aceptar</button>
+            `;
+            
+            document.getElementById('closeMessageBtn').addEventListener('click', function() {
+                demoMessageBox.style.display = 'none';
+            });
+        } else {
+            demoMessageBox.style.display = 'block';
+            demoMessageBox.innerHTML = `
+                <div style="font-weight: bold; margin-bottom: 8px; color: #e63946;">Entrada Vacía</div>
+                <div>Por favor, introduce tu nombre.</div>
+                <button id="closeMessageBtn" style="margin-top: 10px; background-color: #4361ee; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Aceptar</button>
+            `;
+            
+            document.getElementById('closeMessageBtn').addEventListener('click', function() {
+                demoMessageBox.style.display = 'none';
+            });
+        }
+    });
+}    </script>
+</body>
+</html>

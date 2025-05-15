@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso: Java Fundamentals con Alice y Greenfoot - MoriDevEdu</title>
+    <link rel="stylesheet" href="../../css/normalize.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/responsive.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <style>
+        .course-layout {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .course-navigation {
+            flex: 0 0 280px;
+        }
+        .course-content-area {
+            flex: 1;
+        }
+        .module-section:not(:last-child) {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        .module-section {
+            padding-top: 70px; 
+            margin-top: -70px;
+        }
+        .tool-comparison table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .tool-comparison th, .tool-comparison td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        .tool-comparison th {
+            background-color: var(--light-bg);
+        }
+        .tool-comparison td ul {
+            padding-left: 1.2rem;
+            margin-bottom: 0;
+        }
+        .ide-screenshot-placeholder {
+            border: 2px dashed var(--primary-color);
+            padding: 2rem;
+            text-align: center;
+            background-color: #f9f9f9;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #777;
+        }
+        .code-comparison {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .code-comparison > div {
+            flex: 1;
+            border: 1px solid var(--code-border);
+            border-radius: 5px;
+            padding: 0.5rem;
+            background-color: var(--code-bg);
+        }
+        .code-comparison h5 {
+            margin-top: 0;
+            font-size: 1rem;
+            text-align: center;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i> MoriDevEdu
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Inicio</a></li>
+                <li><a href="../../index.html#cursos">Cursos</a></li>
+                <li><a href="../../index.html#about">Sobre Nosotros</a></li>
+                <li><a href="../../index.html#contact">Contacto</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="course-hero">
+        <div class="container course-header">
+            <h1 class="course-title" style="color:white;">Java Fundamentals: De lo Visual a Código</h1>
+            <p class="course-description" style="color:white;">
+                Iníciate en el mundo de la programación Java de una forma amigable y progresiva. Comenzaremos con entornos visuales como Alice 3 y Greenfoot para construir una base sólida en lógica y Orientación a Objetos, para luego sumergirnos en la sintaxis y estructura de Java.
+            </p>
+            <div class="course-meta">
+                <span class="course-meta-item"><i class="fas fa-layer-group"></i> Nivel: Principiante</span>
+                <span class="course-meta-item"><i class="fas fa-clock"></i> Duración Estimada: 50 horas</span>
+                <span class="course-meta-item"><i class="fas fa-gamepad"></i> Enfoque: Programación Visual, Java Básico, POO</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="../../index.html">Inicio</a></li>
+                <li><a href="../../index.html#cursos">Cursos</a></li>
+                <li><a href="#">Java Fundamentals</a></li>
+            </ul>
+        </div>
+
+        <div class="course-layout">
+            <aside class="course-navigation">
+                <h3 class="course-nav-title"><i class="fas fa-stream"></i> Módulos del Curso</h3>
+                <ul class="course-nav-list">
+                    <li class="course-nav-item"><a href="#modulo1" class="course-nav-link active"><i class="fas fa-vr-cardboard"></i> Módulo 1: Introducción a Alice 3</a></li>
+                    <li class="course-nav-item"><a href="#modulo2" class="course-nav-link"><i class="fas fa-frog"></i> Módulo 2: Explorando con Greenfoot</a></li>
+                    <li class="course-nav-item"><a href="#modulo3" class="course-nav-link"><i class="fab fa-java"></i> Módulo 3: Conceptos Básicos de Java</a></li>
+                    <li class="course-nav-item"><a href="#modulo4" class="course-nav-link"><i class="fas fa-cubes"></i> Módulo 4: Estructuras de Datos y POO en Java</a></li>
+                </ul>
+                 <div style="padding: 1rem; margin-top:1rem; background-color: #f9f9f9; border-radius: 8px;">
+                    <h4><i class="fas fa-download"></i> Recursos Adicionales</h4>
+                    <ul style="list-style: none; padding-left: 0.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><a href="https://www.alice.org/get-alice/" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-download"></i> Descargar Alice 3</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="https://www.greenfoot.org/download" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-download"></i> Descargar Greenfoot</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="../../assets/pdfs/java_fundamentals_syllabus.pdf" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-file-pdf"></i> Syllabus del Curso</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="course-content-area">
+                <section id="modulo1" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-vr-cardboard"></i> Módulo 1: Introducción a Alice 3</h2>
+                    <p>Alice 3 es un innovador entorno de programación basado en bloques que te permite crear animaciones 3D, contar historias interactivas y construir juegos simples. Su objetivo principal es enseñar conceptos de programación, especialmente la Programación Orientada a Objetos (POO), de una manera visual y atractiva, eliminando la barrera de la sintaxis compleja.</p>
+
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-puzzle-piece"></i> ¿Cómo funciona Alice 3?</h4>
+                        <p>En lugar de escribir código, arrastras y sueltas bloques que representan instrucciones. Estos bloques se encajan como piezas de un rompecabezas, asegurando que solo se puedan formar combinaciones lógicas y sintácticamente correctas.</p>
+                        <div class="ide-screenshot-placeholder">
+                            [Representación Visual/GIF: Interfaz de Alice 3 mostrando la galería de objetos 3D, el editor de escenas y el área de arrastrar y soltar bloques de código.]
+                        </div>
+                    </div>
+                    
+                    <h3>Características Destacadas de Alice 3:</h3>
+                    <ul>
+                        <li><strong>Entorno 3D Interactivo:</strong> Cuentas con una galería rica en modelos 3D (personas, animales, vehículos, edificios) que puedes agregar a tu escena. Puedes manipular sus propiedades (color, tamaño, posición) y hacerlos interactuar.</li>
+                        <li><strong>Programación Orientada a Objetos (POO) Visual:</strong>
+                            <ul>
+                                <li><strong>Objetos:</strong> Cada elemento en tu escena es un objeto. Por ejemplo, un `Dragon` es un objeto.</li>
+                                <li><strong>Clases:</strong> Los objetos se crean a partir de "planos" o plantillas llamadas clases. Alice proporciona clases como `Biped` (para humanoides), `Flyer` (para objetos voladores), `Quadruped` (para animales de cuatro patas). Puedes ver la jerarquía de clases y cómo un `Dragon` podría ser un `Flyer`.</li>
+                                <li><strong>Métodos (Procedimientos y Funciones):</strong> Son las acciones que los objetos pueden realizar (ej: `dragon.moveForward(1)`), o las preguntas que puedes hacer sobre ellos (ej: `dragon.distanceTo(princesa)`). En Alice, defines estos métodos arrastrando bloques de acción.</li>
+                                <li><strong>Propiedades:</strong> Atributos de los objetos que puedes cambiar (ej: `dragon.setPaint(Color.RED)`).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Estructuras de Control Visuales:</strong> Conceptos como bucles (`count`, `while`), condicionales (`if/else`) y eventos (<code>when mouse clicks on object</code>) se representan con bloques específicos que estructuran tu código.</li>
+                        <li><strong>Narración de Historias y Creación de Juegos:</strong> Alice fomenta la creatividad al permitirte diseñar escenarios y coreografiar las acciones de tus personajes para contar una historia o crear las mecánicas de un juego simple.</li>
+                        <li><strong>Puente hacia Java (Alice to Java Mode):</strong> Una característica clave es la capacidad de ver una representación en código Java del programa que has creado con bloques. Esto ayuda a los estudiantes a familiarizarse con la sintaxis de Java gradualmente.</li>
+                    </ul>
+
+                    <div class="code-comparison">
+                        <div>
+                            <h5>Lógica en Alice (Conceptual)</h5>
+                            <pre><code class="language-plaintext">
+// Bloque de Alice:
+// HACER EN ORDEN
+//   personaje.mover(ADELANTE, 1 metro)
+//   personaje.decir("¡Hola Mundo!")
+                            </code></pre>
+                        </div>
+                        <div>
+                            <h5>Equivalente en Java (Simplificado)</h5>
+                            <pre><code class="language-java">
+// Código Java correspondiente:
+// (Dentro de un método en una clase de personaje)
+// this.move(Direction.FORWARD, 1.0);
+// this.say("¡Hola Mundo!");
+                            </code></pre>
+                        </div>
+                    </div>
+                    
+                    <h3>Beneficios de Aprender con Alice 3:</h3>
+                    <ul>
+                        <li><strong>Aprendizaje Intuitivo:</strong> Reduce la frustración inicial con la sintaxis, permitiendo enfocarse en la lógica y el diseño algorítmico.</li>
+                        <li><strong>Motivación y Compromiso:</strong> La creación de animaciones y juegos 3D es inherentemente atractiva.</li>
+                        <li><strong>Desarrollo del Pensamiento Computacional:</strong> Fomenta la descomposición de problemas, el reconocimiento de patrones y el diseño de algoritmos.</li>
+                        <li><strong>Sólida Base para POO:</strong> Introduce de forma tangible los conceptos de objetos, clases, métodos y propiedades.</li>
+                    </ul>
+                    <p>Alice 3 es una excelente herramienta para dar tus primeros pasos en la programación antes de sumergirte en lenguajes basados en texto como Java.</p>
+
+                    <div class="exercise-box">
+                        <h4 class="exercise-title"><i class="fas fa-rocket"></i> Primeros Pasos con Alice</h4>
+                        <p>1. Descarga e instala Alice 3 desde su <a href="https://www.alice.org/get-alice/" target="_blank">sitio web oficial</a>.</p>
+                        <p>2. Explora los tutoriales integrados para familiarizarte con la interfaz.</p>
+                        <p>3. <strong>Desafío Creativo:</strong> Crea una escena simple con al menos dos personajes. Programa una interacción básica: un personaje se mueve hacia el otro y le "dice" un saludo. Experimenta cambiando sus propiedades (color, tamaño) y añadiendo más acciones.</p>
+                    </div>
+                     <div class="interactive-element" style="margin-top:1.5rem;">
+                        <h4 class="interactive-title"><i class="fas fa-question-circle"></i> Quiz Rápido: Conceptos de Alice</h4>
+                        <p>Relaciona el concepto de Alice con su descripción (esto sería un pequeño quiz interactivo JS):</p>
+                        <ul>
+                            <li>Objeto 3D en la escena -> <strong>Instancia de una Clase</strong></li>
+                            <li>Bloque "personaje.mover(...)" -> <strong>Método</strong></li>
+                            <li>Plantilla "Biped" -> <strong>Clase</strong></li>
+                            <li>Bloque "Si (condición) Entonces..." -> <strong>Estructura de Control Condicional</strong></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="modulo2" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-frog"></i> Módulo 2: Explorando con Greenfoot</h2>
+                    <p>Greenfoot es un entorno de desarrollo integrado (IDE) diseñado para facilitar el aprendizaje de la programación en Java, especialmente para principiantes, a través de la creación de juegos 2D y simulaciones interactivas. Combina la programación visual con la escritura de código Java real, sirviendo como un excelente puente entre entornos puramente basados en bloques (como Alice) y los IDEs profesionales de Java.</p>
+
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-gamepad"></i> La Metáfora de Greenfoot: Mundo y Actores</h4>
+                        <p>Greenfoot se basa en dos conceptos principales:</p>
+                        <ul>
+                            <li><strong>Mundo (World):</strong> Es el escenario o el fondo donde ocurren las acciones. Creas una subclase de <code>greenfoot.World</code> para definir tu propio mundo (ej: <code>NivelJuego</code>, <code>Oceano</code>).</li>
+                            <li><strong>Actores (Actors):</strong> Son los objetos que viven y actúan en el mundo (personajes, enemigos, proyectiles, obstáculos). Creas subclases de <code>greenfoot.Actor</code> (ej: <code>Heroe</code>, <code>Moneda</code>).</li>
+                        </ul>
+                        <div class="ide-screenshot-placeholder">
+                            [Representación Visual/GIF: Interfaz de Greenfoot mostrando un "Mundo" con "Actores". El panel de clases a la derecha y los controles de "Act" y "Run".]
+                        </div>
+                    </div>
+
+                    <h3>Características Clave de Greenfoot:</h3>
+                    <ul>
+                        <li><strong>Programación Directa en Java:</strong> A diferencia de Alice, en Greenfoot escribes código Java estándar, pero con el apoyo de una API simplificada y un entorno visual.</li>
+                        <li><strong>Entorno Interactivo:</strong> Puedes colocar actores en el mundo manualmente, inspeccionar sus estados e invocar sus métodos directamente desde la interfaz para probarlos.</li>
+                        <li><strong>Ciclo de Actuación (<code>act()</code>):</strong> El corazón de la mayoría de los actores es el método <code>public void act()</code>. Este método es llamado repetidamente por Greenfoot cuando el escenario está "corriendo", permitiendo que los actores realicen acciones y reaccionen a su entorno en cada "paso" de la simulación.</li>
+                        <li><strong>API de Greenfoot:</strong> Proporciona clases y métodos útiles para tareas comunes en juegos y simulaciones:
+                            <ul>
+                                <li>Movimiento: <code>move(int distance)</code>, <code>turn(int angle)</code>, <code>setLocation(int x, int y)</code>.</li>
+                                <li>Detección de Teclas: <code>Greenfoot.isKeyDown(String keyName)</code>.</li>
+                                <li>Interacción con Objetos: <code>isTouching(Class clss)</code>, <code>getOneObjectAtOffset(int dx, int dy, Class clss)</code>, <code>removeTouching(Class clss)</code>.</li>
+                                <li>Sonido: <code>Greenfoot.playSound(String soundFile)</code>.</li>
+                                <li>Control del Mundo: <code>getWorld()</code>, <code>addObject(Actor actor, int x, int y)</code>, <code>removeObject(Actor actor)</code>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Visualización Inmediata:</strong> Los cambios en el código se reflejan rápidamente en el comportamiento visual de los actores en el mundo.</li>
+                    </ul>
+
+                    <h3>Ejemplo Práctico: Un Actor que se Mueve</h3>
+                    <p>Creemos un actor simple llamado <code>Caminante</code> que se mueve de izquierda a derecha.</p>
+                    <p>1. <strong>Crear la clase <code>Caminante</code>:</strong> En Greenfoot, haz clic derecho en "Actor" en el panel de clases, selecciona "New subclass...", nombra la clase `Caminante` y elige una imagen (o deja la predeterminada).</p>
+                    <p>2. <strong>Escribir el código en <code>Caminante.java</code>:</strong></p>
+                    <pre><code class="language-java">
+import greenfoot.*;  // Importa las clases necesarias de Greenfoot
+
+public class Caminante extends Actor {
+    private int velocidad = 2; // Pixeles que se moverá por acto
+
+    /**
+     * El método act se ejecuta cuando se presiona el botón Act o Run.
+     * Aquí es donde definimos el comportamiento principal del Caminante.
+     */
+    public void act() {
+        move(velocidad); // Se mueve hacia adelante (según su rotación actual)
+        
+        // Si llega al borde del mundo, da la vuelta
+        if (isAtEdge()) {
+            turn(180); // Gira 180 grados
+        }
+        
+        // Ejemplo de interacción con teclas (opcional)
+        if (Greenfoot.isKeyDown("space")) {
+            // Si se presiona espacio, podría saltar o hacer otra acción
+            // Por ahora, solo giramos un poco
+            turn(5); 
+        }
+    }
+}
+                    </code></pre>
+                    <p>3. <strong>Crear el Mundo:</strong> Similarmente, crea una subclase de <code>World</code>, llámala `MiMundo`. Puedes definir su tamaño en el constructor:</p>
+                     <pre><code class="language-java">
+import greenfoot.*;
+
+public class MiMundo extends World {
+    public MiMundo() {    
+        super(600, 400, 1); // Crea un mundo de 600x400 celdas con tamaño de celda 1x1 pixels.
+        prepararMundo();
+    }
+
+    private void prepararMundo() {
+        Caminante miCaminante = new Caminante();
+        addObject(miCaminante, 50, 200); // Añade el caminante en la posición (50, 200)
+        
+        Caminante otroCaminante = new Caminante();
+        addObject(otroCaminante, 50, 100);
+        otroCaminante.turn(90); // Lo hacemos mirar hacia abajo
+    }
+}
+                    </code></pre>
+                    <p>4. <strong>Compilar y Ejecutar:</strong> Guarda los archivos, compila (botón "Compile" en Greenfoot) y luego puedes añadir instancias de `Caminante` a `MiMundo` arrastrándolas o programáticamente. Presiona "Run" para verlos moverse.</p>
+
+                    <h3>Beneficios de Greenfoot:</h3>
+                    <ul>
+                        <li><strong>Introducción Amigable a Java:</strong> Permite escribir código Java real en un contexto visual y menos abstracto.</li>
+                        <li><strong>Aprendizaje de POO:</strong> Conceptos como clases, objetos, herencia (<code>extends Actor</code>) y polimorfismo se vuelven prácticos.</li>
+                        <li><strong>Desarrollo de Habilidades en Diseño de Juegos/Simulaciones:</strong> Lógica de juego, manejo de eventos, interacciones entre objetos.</li>
+                        <li><strong>Comunidad y Escenarios:</strong> Existe una galería de escenarios y proyectos compartidos por la comunidad que pueden ser estudiados y modificados.</li>
+                    </ul>
+                    
+                    <div class="tool-comparison">
+                        <h4>Alice 3 vs. Greenfoot</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Característica</th>
+                                    <th>Alice 3</th>
+                                    <th>Greenfoot</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Paradigma Principal</td>
+                                    <td>Bloques visuales, enfocado en POO conceptual y storytelling 3D.</td>
+                                    <td>Código Java textual, enfocado en juegos/simulaciones 2D y POO práctica.</td>
+                                </tr>
+                                <tr>
+                                    <td>Curva de Aprendizaje</td>
+                                    <td>Muy baja, ideal para principiantes absolutos.</td>
+                                    <td>Baja a media, requiere aprender sintaxis Java básica.</td>
+                                </tr>
+                                <tr>
+                                    <td>Transición a Java</td>
+                                    <td>Ofrece un modo "Alice to Java" para ver código.</td>
+                                    <td>Se escribe Java directamente, una transición más natural a IDEs estándar.</td>
+                                </tr>
+                                <tr>
+                                    <td>Uso Principal</td>
+                                    <td>Introducir lógica de programación y POO sin la carga de la sintaxis.</td>
+                                    <td>Enseñar Java y POO en un contexto interactivo y motivador.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="exercise-box">
+                        <h4 class="exercise-title"><i class="fas fa-paw"></i> Desafío Greenfoot</h4>
+                        <p>1. Descarga e instala Greenfoot desde su <a href="https://www.greenfoot.org/download" target="_blank">sitio oficial</a>.</p>
+                        <p>2. Completa el tutorial "Cráteres de Erizos" (Hedgehog scenario) que suele venir con Greenfoot o está disponible en su web.</p>
+                        <p>3. Modifica el actor `Caminante` del ejemplo anterior para que, además de moverse, cambie de color cada vez que toca el borde del mundo. (Pista: necesitarás la clase `GreenfootImage` y sus métodos como `setColor()` y `fill()`).</p>
+                    </div>
+                </section>
+
+                <section id="modulo3" class="module-section">
+                    <h2 class="lesson-title"><i class="fab fa-java"></i> Módulo 3: Conceptos Fundamentales de Java y Estructura de un Programa</h2>
+                    <p>Una vez familiarizados con la lógica de programación a través de entornos visuales, es hora de sumergirnos en Java, uno de los lenguajes de programación más robustos, versátiles y demandados en el mundo del desarrollo de software.</p>
+
+                    <h3>¿Qué es Java?</h3>
+                    <p>Java es un lenguaje de programación de alto nivel, orientado a objetos, concurrente y fuertemente tipado, desarrollado originalmente por Sun Microsystems (ahora Oracle). Su lema "Write Once, Run Anywhere" (WORA - Escribe una vez, ejecuta en cualquier lugar) se refiere a su capacidad de ejecutar código compilado en cualquier plataforma que tenga una Máquina Virtual de Java (JVM) instalada.</p>
+                    <p><strong>Aplicaciones Comunes:</strong></p>
+                    <ul>
+                        <li>Desarrollo de aplicaciones empresariales a gran escala.</li>
+                        <li>Aplicaciones móviles para Android.</li>
+                        <li>Aplicaciones web del lado del servidor (Servlets, JSPs, Spring Framework).</li>
+                        <li>Herramientas de Big Data (como Hadoop).</li>
+                        <li>Sistemas embebidos y dispositivos IoT.</li>
+                    </ul>
+
+                    <h3>Entorno de Desarrollo Java (JDK, JRE, IDE)</h3>
+                    <ul>
+                        <li><strong>JDK (Java Development Kit):</strong> Esencial para desarrolladores. Incluye el compilador (<code>javac</code>), la JVM, bibliotecas estándar y otras herramientas.</li>
+                        <li><strong>JRE (Java Runtime Environment):</strong> Necesario para *ejecutar* aplicaciones Java. Incluye la JVM y bibliotecas, pero no herramientas de desarrollo.</li>
+                        <li><strong>IDE (Integrated Development Environment):</strong> Entornos como IntelliJ IDEA, Eclipse o VS Code con extensiones para Java facilitan la escritura, compilación, depuración y gestión de proyectos Java.</li>
+                    </ul>
+                    <div class="alert alert-info"><i class="fas fa-info-circle"></i> Para este curso, se recomienda instalar el JDK más reciente y un IDE de tu elección. Hay muchas guías online para ello.</div>
+
+                    <h3>Estructura Básica de un Programa en Java</h3>
+                    <p>Todo programa en Java se organiza dentro de clases. El punto de entrada para la ejecución es el método <code>main</code>.</p>
+                    <pre><code class="language-java">
+// Nombre del archivo: HolaMundo.java
+package com.moridevedu.ejemplos; // Opcional: define un paquete
+
+import java.util.Date; // Opcional: importa clases de otros paquetes
+
+/**
+ * Esta es una clase de ejemplo para demostrar la estructura básica.
+ * El nombre de la clase pública debe coincidir con el nombre del archivo.
+ */
+public class HolaMundo {
+
+    /**
+     * El método main es el punto de entrada de la aplicación Java.
+     * @param args Argumentos pasados desde la línea de comandos (un array de Strings).
+     */
+    public static void main(String[] args) {
+        // Esta es una sentencia. Termina con punto y coma.
+        System.out.println("¡Hola, Mundo Java desde MoriDevEdu!"); 
+        
+        Date fechaActual = new Date(); // Creando un objeto de la clase Date
+        System.out.println("La fecha y hora actual es: " + fechaActual.toString());
+    } // Fin del método main
+} // Fin de la clase HolaMundo
+                    </code></pre>
+                    <p><strong>Desglose de la Estructura:</strong></p>
+                    <ul>
+                        <li><strong><code>package com.moridevedu.ejemplos;</code></strong>: Declara que la clase pertenece al paquete `com.moridevedu.ejemplos`. Los paquetes organizan clases relacionadas y evitan colisiones de nombres. Es una convención usar nombres de dominio invertidos.</li>
+                        <li><strong><code>import java.util.Date;</code></strong>: Permite usar la clase `Date` (que está en el paquete `java.util`) sin tener que escribir su nombre completo (`java.util.Date`).</li>
+                        <li><strong><code>public class HolaMundo { ... }</code></strong>: Define una clase pública llamada `HolaMundo`. En Java, todo código reside dentro de una clase. El nombre del archivo `.java` debe ser `HolaMundo.java`.</li>
+                        <li><strong><code>public static void main(String[] args) { ... }</code></strong>: Este es el método principal.
+                            <ul>
+                                <li><code>public</code>: Es un modificador de acceso que indica que el método puede ser llamado desde cualquier otra clase.</li>
+                                <li><code>static</code>: Significa que el método pertenece a la clase `HolaMundo` y no a una instancia específica (objeto) de la clase. Se puede llamar sin crear un objeto de `HolaMundo`.</li>
+                                <li><code>void</code>: Indica que el método no devuelve ningún valor.</li>
+                                <li><code>main</code>: Es el nombre especial que la JVM busca para iniciar la ejecución.</li>
+                                <li><code>String[] args</code>: Es un parámetro que representa un array de cadenas de texto (Strings). Estos son los argumentos que se pueden pasar al programa al ejecutarlo desde la línea de comandos.</li>
+                            </ul>
+                        </li>
+                        <li><strong><code>System.out.println("...");</code></strong>: Es una sentencia que imprime el texto entre comillas (y un salto de línea) en la consola. <code>System</code> es una clase, <code>out</code> es un objeto estático de `System` (de tipo `PrintStream`), y `println()` es un método de ese objeto.</li>
+                        <li><strong>Comentarios:</strong> <code>//</code> para comentarios de una línea, y <code>/* ... */</code> para comentarios multilínea. Los comentarios <code>/** ... */</code> son para Javadoc.</li>
+                        <li><strong>Bloques de Código:</strong> Las llaves <code>{ }</code> definen bloques de código (el cuerpo de una clase, el cuerpo de un método).</li>
+                        <li><strong>Punto y Coma (<code>;</code>):</strong> Cada sentencia en Java debe terminar con un punto y coma.</li>
+                    </ul>
+
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-terminal"></i> Compilación y Ejecución</h4>
+                        <p>1. <strong>Guardar:</strong> Guarda el código anterior en un archivo llamado `HolaMundo.java`.</p>
+                        <p>2. <strong>Compilar:</strong> Abre una terminal o símbolo del sistema, navega al directorio donde guardaste el archivo y ejecuta: <br><code>javac HolaMundo.java</code> (Si usaste un paquete, debes estar en el directorio raíz del paquete y compilar con la ruta, ej: <code>javac com/moridevedu/ejemplos/HolaMundo.java</code> o usar opciones del compilador).</p>
+                        <p>Esto creará un archivo `HolaMundo.class` (bytecode).</p>
+                        <p>3. <strong>Ejecutar:</strong> En la misma terminal, ejecuta: <br><code>java HolaMundo</code> (Si usaste un paquete: <code>java com.moridevedu.ejemplos.HolaMundo</code>).</p>
+                        <p>Verás la salida en la consola. ¡Los IDEs automatizan estos pasos!</p>
+                    </div>
+                    
+                    <h3>Conceptos Clave Iniciales en Java:</h3>
+                    
+                    <h4>1. Variables y Tipos de Datos Primitivos</h4>
+                    <p>Una variable es un contenedor que almacena un valor. En Java, debes declarar el tipo de dato de una variable antes de usarla.</p>
+                    <table class="tool-comparison">
+                        <thead><tr><th>Tipo Primitivo</th><th>Descripción</th><th>Tamaño</th><th>Ejemplo</th></tr></thead>
+                        <tbody>
+                            <tr><td><code>byte</code></td><td>Entero muy pequeño</td><td>1 byte</td><td><code>byte edad = 25;</code></td></tr>
+                            <tr><td><code>short</code></td><td>Entero corto</td><td>2 bytes</td><td><code>short poblacion = 30000;</code></td></tr>
+                            <tr><td><code>int</code></td><td>Entero (el más común)</td><td>4 bytes</td><td><code>int contador = 100;</code></td></tr>
+                            <tr><td><code>long</code></td><td>Entero largo</td><td>8 bytes</td><td><code>long estrellas = 10000000000L;</code> (nota la L)</td></tr>
+                            <tr><td><code>float</code></td><td>Número de punto flotante (precisión simple)</td><td>4 bytes</td><td><code>float precio = 19.99f;</code> (nota la f)</td></tr>
+                            <tr><td><code>double</code></td><td>Número de punto flotante (precisión doble, el más común)</td><td>8 bytes</td><td><code>double pi = 3.1415926535;</code></td></tr>
+                            <tr><td><code>char</code></td><td>Un solo carácter Unicode</td><td>2 bytes</td><td><code>char inicial = 'J';</code> (comillas simples)</td></tr>
+                            <tr><td><code>boolean</code></td><td>Valor lógico verdadero o falso</td><td>Depende JVM (usualmente 1 bit lógicamente)</td><td><code>boolean esValido = true;</code></td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Declaración e Inicialización:</strong> <code>tipoDeDato nombreVariable = valorInicial;</code> o <code>tipoDeDato nombreVariable; nombreVariable = valor;</code></p>
+                    <pre><code class="language-java">
+int numeroEstudiantes = 30;
+double saldoCuenta = 1234.56;
+char grupo = 'A';
+boolean esActivo = false;
+
+String nombreCurso = "Java Fundamentals"; // String es una clase, no un primitivo, pero se usa mucho.
+                    </code></pre>
+
+                    <h4>2. Operadores</h4>
+                    <p>Java soporta diversos operadores:</p>
+                    <ul>
+                        <li><strong>Aritméticos:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> (división), <code>%</code> (módulo/resto).</li>
+                        <li><strong>Asignación:</strong> <code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>.</li>
+                        <li><strong>Incremento/Decremento:</strong> <code>++</code> (incrementar en 1), <code>--</code> (decrementar en 1). Pueden ser prefijos (<code>++a</code>) o postfijos (<code>a++</code>).</li>
+                        <li><strong>Relacionales (Comparación):</strong> <code>==</code> (igual a), <code>!=</code> (no igual a), <code>></code>, <code><</code>, <code>>=</code>, <code><=</code>. Devuelven <code>boolean</code>.</li>
+                        <li><strong>Lógicos:</strong> <code>&&</code> (Y lógico), <code>||</code> (O lógico), <code>!</code> (NO lógico).</li>
+                        <li><strong>Operador Ternario:</strong> <code>condicion ? valorSiVerdadero : valorSiFalso;</code></li>
+                    </ul>
+                    <pre><code class="language-java">
+int a = 10, b = 3;
+int suma = a + b; // 13
+int resto = a % b; // 1
+boolean esMayor = a > b; // true
+String mensaje = (saldoCuenta > 1000) ? "Saldo suficiente" : "Saldo bajo";
+                    </code></pre>
+
+                    <h4>3. Estructuras de Control de Flujo</h4>
+                    <p>Dirigen el orden en que se ejecutan las sentencias.</p>
+                    <ul>
+                        <li><strong><code>if-else if-else</code>:</strong>
+                            <pre><code class="language-java">
+int edad = 18;
+if (edad >= 18) {
+    System.out.println("Es mayor de edad.");
+} else if (edad > 0 && edad < 18) {
+    System.out.println("Es menor de edad.");
+} else {
+    System.out.println("Edad no válida.");
+}
+                            </code></pre>
+                        </li>
+                        <li><strong><code>switch</code>:</strong> Útil para múltiples condiciones sobre una misma variable (entera, char, String desde Java 7).
+                            <pre><code class="language-java">
+char calificacion = 'B';
+switch (calificacion) {
+    case 'A':
+        System.out.println("Excelente");
+        break; // Importante el break!
+    case 'B':
+        System.out.println("Bueno");
+        break;
+    case 'C':
+        System.out.println("Suficiente");
+        break;
+    default:
+        System.out.println("Calificación no reconocida");
+}
+                            </code></pre>
+                        </li>
+                        <li><strong>Bucles <code>for</code>, <code>while</code>, <code>do-while</code>:</strong>
+                            <pre><code class="language-java">
+// For tradicional
+for (int i = 0; i < 5; i++) { // de 0 a 4
+    System.out.println("Iteración for: " + i);
+}
+
+// While
+int contador = 0;
+while (contador < 3) {
+    System.out.println("Iteración while: " + contador);
+    contador++;
+}
+
+// Do-while (se ejecuta al menos una vez)
+int j = 5;
+do {
+    System.out.println("Iteración do-while: " + j); // Se imprimirá una vez
+    j++;
+} while (j < 3);
+                            </code></pre>
+                        </li>
+                        <li><strong><code>break</code> y <code>continue</code>:</strong> <code>break</code> sale del bucle/switch; <code>continue</code> salta a la siguiente iteración del bucle.</li>
+                    </ul>
+                    
+                    <h4>4. Métodos</h4>
+                    <p>Bloques de código reutilizables que realizan una tarea específica. Pueden recibir parámetros y devolver un valor.</p>
+                    <pre><code class="language-java">
+public class Calculadora {
+    // Método que no devuelve valor (void) y recibe dos parámetros enteros
+    public static void sumar(int num1, int num2) {
+        int resultado = num1 + num2;
+        System.out.println(num1 + " + " + num2 + " = " + resultado);
+    }
+
+    // Método que devuelve un valor (double) y recibe un parámetro
+    public static double calcularAreaCirculo(double radio) {
+        if (radio < 0) {
+            return 0.0; // Manejo de valor inválido
+        }
+        return Math.PI * radio * radio;
+    }
+
+    public static void main(String[] args) {
+        sumar(10, 5); // Llama al método sumar
+
+        double area = calcularAreaCirculo(3.5);
+        System.out.println("Área del círculo: " + area);
+    }
+}
+                    </code></pre>
+                    <p><strong>Sobrecarga de Métodos (Method Overloading):</strong> Definir múltiples métodos con el mismo nombre pero diferentes listas de parámetros (distinto número o tipo de parámetros) en la misma clase.</p>
+
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-code-branch"></i> Diagrama Interactivo: Flujo de Control</h4>
+                        <p>Imagina un diagrama de flujo interactivo. El usuario puede hacer clic en un bloque `if` o `for` y ver cómo el "flujo de ejecución" (una flecha animada) se mueve a través de las diferentes ramas o iteraciones según una condición de entrada que el usuario pueda modificar.</p>
+                        <div class="ide-screenshot-placeholder">
+                            [Diagrama de Flujo Interactivo: Usuario modifica una variable 'edad' y ve el camino que toma un if-else. O modifica un 'límite' y ve cuántas veces itera un bucle for.]
+                        </div>
+                    </div>
+
+                    <div class="exercise-box">
+                        <h4 class="exercise-title"><i class="fas fa-laptop-code"></i> Ejercicio: Mini Calculadora</h4>
+                        <p>1. Crea una clase `MiniCalculadora`.</p>
+                        <p>2. Implementa métodos estáticos para las cuatro operaciones básicas (suma, resta, multiplicación, división). Cada método debe aceptar dos números (<code>double</code>) y devolver el resultado.</p>
+                        <p>3. El método de división debe manejar el caso de división por cero (ej: imprimiendo un error y devolviendo 0.0 o `Double.NaN`).</p>
+                        <p>4. En el método `main`, prueba cada una de tus funciones con diferentes valores e imprime los resultados.</p>
+                    </div>
+                </section>
+
+                <section id="modulo4" class="module-section">
+                    <h2 class="lesson-title"><i class="fas fa-cubes"></i> Módulo 4: Arrays (Matrices), Excepciones y Profundización en Clases y Objetos</h2>
+                    <p>Este módulo expande nuestros conocimientos sobre cómo agrupar datos con arrays, cómo manejar errores de forma robusta con excepciones, y cómo la Programación Orientada a Objetos (POO) se materializa en Java a través de clases y objetos.</p>
+
+                    <h3>Arrays (Matrices) en Java</h3>
+                    <p>Un array es una estructura de datos que almacena una colección de tamaño fijo de elementos del mismo tipo. Los elementos se acceden mediante un índice numérico (empezando en 0).</p>
+                    
+                    <h4>Declaración, Creación e Inicialización:</h4>
+                    <pre><code class="language-java">
+// 1. Declaración
+int[] numeros; // Declara una variable 'numeros' que puede referenciar un array de enteros.
+String[] nombres;
+
+// 2. Creación (Instanciación) - Especifica el tamaño
+numeros = new int[5]; // Crea un array para 5 enteros. Se inicializan a 0 por defecto.
+nombres = new String[3]; // Crea un array para 3 Strings. Se inicializan a null por defecto.
+
+// 3. Inicialización (Asignar valores)
+numeros[0] = 10;
+numeros[1] = 20;
+// ... numeros[4] = 50;
+
+// Declaración, creación e inicialización en una sola línea (array literal)
+double[] calificaciones = {9.5, 8.0, 7.5, 10.0, 6.5};
+char[] vocales = {'a', 'e', 'i', 'o', 'u'};
+                    </code></pre>
+
+                    <h4>Acceso y Longitud:</h4>
+                    <pre><code class="language-java">
+System.out.println("Primer número: " + numeros[0]); // Accede al primer elemento (índice 0)
+System.out.println("Longitud del array de calificaciones: " + calificaciones.length); // .length es una propiedad
+// calificaciones[5] = 9.0; // Esto daría un error: ArrayIndexOutOfBoundsException
+                    </code></pre>
+
+                    <h4>Recorriendo Arrays:</h4>
+                    <pre><code class="language-java">
+// Usando un bucle for tradicional
+System.out.println("Nombres:");
+for (int i = 0; i < nombres.length; i++) {
+    nombres[i] = "Nombre " + (i + 1); // Asignar valores
+    System.out.println(nombres[i]);
+}
+
+// Usando un bucle for-each (enhanced for loop) - para leer elementos
+System.out.println("\nCalificaciones (for-each):");
+for (double calif : calificaciones) { // "por cada double calif en calificaciones"
+    System.out.println(calif);
+}
+                    </code></pre>
+                    
+                    <h4>Arrays Multidimensionales:</h4>
+                    <p>Arrays de arrays, comúnmente usados para representar matrices o tablas.</p>
+                    <pre><code class="language-java">
+int[][] matriz = {
+    {1, 2, 3},  // fila 0
+    {4, 5, 6},  // fila 1
+    {7, 8, 9}   // fila 2
+};
+
+System.out.println("Elemento en fila 1, columna 2: " + matriz[1][2]); // Salida: 6
+
+// Recorrer una matriz 2D
+for (int i = 0; i < matriz.length; i++) { // Itera sobre las filas
+    for (int j = 0; j < matriz[i].length; j++) { // Itera sobre las columnas de la fila actual
+        System.out.print(matriz[i][j] + "\t");
+    }
+    System.out.println(); // Salto de línea después de cada fila
+}
+                    </code></pre>
+                    <p><strong>Clase <code>java.util.Arrays</code>:</strong> Ofrece métodos útiles como <code>Arrays.toString()</code>, <code>Arrays.sort()</code>, <code>Arrays.fill()</code>, <code>Arrays.binarySearch()</code>.</p>
+
+                    <h3>Excepciones en Java (Manejo de Errores)</h3>
+                    <p>Las excepciones son eventos anómalos que ocurren durante la ejecución de un programa y que interrumpen el flujo normal. Java proporciona un robusto mecanismo para manejarlas.</p>
+                    
+                    <h4>Jerarquía de Excepciones:</h4>
+                    <ul>
+                        <li><strong><code>Throwable</code></strong>: Clase raíz.
+                            <ul>
+                                <li><strong><code>Error</code></strong>: Problemas serios que una aplicación razonable no debería intentar atrapar (ej: <code>OutOfMemoryError</code>, <code>StackOverflowError</code>).</li>
+                                <li><strong><code>Exception</code></strong>: Condiciones que una aplicación podría querer atrapar.
+                                    <ul>
+                                        <li><strong>Excepciones Verificadas (Checked Exceptions):</strong> El compilador *obliga* a manejarlas (con `try-catch`) o a declararlas (con `throws`). Indican condiciones externas problemáticas (ej: <code>IOException</code>, <code>SQLException</code>, <code>FileNotFoundException</code>).</li>
+                                        <li><strong>Excepciones No Verificadas (Unchecked/Runtime Exceptions):</strong> Subclases de <code>RuntimeException</code>. No es obligatorio manejarlas o declararlas, aunque se puede. Usualmente indican errores de programación (ej: <code>NullPointerException</code>, <code>ArithmeticException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>IllegalArgumentException</code>).</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h4>Bloque <code>try-catch-finally</code>:</h4>
+                    <pre><code class="language-java">
+public class ManejoExcepciones {
+    public static void main(String[] args) {
+        try {
+            int[] numeros = {1, 2, 3};
+            System.out.println("Intentando acceder al elemento en índice 5...");
+            int valor = numeros[5]; // Esto lanzará ArrayIndexOutOfBoundsException
+            System.out.println("Valor obtenido: " + valor); // No se ejecutará
+
+            // int resultado = 10 / 0; // Esto lanzaría ArithmeticException
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Error: Índice fuera de los límites del array.");
+            System.err.println("Detalle: " + e.getMessage());
+            // e.printStackTrace(); // Para ver el stack trace completo
+        } catch (ArithmeticException e) {
+            System.err.println("Error: División por cero no permitida.");
+        } catch (Exception e) { // Bloque genérico para cualquier otra Exception (colocar al final)
+            System.err.println("Ocurrió una excepción inesperada: " + e.getClass().getSimpleName());
+        } finally {
+            // Este bloque se ejecuta SIEMPRE, haya o no excepción.
+            // Ideal para liberar recursos (cerrar archivos, conexiones de red/BD).
+            System.out.println("Bloque 'finally' ejecutado. Limpieza finalizada.");
+        }
+        System.out.println("El programa continúa después del try-catch-finally.");
+    }
+}
+                    </code></pre>
+                    <p><strong>Cláusula <code>throws</code>:</strong> Un método puede declarar que *puede* lanzar ciertas excepciones verificadas, delegando su manejo al código que lo llama.</p>
+                    <pre><code class="language-java">
+import java.io.IOException;
+import java.io.FileReader;
+
+public class LectorArchivo {
+    // Este método declara que puede lanzar una IOException
+    public static void leerPrimerCaracter(String nombreArchivo) throws IOException {
+        FileReader fr = null;
+        try {
+            fr = new FileReader(nombreArchivo);
+            System.out.println("Primer caracter: " + (char)fr.read());
+        } finally {
+            if (fr != null) fr.close(); // Asegura cerrar el archivo
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            leerPrimerCaracter("miarchivo.txt");
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+}
+                    </code></pre>
+                    <p><strong><code>throw</code>:</strong> Para lanzar una excepción manualmente: <code>throw new IllegalArgumentException("Argumento inválido");</code></p>
+
+
+                    <h3>Clases y Objetos: Fundamentos de POO en Java</h3>
+                    <p>Java es intrínsecamente orientado a objetos. El código se organiza en clases, que son plantillas para crear objetos.</p>
+                    
+                    <h4>Definición de una Clase:</h4>
+                    <p>Una clase define el estado (<strong>campos</strong> o atributos) y el comportamiento (<strong>métodos</strong>) de los objetos que se crearán a partir de ella.</p>
+                    <pre><code class="language-java">
+// Archivo: Producto.java
+public class Producto {
+    // Campos (estado del objeto) - Variables de instancia
+    String codigo;
+    String nombre;
+    double precio;
+    int stock;
+
+    // Constructor: Método especial para inicializar un objeto cuando se crea.
+    // Tiene el mismo nombre que la clase y no tiene tipo de retorno.
+    public Producto(String codigo, String nombre, double precio, int stockInicial) {
+        // 'this' se refiere a la instancia actual del objeto
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stockInicial;
+        System.out.println("Producto '" + this.nombre + "' creado.");
+    }
+    
+    // Otro constructor (sobrecargado) con valores por defecto
+    public Producto(String codigo, String nombre, double precio) {
+        this(codigo, nombre, precio, 0); // Llama al otro constructor usando 'this()'
+    }
+
+    // Métodos (comportamiento del objeto) - Métodos de instancia
+    public void mostrarInformacion() {
+        System.out.println("--- Información del Producto ---");
+        System.out.println("Código: " + this.codigo);
+        System.out.println("Nombre: " + this.nombre);
+        System.out.println("Precio: $" + this.precio);
+        System.out.println("Stock: " + this.stock + " unidades");
+    }
+
+    public void agregarStock(int cantidad) {
+        if (cantidad > 0) {
+            this.stock += cantidad;
+            System.out.println(cantidad + " unidades agregadas al stock de " + this.nombre);
+        } else {
+            System.out.println("La cantidad a agregar debe ser positiva.");
+        }
+    }
+
+    public boolean vender(int cantidad) {
+        if (cantidad > 0 && cantidad <= this.stock) {
+            this.stock -= cantidad;
+            System.out.println("Venta realizada: " + cantidad + " unidades de " + this.nombre);
+            return true;
+        } else {
+            System.out.println("No se pudo realizar la venta. Stock insuficiente o cantidad inválida.");
+            return false;
+        }
+    }
+
+    // Método getter para el precio (Encapsulación)
+    public double getPrecio() {
+        return this.precio;
+    }
+
+    // Método setter para el precio (Encapsulación)
+    public void setPrecio(double nuevoPrecio) {
+        if (nuevoPrecio > 0) {
+            this.precio = nuevoPrecio;
+        } else {
+            System.out.println("El precio debe ser positivo.");
+        }
+    }
+}
+                    </code></pre>
+
+                    <h4>Creación y Uso de Objetos:</h4>
+                    <pre><code class="language-java">
+// Archivo: Tienda.java (o cualquier otra clase con un método main)
+public class Tienda {
+    public static void main(String[] args) {
+        // Creación de objetos (instanciación) usando el constructor
+        Producto laptop = new Producto("LAP001", "Laptop Gamer Pro", 1200.50, 10);
+        Producto mouse = new Producto("MOU002", "Mouse Óptico Inalámbrico", 25.99, 50);
+        Producto teclado = new Producto("TEC003", "Teclado Mecánico RGB", 75.00); // Usa el constructor sobrecargado
+
+        // Acceder a los métodos de los objetos
+        laptop.mostrarInformacion();
+        mouse.mostrarInformacion();
+        teclado.mostrarInformacion();
+
+        System.out.println("\n--- Operaciones de Stock y Venta ---");
+        laptop.agregarStock(5);
+        boolean ventaExitosa = mouse.vender(10);
+        System.out.println("¿Venta del mouse exitosa?: " + ventaExitosa);
+        mouse.vender(100); // Intentar vender más del stock
+
+        // Usando getters y setters (Encapsulación)
+        System.out.println("\nPrecio actual del laptop: $" + laptop.getPrecio());
+        laptop.setPrecio(1150.00); // Cambiar precio
+        System.out.println("Nuevo precio del laptop: $" + laptop.getPrecio());
+        laptop.setPrecio(-50); // Intento inválido
+        
+        laptop.mostrarInformacion();
+    }
+}
+                    </code></pre>
+                    <p><strong>Encapsulación:</strong> Es uno de los pilares de la POO. Consiste en ocultar el estado interno de un objeto y exponer solo las operaciones necesarias a través de métodos públicos (getters y setters son comunes para controlar el acceso a los campos privados).</p>
+                    <p><strong>Palabra clave <code>this</code>:</strong> Dentro de una clase, <code>this</code> se refiere a la instancia actual del objeto. Se usa para desambiguar entre campos de instancia y parámetros con el mismo nombre, o para llamar a otro constructor de la misma clase (<code>this(...)</code>).</p>
+                    <p><strong>Miembros Estáticos (<code>static</code>):</strong> Los campos y métodos declarados como `static` pertenecen a la clase en sí, no a una instancia particular. Se accede a ellos usando el nombre de la clase (ej: `Math.PI`, `Integer.parseInt()`). El método `main` es siempre `static`.</p>
+
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-object-group"></i> Visualizador de Objetos Simple</h4>
+                        <p>Un elemento interactivo donde se pueda "crear" un objeto `Producto`. El usuario podría ingresar valores para código, nombre, precio y stock en campos de un formulario. Al "crear", se mostraría una representación visual del objeto con sus atributos y botones para "llamar" a sus métodos (como `agregarStock` o `vender`), actualizando visualmente el estado del objeto (ej: el stock).</p>
+                        <div class="ide-screenshot-placeholder">
+                            [Simulador de Creación de Objetos: Campos para los atributos del Producto. Botones para `mostrarInformacion()`, `agregarStock()`, `vender()`. El estado del "objeto" se actualiza visualmente.]
+                        </div>
+                    </div>
+
+                    <div class="exercise-box">
+                        <h4 class="exercise-title"><i class="fas fa-user-cog"></i> Ejercicio: Clase `CuentaBancaria`</h4>
+                        <p>1. Define una clase `CuentaBancaria` con los siguientes campos: `numeroCuenta` (String), `titular` (String), `saldo` (double).</p>
+                        <p>2. Crea un constructor para inicializar estos campos.</p>
+                        <p>3. Implementa los siguientes métodos:</p>
+                        <ul>
+                            <li><code>depositar(double cantidad)</code>: Incrementa el saldo. Debe validar que la cantidad sea positiva.</li>
+                            <li><code>retirar(double cantidad)</code>: Decrementa el saldo. Debe validar que la cantidad sea positiva y que haya saldo suficiente.</li>
+                            <li><code>consultarSaldo()</code>: Devuelve el saldo actual.</li>
+                            <li><code>mostrarDatosCuenta()</code>: Imprime todos los datos de la cuenta.</li>
+                        </ul>
+                        <p>4. En una clase `BancoApp` con un método `main`, crea al menos dos objetos `CuentaBancaria` y prueba todas sus funcionalidades (depósitos, retiros, consultas).</p>
+                        <p>5. (Opcional Avanzado) Maneja las validaciones (cantidad negativa, saldo insuficiente) lanzando excepciones personalizadas (ej: `SaldoInsuficienteException` que extienda de `Exception`).</p>
+                    </div>
+                </section>
+                 <div class="lesson-navigation" style="margin-top:2rem;">
+                    <a href="#modulo3" class="lesson-nav-button prev"><i class="fas fa-arrow-left"></i> Módulo Anterior</a>
+                    <span style="flex-grow:1; text-align:center; color: #777;">¡Has completado los fundamentos!</span>
+                    </div>
+            </main>
+        </div>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+        <div class="container footer-content">
+             <div class="footer-logo">
+                <a href="../../index.html" class="logo" style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
+                <p>Formando programadores del futuro.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Navegación del Curso</h4>
+                <ul>
+                    <li><a href="#modulo1">Alice 3</a></li>
+                    <li><a href="#modulo2">Greenfoot</a></li>
+                    <li><a href="#modulo3">Java Básico</a></li>
+                    <li><a href="#modulo4">Arrays, Excepciones, POO</a></li>
+                    <li><a href="../../index.html#cursos">Todos los Cursos</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Soporte</h4>
+                <ul>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                    <li><a href="../../index.html#contact">Contacto</a></li>
+                    <li><a href="#">Foro de la Comunidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; <span id="currentYear"></span> MoriDevEdu. Todos los derechos reservados.</p>
+             <p>Una iniciativa de <a href="https://diegomori.online" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none;">diegomori.online</a> - MoriDev con apoyo de MoriCarp.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menú móvil
+        const mobileMenuToggle = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        if (mobileMenuToggle && navLinks) {
+            mobileMenuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        }
+    
+        // Año actual
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+        // Toggle de soluciones
+        document.querySelectorAll('.solution-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const solutionContent = button.nextElementSibling;
+                if (solutionContent && solutionContent.classList.contains('solution-content')) {
+                    const isVisible = solutionContent.style.display === 'block';
+                    solutionContent.style.display = isVisible ? 'none' : 'block';
+                    button.innerHTML = isVisible ? '<i class="fas fa-lightbulb"></i> Ver Pista/Solución' : '<i class="fas fa-eye-slash"></i> Ocultar Solución';
+                }
+            });
+        });
+
+        // Navegación activa y smooth scroll para menú del curso
+        const courseNavLinks = document.querySelectorAll('.course-nav-link');
+        const moduleSections = document.querySelectorAll('.module-section');
+        let observer;
+
+        function makeLinkActive(link) {
+            courseNavLinks.forEach(l => l.classList.remove('active'));
+            if (link) {
+                link.classList.add('active');
+            }
+        }
+        
+        function onIntersection(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const link = document.querySelector(`.course-nav-link[href="#${entry.target.id}"]`);
+                    makeLinkActive(link);
+                }
+            });
+        }
+
+        if (moduleSections.length > 0) {
+            observer = new IntersectionObserver(onIntersection, {
+                rootMargin: "-30% 0px -60% 0px", // Activa cuando el modulo está en el medio de la pantalla
+                threshold: 0.1 
+            });
+            moduleSections.forEach(section => observer.observe(section));
+        }
+        
+        courseNavLinks.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    makeLinkActive(this);
+                    // Desplazamiento suave considerando la barra de navegación fija
+                    const offsetTop = targetElement.offsetTop - 60; // 60px es un offset estimado para el nav
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        // Activar el primer link al cargar si no hay hash o el hash no es un módulo
+        if(window.location.hash === '' && courseNavLinks.length > 0) {
+            makeLinkActive(courseNavLinks[0]);
+        } else if (courseNavLinks.length > 0) {
+            const currentHashLink = document.querySelector(`.course-nav-link[href="${window.location.hash}"]`);
+            if(currentHashLink) makeLinkActive(currentHashLink);
+            else makeLinkActive(courseNavLinks[0]);
+        }
+
+    </script>
+</body>
+</html>
