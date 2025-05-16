@@ -4,79 +4,1575 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curso: Java Fundamentals con Alice y Greenfoot - MoriDevEdu</title>
-    <link rel="stylesheet" href="../../css/normalize.css">
-    <link rel="stylesheet" href="../../css/main.css">
-    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        .course-layout {
+        :root {
+            --primary-color: #3f51b5;
+            --primary-dark: #303f9f;
+            --primary-light: #c5cae9;
+            --accent-color: #ff5722;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-color: #fff;
+            --light-bg: #f5f7fa;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --code-bg: #f8f9fa;
+            --code-color: #e53935;
+            --code-border: #eaeaea;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+            --warning-color: #FF9800;
+            --info-color: #2196F3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+        }
+
+        /* Animaciones globales */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Navegación */
+        nav {
+            background-color: var(--primary-color);
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            background-color: rgba(63, 81, 181, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
             display: flex;
-            gap: 2rem;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .logo:hover i {
+            transform: rotate(20deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 2px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background-color: white;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .course-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff20" fill-opacity="0.4" d="M0,160L48,186.7C96,213,192,267,288,266.7C384,267,480,213,576,202.7C672,192,768,224,864,234.7C960,245,1056,235,1152,202.7C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        .course-header {
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .course-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .course-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
         }
-        .course-navigation {
-            flex: 0 0 280px;
+
+        .course-meta-item {
+            background-color: rgba(255,255,255,0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
         }
+
+        .course-meta-item:hover {
+            background-color: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+        }
+
+        .course-meta-item i {
+            margin-right: 8px;
+        }
+
+        /* Floating animation for hero elements */
+        .hero-element {
+            position: absolute;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        .hero-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-element:nth-child(2) {
+            top: 60%;
+            left: 85%;
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        .hero-element:nth-child(3) {
+            top: 75%;
+            left: 20%;
+            animation: float 8s ease-in-out infinite 0.5s;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumb {
+            padding: 1rem 0;
+            margin-top: 1rem;
+        }
+
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb li {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '/';
+            margin: 0 0.5rem;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Course Layout */
+        .course-layout {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        .course-navigation {
+            flex: 0 0 300px;
+            position: sticky;
+            top: 90px;
+            height: calc(100vh - 90px);
+            overflow-y: auto;
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-light) transparent;
+        }
+
+        .course-navigation::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .course-navigation::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .course-navigation::-webkit-scrollbar-thumb {
+            background-color: var(--primary-light);
+            border-radius: 20px;
+        }
+
+        .course-nav-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .course-nav-title i {
+            margin-right: 10px;
+        }
+
+        .course-nav-list {
+            list-style: none;
+        }
+
+        .course-nav-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .course-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+            background-color: transparent;
+        }
+
+        .course-nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .course-nav-link:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            transform: translateX(5px);
+        }
+
+        .course-nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--box-shadow);
+        }
+
+        .course-nav-link.active i {
+            transform: scale(1.2);
+        }
+
+        /* Resources Box */
+        .resources-box {
+            margin-top: 2rem;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .resources-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .resources-box h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .resources-box h4 i {
+            margin-right: 10px;
+        }
+
+        .resources-box ul {
+            list-style: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Main Content Area */
         .course-content-area {
             flex: 1;
+            min-width: 0; /* Prevents flexbox child from overflowing */
         }
+
+        /* Module Sections */
+        .module-section {
+            padding-top: 80px;
+            margin-top: -80px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .module-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .module-section:not(:last-child) {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
             border-bottom: 1px solid #eee;
         }
-        .module-section {
-            padding-top: 70px; 
-            margin-top: -70px;
+
+        .lesson-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: flex;
+            align-items: center;
         }
+
+        .lesson-title i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+
+        .lesson-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Content Elements */
+        .course-content-area p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .course-content-area h3 {
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem;
+            color: var(--primary-dark);
+        }
+
+        .course-content-area h4 {
+            font-size: 1.3rem;
+            margin: 1.8rem 0 1rem;
+            color: var(--primary-color);
+        }
+
+        .course-content-area ul, .course-content-area ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .course-content-area li {
+            margin-bottom: 0.5rem;
+        }
+
+        .course-content-area li ul, .course-content-area li ol {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive Elements */
+        .interactive-element {
+            background: linear-gradient(to right, #f9f9ff, #f0f2ff);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .interactive-element:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .interactive-element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+
+        .interactive-title {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .interactive-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        /* Code blocks and examples */
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--code-border);
+            position: relative;
+        }
+
+        pre code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: block;
+            color: var(--text-color);
+        }
+
+        .code-comparison {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .code-comparison > div {
+            flex: 1;
+            min-width: 300px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .code-comparison > div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .code-comparison h5 {
+            margin: 0;
+            padding: 0.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .code-comparison pre {
+            margin: 0;
+            border-radius: 0;
+            border: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Languages for syntax highlighting */
+        .language-java {
+            color: #0033b3;
+        }
+
+        .language-java .keyword {
+            color: #7d5625;
+            font-weight: 500;
+        }
+
+        .language-java .string {
+            color: #067d17;
+        }
+
+        .language-java .comment {
+            color: #8c8c8c;
+            font-style: italic;
+        }
+
+        /* Tool Comparison Tables */
+        .tool-comparison {
+            margin: 2rem 0;
+        }
+
         .tool-comparison table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            overflow: hidden;
         }
-        .tool-comparison th, .tool-comparison td {
-            border: 1px solid #ddd;
-            padding: 0.8rem;
+
+        .tool-comparison th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
             text-align: left;
         }
-        .tool-comparison th {
+
+        .tool-comparison td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tool-comparison tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tool-comparison tr:nth-child(even) {
             background-color: var(--light-bg);
         }
-        .tool-comparison td ul {
-            padding-left: 1.2rem;
-            margin-bottom: 0;
+
+        .tool-comparison tr {
+            transition: var(--transition);
         }
+
+        .tool-comparison tr:hover {
+            background-color: #f0f2f5;
+        }
+
+        /* Exercise Boxes */
+        .exercise-box {
+            background: linear-gradient(45deg, #e8f5e9, #f1f8e9);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid var(--success-color);
+        }
+
+        .exercise-title {
+            display: flex;
+            align-items: center;
+            color: #2e7d32;
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        .exercise-title i {
+            margin-right: 10px;
+        }
+
+        /* Interactive visual placeholders */
         .ide-screenshot-placeholder {
             border: 2px dashed var(--primary-color);
+            border-radius: var(--border-radius);
             padding: 2rem;
             text-align: center;
-            background-color: #f9f9f9;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             font-style: italic;
-            color: #777;
+            color: var(--text-light);
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
         }
-        .code-comparison {
+
+        .ide-screenshot-placeholder:hover {
+            background-color: rgba(238, 238, 255, 0.5);
+            border-style: solid;
+        }
+
+        .ide-screenshot-placeholder::before {
+            content: 'Click para interactuar';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+
+        .ide-screenshot-placeholder:hover::before {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: var(--border-radius);
+            position: relative;
+            border-left: 5px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .alert-info {
+            background-color: #e3f2fd;
+            border-color: var(--info-color);
+            color: #0d47a1;
+        }
+
+        .alert-warning {
+            background-color: #fff8e1;
+            border-color: var(--warning-color);
+            color: #ff6f00;
+        }
+
+        .alert-error {
+            background-color: #ffebee;
+            border-color: var(--error-color);
+            color: #b71c1c;
+        }
+
+        /* Quiz Element */
+        .quiz-container {
+            background-color: #f5f5f5;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .quiz-item {
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quiz-option {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option.correct {
+            background-color: #c8e6c9;
+            border-color: #4caf50;
+        }
+
+        .quiz-option.incorrect {
+            background-color: #ffcdd2;
+            border-color: #f44336;
+        }
+
+        /* Lesson Navigation */
+        .lesson-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .lesson-nav-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .lesson-nav-button.prev i {
+            margin-right: 10px;
+        }
+
+        .lesson-nav-button.next i {
+            margin-left: 10px;
+        }
+
+        .lesson-nav-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 4rem 0 1rem;
+            margin-top: 5rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100"><path fill="%23303f9f" d="M0,32L80,42.7C160,53,320,75,480,80C640,85,800,75,960,64C1120,53,1280,43,1360,37.3L1440,32L1440,100L1360,100C1280,100,1120,100,960,100C800,100,640,100,480,100C320,100,160,100,80,100L0,100Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-links {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .footer-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .social-links {
             display: flex;
             gap: 1rem;
-            margin: 1rem 0;
+            margin-top: 1.5rem;
         }
-        .code-comparison > div {
+
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Alice 3D Viewer Interactive Element */
+        .alice-3d-viewer {
+            width: 100%;
+            height: 400px;
+            background-color: #222;
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .alice-scene {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .alice-scene canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .alice-controls {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .alice-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .alice-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .alice-button i {
+            margin-right: 5px;
+        }
+
+        .alice-code-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            max-width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Greenfoot World Interactive */
+        .greenfoot-simulator {
+            width: 100%;
+            height: 500px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            display: flex;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .greenfoot-world {
+            flex: 2;
+            position: relative;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .greenfoot-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .greenfoot-actor {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #3f51b5;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            transition: left 0.5s ease, top 0.5s ease;
+        }
+
+        .greenfoot-actor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 8px 12px 8px;
+            border-color: transparent transparent #fff transparent;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .greenfoot-controls {
             flex: 1;
+            background-color: #fff;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .greenfoot-code {
+            flex: 1;
+            background-color: var(--code-bg);
             border: 1px solid var(--code-border);
             border-radius: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
             padding: 0.5rem;
-            background-color: var(--code-bg);
+            overflow-y: auto;
+            margin-bottom: 10px;
         }
-        .code-comparison h5 {
-            margin-top: 0;
-            font-size: 1rem;
+
+        .greenfoot-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .greenfoot-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .greenfoot-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .greenfoot-btn i {
+            margin-right: 5px;
+        }
+
+        /* Java Concept Visualizer */
+        .java-concept-visualizer {
+            width: 100%;
+            min-height: 300px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin: 2rem 0;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .variable-visualizer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .variable-box {
+            padding: 1rem;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            min-width: 120px;
             text-align: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .variable-box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .variable-box .var-name {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: #fff;
+            padding: 0 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
             color: var(--primary-color);
+        }
+
+        .variable-box .var-type {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .variable-box .var-value {
+            font-size: 1.3rem;
+            font-weight: 500;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Object Visualizer */
+        .object-visualizer {
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .object-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .object-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .object-title {
+            font-size: 1.3rem;
+            margin: 0;
+            color: var(--primary-dark);
+        }
+
+        .object-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin: 5px 0 0;
+        }
+
+        .object-properties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .object-property {
+            flex: 1;
+            min-width: 150px;
+            padding: 0.8rem;
+            background-color: white;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .property-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .property-value {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+        }
+
+        .object-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .object-method {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .method-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--light-bg);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+            transition: var(--transition);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .method-btn:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .method-result {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Flow Control Visualizer */
+        .flow-control-visualizer {
+            width: 100%;
+            min-height: 350px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .flow-node {
+            width: 180px;
+            padding: 1rem 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-radius: 8px;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .flow-node.start-node {
+            background-color: #e8f5e9;
+            border: 2px solid #4caf50;
+        }
+
+        .flow-node.condition-node {
+            background-color: #fff8e1;
+            border: 2px solid #ffc107;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(45deg);
+            margin: 2rem 0;
+        }
+
+        .flow-node.condition-node .flow-label {
+            transform: rotate(-45deg);
+        }
+
+        .flow-node.process-node {
+            background-color: #e3f2fd;
+            border: 2px solid #2196f3;
+        }
+
+        .flow-node.end-node {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-node.active {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .flow-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .flow-branches {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: -1rem;
+            position: relative;
+        }
+
+        .flow-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .flow-arrow {
+            width: 2px;
+            height: 30px;
+            background-color: #555;
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 5px 8px 5px;
+            border-color: transparent transparent #555 transparent;
+        }
+
+        .branch-label {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background-color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .branch-label.left {
+            left: -70px;
+        }
+
+        .branch-label.right {
+            right: -70px;
+        }
+
+        /* Form Inputs for Interactive Examples */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2);
+        }
+
+        .form-range {
+            width: 100%;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            -webkit-appearance: none;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .course-layout {
+                flex-direction: column;
+            }
+
+            .course-navigation {
+                flex: 0 0 auto;
+                position: relative;
+                top: 0;
+                height: auto;
+                margin-bottom: 2rem;
+                max-height: 300px;
+            }
+
+            .code-comparison > div {
+                flex: 0 0 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background-color: var(--primary-color);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                padding: 1rem 0;
+                margin: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 1rem 2rem;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .course-title {
+                font-size: 2.2rem;
+            }
+
+            .course-description {
+                font-size: 1rem;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .course-meta-item {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .footer-logo, .footer-links {
+                flex: 0 0 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .lesson-title {
+                font-size: 1.8rem;
+            }
+
+            .course-content-area h3 {
+                font-size: 1.4rem;
+            }
+
+            .course-content-area h4 {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="mainNav">
         <div class="container nav-container">
             <a href="../../index.html" class="logo">
                 <i class="fas fa-graduation-cap"></i> MoriDevEdu
@@ -94,9 +1590,13 @@
     </nav>
 
     <div class="course-hero">
+        <div class="hero-element"><i class="fab fa-java" style="font-size: 2.5rem; color: rgba(255,255,255,0.6);"></i></div>
+        <div class="hero-element"><i class="fas fa-code" style="font-size: 2rem; color: rgba(255,255,255,0.5);"></i></div>
+        <div class="hero-element"><i class="fas fa-laptop-code" style="font-size: 1.8rem; color: rgba(255,255,255,0.4);"></i></div>
+        
         <div class="container course-header">
-            <h1 class="course-title" style="color:white;">Java Fundamentals: De lo Visual a Código</h1>
-            <p class="course-description" style="color:white;">
+            <h1 class="course-title">Java Fundamentals: De lo Visual a Código</h1>
+            <p class="course-description">
                 Iníciate en el mundo de la programación Java de una forma amigable y progresiva. Comenzaremos con entornos visuales como Alice 3 y Greenfoot para construir una base sólida en lógica y Orientación a Objetos, para luego sumergirnos en la sintaxis y estructura de Java.
             </p>
             <div class="course-meta">
@@ -125,12 +1625,12 @@
                     <li class="course-nav-item"><a href="#modulo3" class="course-nav-link"><i class="fab fa-java"></i> Módulo 3: Conceptos Básicos de Java</a></li>
                     <li class="course-nav-item"><a href="#modulo4" class="course-nav-link"><i class="fas fa-cubes"></i> Módulo 4: Estructuras de Datos y POO en Java</a></li>
                 </ul>
-                 <div style="padding: 1rem; margin-top:1rem; background-color: #f9f9f9; border-radius: 8px;">
+                <div class="resources-box">
                     <h4><i class="fas fa-download"></i> Recursos Adicionales</h4>
-                    <ul style="list-style: none; padding-left: 0.5rem;">
-                        <li style="margin-bottom: 0.5rem;"><a href="https://www.alice.org/get-alice/" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-download"></i> Descargar Alice 3</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="https://www.greenfoot.org/download" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-download"></i> Descargar Greenfoot</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="../../assets/pdfs/java_fundamentals_syllabus.pdf" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-file-pdf"></i> Syllabus del Curso</a></li>
+                    <ul>
+                        <li><a href="https://www.alice.org/get-alice/" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Descargar Alice 3</a></li>
+                        <li><a href="https://www.greenfoot.org/download" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Descargar Greenfoot</a></li>
+                        <li><a href="../../assets/pdfs/java_fundamentals_syllabus.pdf" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-file-pdf"></i> Syllabus del Curso</a></li>
                     </ul>
                 </div>
             </aside>
@@ -143,8 +1643,30 @@
                     <div class="interactive-element">
                         <h4 class="interactive-title"><i class="fas fa-puzzle-piece"></i> ¿Cómo funciona Alice 3?</h4>
                         <p>En lugar de escribir código, arrastras y sueltas bloques que representan instrucciones. Estos bloques se encajan como piezas de un rompecabezas, asegurando que solo se puedan formar combinaciones lógicas y sintácticamente correctas.</p>
-                        <div class="ide-screenshot-placeholder">
-                            [Representación Visual/GIF: Interfaz de Alice 3 mostrando la galería de objetos 3D, el editor de escenas y el área de arrastrar y soltar bloques de código.]
+                        
+                        <!-- Alice 3D Viewer Interactive Element -->
+                        <div class="alice-3d-viewer">
+                            <div class="alice-scene">
+                                <!-- 3D Scene would be rendered here -->
+                                <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem;">
+                                    <div style="text-align: center;">
+                                        <i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-light);"></i>
+                                        <div>Escena 3D de Alice</div>
+                                        <div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.7;">Haz clic en los controles para interactuar</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alice-controls">
+                                <button class="alice-button"><i class="fas fa-play"></i> Ejecutar</button>
+                                <button class="alice-button"><i class="fas fa-stop"></i> Parar</button>
+                                <button class="alice-button"><i class="fas fa-redo"></i> Reiniciar</button>
+                            </div>
+                            <div class="alice-code-panel">
+                                <div style="color: #ff9800; font-weight: 500;">Código de la escena:</div>
+                                <div style="color: #4fc3f7; margin-top: 5px;">dragon.mover(ADELANTE, 1)</div>
+                                <div style="color: #4fc3f7;">dragon.girar(DERECHA, 0.25)</div>
+                                <div style="color: #4fc3f7;">dragon.decir("¡Hola Mundo!")</div>
+                            </div>
                         </div>
                     </div>
                     
@@ -167,7 +1689,7 @@
                     <div class="code-comparison">
                         <div>
                             <h5>Lógica en Alice (Conceptual)</h5>
-                            <pre><code class="language-plaintext">
+                            <pre><code class="language-java">
 // Bloque de Alice:
 // HACER EN ORDEN
 //   personaje.mover(ADELANTE, 1 metro)
@@ -179,8 +1701,8 @@
                             <pre><code class="language-java">
 // Código Java correspondiente:
 // (Dentro de un método en una clase de personaje)
-// this.move(Direction.FORWARD, 1.0);
-// this.say("¡Hola Mundo!");
+this.move(Direction.FORWARD, 1.0);
+this.say("¡Hola Mundo!");
                             </code></pre>
                         </div>
                     </div>
@@ -200,15 +1722,47 @@
                         <p>2. Explora los tutoriales integrados para familiarizarte con la interfaz.</p>
                         <p>3. <strong>Desafío Creativo:</strong> Crea una escena simple con al menos dos personajes. Programa una interacción básica: un personaje se mueve hacia el otro y le "dice" un saludo. Experimenta cambiando sus propiedades (color, tamaño) y añadiendo más acciones.</p>
                     </div>
-                     <div class="interactive-element" style="margin-top:1.5rem;">
+                     
+                    <div class="interactive-element" style="margin-top:2rem;">
                         <h4 class="interactive-title"><i class="fas fa-question-circle"></i> Quiz Rápido: Conceptos de Alice</h4>
-                        <p>Relaciona el concepto de Alice con su descripción (esto sería un pequeño quiz interactivo JS):</p>
-                        <ul>
-                            <li>Objeto 3D en la escena -> <strong>Instancia de una Clase</strong></li>
-                            <li>Bloque "personaje.mover(...)" -> <strong>Método</strong></li>
-                            <li>Plantilla "Biped" -> <strong>Clase</strong></li>
-                            <li>Bloque "Si (condición) Entonces..." -> <strong>Estructura de Control Condicional</strong></li>
-                        </ul>
+                        <div class="quiz-container">
+                            <div class="quiz-item">
+                                <div class="quiz-question">1. ¿Qué representa un objeto 3D en la escena de Alice?</div>
+                                <div class="quiz-options">
+                                    <div class="quiz-option" data-correct="true">Instancia de una Clase</div>
+                                    <div class="quiz-option">Método</div>
+                                    <div class="quiz-option">Variable</div>
+                                    <div class="quiz-option">Estructura de Control</div>
+                                </div>
+                            </div>
+                            <div class="quiz-item">
+                                <div class="quiz-question">2. El bloque "personaje.mover(...)" en Alice representa:</div>
+                                <div class="quiz-options">
+                                    <div class="quiz-option">Clase</div>
+                                    <div class="quiz-option" data-correct="true">Método</div>
+                                    <div class="quiz-option">Propiedad</div>
+                                    <div class="quiz-option">Herencia</div>
+                                </div>
+                            </div>
+                            <div class="quiz-item">
+                                <div class="quiz-question">3. La plantilla "Biped" en Alice es un ejemplo de:</div>
+                                <div class="quiz-options">
+                                    <div class="quiz-option">Método</div>
+                                    <div class="quiz-option">Objeto</div>
+                                    <div class="quiz-option" data-correct="true">Clase</div>
+                                    <div class="quiz-option">Evento</div>
+                                </div>
+                            </div>
+                            <div class="quiz-item">
+                                <div class="quiz-question">4. El bloque "Si (condición) Entonces..." en Alice es un ejemplo de:</div>
+                                <div class="quiz-options">
+                                    <div class="quiz-option">Método</div>
+                                    <div class="quiz-option">Clase</div>
+                                    <div class="quiz-option" data-correct="true">Estructura de Control Condicional</div>
+                                    <div class="quiz-option">Propiedad</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -223,8 +1777,42 @@
                             <li><strong>Mundo (World):</strong> Es el escenario o el fondo donde ocurren las acciones. Creas una subclase de <code>greenfoot.World</code> para definir tu propio mundo (ej: <code>NivelJuego</code>, <code>Oceano</code>).</li>
                             <li><strong>Actores (Actors):</strong> Son los objetos que viven y actúan en el mundo (personajes, enemigos, proyectiles, obstáculos). Creas subclases de <code>greenfoot.Actor</code> (ej: <code>Heroe</code>, <code>Moneda</code>).</li>
                         </ul>
-                        <div class="ide-screenshot-placeholder">
-                            [Representación Visual/GIF: Interfaz de Greenfoot mostrando un "Mundo" con "Actores". El panel de clases a la derecha y los controles de "Act" y "Run".]
+                        
+                        <!-- Greenfoot Simulator Interactive Element -->
+                        <div class="greenfoot-simulator">
+                            <div class="greenfoot-world">
+                                <div class="greenfoot-grid"></div>
+                                <div class="greenfoot-actor" id="actor1" style="left: 100px; top: 100px;"></div>
+                                <div class="greenfoot-actor" id="actor2" style="left: 200px; top: 200px; background-color: #e53935;"></div>
+                            </div>
+                            <div class="greenfoot-controls">
+                                <div class="greenfoot-code">
+// Código de Caminante.java
+import greenfoot.*;
+
+public class Caminante extends Actor {
+    private int velocidad = 2;
+    
+    public void act() {
+        // El cursor simula este método
+        move(velocidad);
+        
+        if (isAtEdge()) {
+            turn(180);
+        }
+        
+        if (Greenfoot.isKeyDown("space")) {
+            turn(5);
+        }
+    }
+}
+                                </div>
+                                <div class="greenfoot-buttons">
+                                    <button class="greenfoot-btn" id="runBtn"><i class="fas fa-play"></i> Run</button>
+                                    <button class="greenfoot-btn" id="actBtn"><i class="fas fa-step-forward"></i> Act</button>
+                                    <button class="greenfoot-btn" id="resetBtn"><i class="fas fa-redo"></i> Reset</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -247,9 +1835,11 @@
 
                     <h3>Ejemplo Práctico: Un Actor que se Mueve</h3>
                     <p>Creemos un actor simple llamado <code>Caminante</code> que se mueve de izquierda a derecha.</p>
-                    <p>1. <strong>Crear la clase <code>Caminante</code>:</strong> En Greenfoot, haz clic derecho en "Actor" en el panel de clases, selecciona "New subclass...", nombra la clase `Caminante` y elige una imagen (o deja la predeterminada).</p>
-                    <p>2. <strong>Escribir el código en <code>Caminante.java</code>:</strong></p>
-                    <pre><code class="language-java">
+                    
+                    <div class="code-comparison">
+                        <div>
+                            <h5>Caminante.java</h5>
+                            <pre><code class="language-java">
 import greenfoot.*;  // Importa las clases necesarias de Greenfoot
 
 public class Caminante extends Actor {
@@ -275,9 +1865,11 @@ public class Caminante extends Actor {
         }
     }
 }
-                    </code></pre>
-                    <p>3. <strong>Crear el Mundo:</strong> Similarmente, crea una subclase de <code>World</code>, llámala `MiMundo`. Puedes definir su tamaño en el constructor:</p>
-                     <pre><code class="language-java">
+                            </code></pre>
+                        </div>
+                        <div>
+                            <h5>MiMundo.java</h5>
+                            <pre><code class="language-java">
 import greenfoot.*;
 
 public class MiMundo extends World {
@@ -295,8 +1887,63 @@ public class MiMundo extends World {
         otroCaminante.turn(90); // Lo hacemos mirar hacia abajo
     }
 }
-                    </code></pre>
-                    <p>4. <strong>Compilar y Ejecutar:</strong> Guarda los archivos, compila (botón "Compile" en Greenfoot) y luego puedes añadir instancias de `Caminante` a `MiMundo` arrastrándolas o programáticamente. Presiona "Run" para verlos moverse.</p>
+                            </code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Diagrama de flujo del método act() -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-code-branch"></i> Diagrama de Flujo: método act() del Caminante</h4>
+                        <div class="flow-control-visualizer">
+                            <div class="flow-diagram">
+                                <div class="flow-node start-node">
+                                    <div class="flow-label">Inicio act()</div>
+                                </div>
+                                <div class="flow-arrow"></div>
+                                <div class="flow-node process-node">
+                                    <div class="flow-label">move(velocidad)</div>
+                                </div>
+                                <div class="flow-arrow"></div>
+                                <div class="flow-node condition-node">
+                                    <div class="flow-label">¿isAtEdge()?</div>
+                                </div>
+                                <div class="flow-branches">
+                                    <div class="flow-branch">
+                                        <div class="branch-label left">Sí</div>
+                                        <div class="flow-arrow"></div>
+                                        <div class="flow-node process-node">
+                                            <div class="flow-label">turn(180)</div>
+                                        </div>
+                                    </div>
+                                    <div class="flow-branch">
+                                        <div class="branch-label right">No</div>
+                                        <div class="flow-arrow"></div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow" style="margin-top: 30px;"></div>
+                                <div class="flow-node condition-node">
+                                    <div class="flow-label">¿Tecla espacio?</div>
+                                </div>
+                                <div class="flow-branches">
+                                    <div class="flow-branch">
+                                        <div class="branch-label left">Sí</div>
+                                        <div class="flow-arrow"></div>
+                                        <div class="flow-node process-node">
+                                            <div class="flow-label">turn(5)</div>
+                                        </div>
+                                    </div>
+                                    <div class="flow-branch">
+                                        <div class="branch-label right">No</div>
+                                        <div class="flow-arrow"></div>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow" style="margin-top: 30px;"></div>
+                                <div class="flow-node end-node">
+                                    <div class="flow-label">Fin act()</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <h3>Beneficios de Greenfoot:</h3>
                     <ul>
@@ -346,6 +1993,48 @@ public class MiMundo extends World {
                         <p>1. Descarga e instala Greenfoot desde su <a href="https://www.greenfoot.org/download" target="_blank">sitio oficial</a>.</p>
                         <p>2. Completa el tutorial "Cráteres de Erizos" (Hedgehog scenario) que suele venir con Greenfoot o está disponible en su web.</p>
                         <p>3. Modifica el actor `Caminante` del ejemplo anterior para que, además de moverse, cambie de color cada vez que toca el borde del mundo. (Pista: necesitarás la clase `GreenfootImage` y sus métodos como `setColor()` y `fill()`).</p>
+                        
+                        <!-- Solución interactiva desplegable -->
+                        <div class="solution-toggle" id="toggleSolution">
+                            <i class="fas fa-lightbulb"></i> Ver Pista/Solución
+                        </div>
+                        <div class="solution-content" id="solutionContent" style="display: none; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                            <pre><code class="language-java">
+import greenfoot.*;
+import java.awt.Color;
+
+public class Caminante extends Actor {
+    private int velocidad = 2;
+    private java.util.Random random = new java.util.Random();
+    
+    public void act() {
+        move(velocidad);
+        
+        if (isAtEdge()) {
+            turn(180);
+            cambiarColorAleatorio();
+        }
+        
+        if (Greenfoot.isKeyDown("space")) {
+            turn(5);
+        }
+    }
+    
+    private void cambiarColorAleatorio() {
+        GreenfootImage imagen = getImage();
+        
+        // Genera colores RGB aleatorios
+        int rojo = random.nextInt(256);
+        int verde = random.nextInt(256);
+        int azul = random.nextInt(256);
+        
+        // Cambia el color de la imagen
+        imagen.setColor(new Color(rojo, verde, azul));
+        imagen.fill();
+    }
+}
+                            </code></pre>
+                        </div>
                     </div>
                 </section>
 
@@ -355,6 +2044,43 @@ public class MiMundo extends World {
 
                     <h3>¿Qué es Java?</h3>
                     <p>Java es un lenguaje de programación de alto nivel, orientado a objetos, concurrente y fuertemente tipado, desarrollado originalmente por Sun Microsystems (ahora Oracle). Su lema "Write Once, Run Anywhere" (WORA - Escribe una vez, ejecuta en cualquier lugar) se refiere a su capacidad de ejecutar código compilado en cualquier plataforma que tenga una Máquina Virtual de Java (JVM) instalada.</p>
+                    
+                    <!-- Animación conceptual de Java -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-cogs"></i> Funcionamiento de Java</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center; margin: 20px 0;">
+                            <div style="text-align: center; flex: 1; min-width: 180px; animation: pulse 2s infinite;">
+                                <i class="fas fa-file-code" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                <div style="margin-top: 10px; font-weight: 500;">Código Fuente<br>(.java)</div>
+                            </div>
+                            <div style="align-self: center;">
+                                <i class="fas fa-arrow-right" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            </div>
+                            <div style="text-align: center; flex: 1; min-width: 180px; animation: pulse 2s infinite 0.5s;">
+                                <i class="fas fa-cog fa-spin" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                <div style="margin-top: 10px; font-weight: 500;">Compilador<br>(javac)</div>
+                            </div>
+                            <div style="align-self: center;">
+                                <i class="fas fa-arrow-right" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            </div>
+                            <div style="text-align: center; flex: 1; min-width: 180px; animation: pulse 2s infinite 1s;">
+                                <i class="fas fa-file" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                <div style="margin-top: 10px; font-weight: 500;">Bytecode<br>(.class)</div>
+                            </div>
+                            <div style="align-self: center;">
+                                <i class="fas fa-arrow-right" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            </div>
+                            <div style="text-align: center; flex: 1; min-width: 180px; animation: pulse 2s infinite 1.5s;">
+                                <i class="fas fa-laptop-code" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                <div style="margin-top: 10px; font-weight: 500;">JVM<br>(Java Virtual Machine)</div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; background-color: var(--light-bg); padding: 15px; border-radius: 10px; margin-top: 20px;">
+                            <p style="font-weight: 500;">El proceso de "Write Once, Run Anywhere" de Java:</p>
+                            <p style="margin-bottom: 0;">El código fuente Java (.java) se compila a bytecode (.class) que puede ejecutarse en cualquier plataforma que tenga instalada una JVM, independientemente del sistema operativo o hardware.</p>
+                        </div>
+                    </div>
+                    
                     <p><strong>Aplicaciones Comunes:</strong></p>
                     <ul>
                         <li>Desarrollo de aplicaciones empresariales a gran escala.</li>
@@ -374,6 +2100,8 @@ public class MiMundo extends World {
 
                     <h3>Estructura Básica de un Programa en Java</h3>
                     <p>Todo programa en Java se organiza dentro de clases. El punto de entrada para la ejecución es el método <code>main</code>.</p>
+                    
+                    <!-- Código Java con syntax highlighting -->
                     <pre><code class="language-java">
 // Nombre del archivo: HolaMundo.java
 package com.moridevedu.ejemplos; // Opcional: define un paquete
@@ -399,61 +2127,160 @@ public class HolaMundo {
     } // Fin del método main
 } // Fin de la clase HolaMundo
                     </code></pre>
-                    <p><strong>Desglose de la Estructura:</strong></p>
-                    <ul>
-                        <li><strong><code>package com.moridevedu.ejemplos;</code></strong>: Declara que la clase pertenece al paquete `com.moridevedu.ejemplos`. Los paquetes organizan clases relacionadas y evitan colisiones de nombres. Es una convención usar nombres de dominio invertidos.</li>
-                        <li><strong><code>import java.util.Date;</code></strong>: Permite usar la clase `Date` (que está en el paquete `java.util`) sin tener que escribir su nombre completo (`java.util.Date`).</li>
-                        <li><strong><code>public class HolaMundo { ... }</code></strong>: Define una clase pública llamada `HolaMundo`. En Java, todo código reside dentro de una clase. El nombre del archivo `.java` debe ser `HolaMundo.java`.</li>
-                        <li><strong><code>public static void main(String[] args) { ... }</code></strong>: Este es el método principal.
-                            <ul>
-                                <li><code>public</code>: Es un modificador de acceso que indica que el método puede ser llamado desde cualquier otra clase.</li>
-                                <li><code>static</code>: Significa que el método pertenece a la clase `HolaMundo` y no a una instancia específica (objeto) de la clase. Se puede llamar sin crear un objeto de `HolaMundo`.</li>
-                                <li><code>void</code>: Indica que el método no devuelve ningún valor.</li>
-                                <li><code>main</code>: Es el nombre especial que la JVM busca para iniciar la ejecución.</li>
-                                <li><code>String[] args</code>: Es un parámetro que representa un array de cadenas de texto (Strings). Estos son los argumentos que se pueden pasar al programa al ejecutarlo desde la línea de comandos.</li>
-                            </ul>
-                        </li>
-                        <li><strong><code>System.out.println("...");</code></strong>: Es una sentencia que imprime el texto entre comillas (y un salto de línea) en la consola. <code>System</code> es una clase, <code>out</code> es un objeto estático de `System` (de tipo `PrintStream`), y `println()` es un método de ese objeto.</li>
-                        <li><strong>Comentarios:</strong> <code>//</code> para comentarios de una línea, y <code>/* ... */</code> para comentarios multilínea. Los comentarios <code>/** ... */</code> son para Javadoc.</li>
-                        <li><strong>Bloques de Código:</strong> Las llaves <code>{ }</code> definen bloques de código (el cuerpo de una clase, el cuerpo de un método).</li>
-                        <li><strong>Punto y Coma (<code>;</code>):</strong> Cada sentencia en Java debe terminar con un punto y coma.</li>
-                    </ul>
+                    
+                    <!-- Explorador de estructura Java interactivo -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-project-diagram"></i> Explorando la Estructura del Código</h4>
+                        <div style="position: relative; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 20px;">
+                            <div style="display: flex; border-bottom: 1px solid #ddd;">
+                                <div style="padding: 10px 15px; background-color: var(--primary-color); color: white; font-weight: 500;">Vista de Código</div>
+                                <div style="padding: 10px 15px; background-color: #f5f5f5; cursor: pointer;">Vista de Estructura</div>
+                            </div>
+                            <div style="display: flex; height: 350px;">
+                                <div style="width: 200px; border-right: 1px solid #ddd; padding: 10px; overflow-y: auto; background-color: #f9f9f9;">
+                                    <div style="font-weight: 500; margin-bottom: 10px; color: var(--primary-dark);">Estructura</div>
+                                    <ul style="list-style: none; padding: 0; margin: 0;">
+                                        <li style="padding: 5px 0; display: flex; align-items: center;">
+                                            <i class="fas fa-folder-open" style="margin-right: 8px; color: #ffc107;"></i> 
+                                            <span>com.moridevedu.ejemplos</span>
+                                        </li>
+                                        <li style="padding: 5px 0 5px 20px; display: flex; align-items: center;">
+                                            <i class="fas fa-file-code" style="margin-right: 8px; color: var(--primary-color);"></i> 
+                                            <span style="font-weight: 500;">HolaMundo.java</span>
+                                        </li>
+                                        <li style="padding: 5px 0 5px 40px; display: flex; align-items: center;">
+                                            <i class="fas fa-cube" style="margin-right: 8px; color: #4caf50;"></i> 
+                                            <span>HolaMundo</span>
+                                        </li>
+                                        <li style="padding: 5px 0 5px 60px; display: flex; align-items: center;">
+                                            <i class="fas fa-cogs" style="margin-right: 8px; color: #ff9800;"></i> 
+                                            <span>main(String[] args)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1; padding: 15px; overflow-y: auto;">
+                                    <div style="margin-bottom: 20px;">
+                                        <div style="font-weight: 500; color: var(--primary-color); margin-bottom: 5px;">Elemento Seleccionado:</div>
+                                        <div style="font-weight: 600; font-size: 1.1rem;">Método main</div>
+                                    </div>
+                                    <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                                        <div style="font-weight: 500; margin-bottom: 5px; color: var(--text-color);">Firma del método:</div>
+                                        <code style="font-family: 'Fira Code', monospace; color: var(--primary-dark);">public static void main(String[] args)</code>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 500; margin-bottom: 5px; color: var(--text-color);">Descripción:</div>
+                                        <ul style="padding-left: 20px;">
+                                            <li><strong>public:</strong> Es un modificador de acceso que indica que el método puede ser llamado desde cualquier otra clase.</li>
+                                            <li><strong>static:</strong> Significa que el método pertenece a la clase HolaMundo y no a una instancia específica. Se puede llamar sin crear un objeto.</li>
+                                            <li><strong>void:</strong> Indica que el método no devuelve ningún valor.</li>
+                                            <li><strong>main:</strong> Es el nombre especial que la JVM busca para iniciar la ejecución.</li>
+                                            <li><strong>String[] args:</strong> Es un parámetro que representa un array de cadenas de texto. Son los argumentos que se pueden pasar al programa al ejecutarlo.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="interactive-element">
                         <h4 class="interactive-title"><i class="fas fa-terminal"></i> Compilación y Ejecución</h4>
-                        <p>1. <strong>Guardar:</strong> Guarda el código anterior en un archivo llamado `HolaMundo.java`.</p>
-                        <p>2. <strong>Compilar:</strong> Abre una terminal o símbolo del sistema, navega al directorio donde guardaste el archivo y ejecuta: <br><code>javac HolaMundo.java</code> (Si usaste un paquete, debes estar en el directorio raíz del paquete y compilar con la ruta, ej: <code>javac com/moridevedu/ejemplos/HolaMundo.java</code> o usar opciones del compilador).</p>
-                        <p>Esto creará un archivo `HolaMundo.class` (bytecode).</p>
-                        <p>3. <strong>Ejecutar:</strong> En la misma terminal, ejecuta: <br><code>java HolaMundo</code> (Si usaste un paquete: <code>java com.moridevedu.ejemplos.HolaMundo</code>).</p>
-                        <p>Verás la salida en la consola. ¡Los IDEs automatizan estos pasos!</p>
+                        <div style="background-color: #222; color: #eee; font-family: 'Fira Code', monospace; border-radius: 8px; padding: 20px; margin-top: 15px;">
+                            <div style="margin-bottom: 15px; color: #ccc;">Terminal</div>
+                            <div style="display: flex; margin-bottom: 10px;">
+                                <span style="color: #4fc3f7;">user@laptop</span>
+                                <span style="color: #ccc;">:</span>
+                                <span style="color: #9ccc65;">~/java-proyectos</span>
+                                <span style="color: #ccc;">$</span>
+                                <span style="margin-left: 10px; color: #fff;">javac HolaMundo.java</span>
+                            </div>
+                            <div style="display: flex; margin-bottom: 20px;">
+                                <span style="color: #4fc3f7;">user@laptop</span>
+                                <span style="color: #ccc;">:</span>
+                                <span style="color: #9ccc65;">~/java-proyectos</span>
+                                <span style="color: #ccc;">$</span>
+                                <span style="margin-left: 10px; color: #fff;">java HolaMundo</span>
+                            </div>
+                            <div style="color: #fff; background-color: #333; padding: 10px; border-radius: 5px;">
+                                <div>¡Hola, Mundo Java desde MoriDevEdu!</div>
+                                <div>La fecha y hora actual es: Thu May 15 10:30:45 COT 2025</div>
+                            </div>
+                        </div>
                     </div>
                     
                     <h3>Conceptos Clave Iniciales en Java:</h3>
                     
                     <h4>1. Variables y Tipos de Datos Primitivos</h4>
                     <p>Una variable es un contenedor que almacena un valor. En Java, debes declarar el tipo de dato de una variable antes de usarla.</p>
-                    <table class="tool-comparison">
-                        <thead><tr><th>Tipo Primitivo</th><th>Descripción</th><th>Tamaño</th><th>Ejemplo</th></tr></thead>
-                        <tbody>
-                            <tr><td><code>byte</code></td><td>Entero muy pequeño</td><td>1 byte</td><td><code>byte edad = 25;</code></td></tr>
-                            <tr><td><code>short</code></td><td>Entero corto</td><td>2 bytes</td><td><code>short poblacion = 30000;</code></td></tr>
-                            <tr><td><code>int</code></td><td>Entero (el más común)</td><td>4 bytes</td><td><code>int contador = 100;</code></td></tr>
-                            <tr><td><code>long</code></td><td>Entero largo</td><td>8 bytes</td><td><code>long estrellas = 10000000000L;</code> (nota la L)</td></tr>
-                            <tr><td><code>float</code></td><td>Número de punto flotante (precisión simple)</td><td>4 bytes</td><td><code>float precio = 19.99f;</code> (nota la f)</td></tr>
-                            <tr><td><code>double</code></td><td>Número de punto flotante (precisión doble, el más común)</td><td>8 bytes</td><td><code>double pi = 3.1415926535;</code></td></tr>
-                            <tr><td><code>char</code></td><td>Un solo carácter Unicode</td><td>2 bytes</td><td><code>char inicial = 'J';</code> (comillas simples)</td></tr>
-                            <tr><td><code>boolean</code></td><td>Valor lógico verdadero o falso</td><td>Depende JVM (usualmente 1 bit lógicamente)</td><td><code>boolean esValido = true;</code></td></tr>
-                        </tbody>
-                    </table>
-                    <p><strong>Declaración e Inicialización:</strong> <code>tipoDeDato nombreVariable = valorInicial;</code> o <code>tipoDeDato nombreVariable; nombreVariable = valor;</code></p>
-                    <pre><code class="language-java">
-int numeroEstudiantes = 30;
-double saldoCuenta = 1234.56;
-char grupo = 'A';
-boolean esActivo = false;
-
-String nombreCurso = "Java Fundamentals"; // String es una clase, no un primitivo, pero se usa mucho.
-                    </code></pre>
+                    
+                    <!-- Visualizador de tipos de datos en Java -->
+                    <div class="java-concept-visualizer">
+                        <h4 style="margin-top: 0; margin-bottom: 15px; color: var(--primary-color);">Visualizador de Tipos de Datos Java</h4>
+                        
+                        <div class="variable-visualizer">
+                            <div class="variable-box" style="border-color: #f44336;">
+                                <div class="var-name">edad</div>
+                                <div class="var-type">byte</div>
+                                <div class="var-value">25</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">1 byte (-128 a 127)</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #ff9800;">
+                                <div class="var-name">población</div>
+                                <div class="var-type">short</div>
+                                <div class="var-value">30000</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">2 bytes</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #4caf50;">
+                                <div class="var-name">contador</div>
+                                <div class="var-type">int</div>
+                                <div class="var-value">100</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">4 bytes</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #2196f3;">
+                                <div class="var-name">estrellas</div>
+                                <div class="var-type">long</div>
+                                <div class="var-value">10000000000L</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">8 bytes</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #9c27b0;">
+                                <div class="var-name">precio</div>
+                                <div class="var-type">float</div>
+                                <div class="var-value">19.99f</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">4 bytes</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #673ab7;">
+                                <div class="var-name">pi</div>
+                                <div class="var-type">double</div>
+                                <div class="var-value">3.14159</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">8 bytes</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #795548;">
+                                <div class="var-name">inicial</div>
+                                <div class="var-type">char</div>
+                                <div class="var-value">'J'</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">2 bytes (Unicode)</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #607d8b;">
+                                <div class="var-name">esValido</div>
+                                <div class="var-type">boolean</div>
+                                <div class="var-value">true</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">1 bit lógico</div>
+                            </div>
+                            
+                            <div class="variable-box" style="border-color: #3f51b5; border-style: dashed;">
+                                <div class="var-name">nombreCurso</div>
+                                <div class="var-type">String</div>
+                                <div class="var-value">"Java Fundamentals"</div>
+                                <div style="font-size: 0.7rem; margin-top: 5px; color: #777;">No es primitivo</div>
+                            </div>
+                        </div>
+                    </div>
 
                     <h4>2. Operadores</h4>
                     <p>Java soporta diversos operadores:</p>
@@ -465,19 +2292,95 @@ String nombreCurso = "Java Fundamentals"; // String es una clase, no un primitiv
                         <li><strong>Lógicos:</strong> <code>&&</code> (Y lógico), <code>||</code> (O lógico), <code>!</code> (NO lógico).</li>
                         <li><strong>Operador Ternario:</strong> <code>condicion ? valorSiVerdadero : valorSiFalso;</code></li>
                     </ul>
-                    <pre><code class="language-java">
-int a = 10, b = 3;
-int suma = a + b; // 13
-int resto = a % b; // 1
-boolean esMayor = a > b; // true
-String mensaje = (saldoCuenta > 1000) ? "Saldo suficiente" : "Saldo bajo";
-                    </code></pre>
+                    
+                    <!-- Tabla interactiva de operadores -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-calculator"></i> Tabla Interactiva de Operadores</h4>
+                        <div style="overflow-x: auto; margin-top: 15px;">
+                            <table style="width: 100%; border-collapse: collapse; box-shadow: var(--box-shadow); border-radius: 8px; overflow: hidden;">
+                                <thead>
+                                    <tr style="background-color: var(--primary-color); color: white;">
+                                        <th style="padding: 12px; text-align: left;">Operador</th>
+                                        <th style="padding: 12px; text-align: left;">Categoría</th>
+                                        <th style="padding: 12px; text-align: left;">Ejemplo</th>
+                                        <th style="padding: 12px; text-align: left;">Resultado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>+</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Aritmético</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>10 + 5</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">15</td>
+                                    </tr>
+                                    <tr style="background-color: #f9f9f9;">
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>-</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Aritmético</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>10 - 5</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">5</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>*</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Aritmético</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>10 * 5</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">50</td>
+                                    </tr>
+                                    <tr style="background-color: #f9f9f9;">
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>/</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Aritmético</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>10 / 5</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>%</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Aritmético</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>10 % 3</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">1 (resto)</td>
+                                    </tr>
+                                    <tr style="background-color: #f9f9f9;">
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>++</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Incremento</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>int a = 5; a++;</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">a = 6</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>==</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Relacional</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>5 == 5</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">true</td>
+                                    </tr>
+                                    <tr style="background-color: #f9f9f9;">
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>&&</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">Lógico</td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;"><code>true && false</code></td>
+                                        <td style="padding: 12px; border-bottom: 1px solid #eee;">false</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 12px;"><code>?:</code></td>
+                                        <td style="padding: 12px;">Ternario</td>
+                                        <td style="padding: 12px;"><code>a > b ? a : b</code></td>
+                                        <td style="padding: 12px;">El mayor valor</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
                     <h4>3. Estructuras de Control de Flujo</h4>
                     <p>Dirigen el orden en que se ejecutan las sentencias.</p>
-                    <ul>
-                        <li><strong><code>if-else if-else</code>:</strong>
-                            <pre><code class="language-java">
+                    
+                    <!-- Visualizador de estructuras de control -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-random"></i> Visualizador de Estructuras de Control</h4>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+                            <!-- IF-ELSE -->
+                            <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                                <div style="background-color: #fff8e1; color: #ff6f00; font-weight: 500; padding: 10px; border-bottom: 1px solid #ddd;">
+                                    <i class="fas fa-code-branch" style="margin-right: 8px;"></i> Estructura if-else
+                                </div>
+                                <div style="padding: 15px;">
+                                    <pre style="margin: 0; background-color: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto;"><code class="language-java">
 int edad = 18;
 if (edad >= 18) {
     System.out.println("Es mayor de edad.");
@@ -486,54 +2389,73 @@ if (edad >= 18) {
 } else {
     System.out.println("Edad no válida.");
 }
-                            </code></pre>
-                        </li>
-                        <li><strong><code>switch</code>:</strong> Útil para múltiples condiciones sobre una misma variable (entera, char, String desde Java 7).
-                            <pre><code class="language-java">
-char calificacion = 'B';
-switch (calificacion) {
-    case 'A':
-        System.out.println("Excelente");
-        break; // Importante el break!
-    case 'B':
-        System.out.println("Bueno");
-        break;
-    case 'C':
-        System.out.println("Suficiente");
-        break;
-    default:
-        System.out.println("Calificación no reconocida");
+                                    </code></pre>
+                                    
+                                    <div style="margin-top: 15px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Cambiar edad:</label>
+                                        <input type="range" min="0" max="30" value="18" class="form-range" id="edadRange">
+                                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                            <span>0</span>
+                                            <span>15</span>
+                                            <span>30</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #e3f2fd; border-radius: 5px;">
+                                        <div style="font-weight: 500; margin-bottom: 5px;">Resultado:</div>
+                                        <div id="ifElseResult">Es mayor de edad.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- FOR LOOP -->
+                            <div style="flex: 1; min-width: 300px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                                <div style="background-color: #e8f5e9; color: #2e7d32; font-weight: 500; padding: 10px; border-bottom: 1px solid #ddd;">
+                                    <i class="fas fa-sync-alt" style="margin-right: 8px;"></i> Bucle for
+                                </div>
+                                <div style="padding: 15px;">
+                                    <pre style="margin: 0; background-color: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto;"><code class="language-java">
+for (int i = 0; i < 5; i++) {
+    System.out.println("Iteración: " + i);
 }
-                            </code></pre>
-                        </li>
-                        <li><strong>Bucles <code>for</code>, <code>while</code>, <code>do-while</code>:</strong>
-                            <pre><code class="language-java">
-// For tradicional
-for (int i = 0; i < 5; i++) { // de 0 a 4
-    System.out.println("Iteración for: " + i);
-}
-
-// While
-int contador = 0;
-while (contador < 3) {
-    System.out.println("Iteración while: " + contador);
-    contador++;
-}
-
-// Do-while (se ejecuta al menos una vez)
-int j = 5;
-do {
-    System.out.println("Iteración do-while: " + j); // Se imprimirá una vez
-    j++;
-} while (j < 3);
-                            </code></pre>
-                        </li>
-                        <li><strong><code>break</code> y <code>continue</code>:</strong> <code>break</code> sale del bucle/switch; <code>continue</code> salta a la siguiente iteración del bucle.</li>
-                    </ul>
+                                    </code></pre>
+                                    
+                                    <div style="margin-top: 15px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Número de iteraciones:</label>
+                                        <input type="range" min="1" max="10" value="5" class="form-range" id="iterRange">
+                                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                            <span>1</span>
+                                            <span>5</span>
+                                            <span>10</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 5px;">
+                                        <div style="font-weight: 500; margin-bottom: 5px;">Salida:</div>
+                                        <div id="forLoopResult" style="font-family: 'Fira Code', monospace; font-size: 0.9rem;">
+                                            Iteración: 0<br>
+                                            Iteración: 1<br>
+                                            Iteración: 2<br>
+                                            Iteración: 3<br>
+                                            Iteración: 4
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <h4>4. Métodos</h4>
                     <p>Bloques de código reutilizables que realizan una tarea específica. Pueden recibir parámetros y devolver un valor.</p>
-                    <pre><code class="language-java">
+                    
+                    <!-- Calculadora en Java -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-function"></i> Métodos en acción: Calculadora</h4>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+                            <!-- Código de la calculadora -->
+                            <div style="flex: 1; min-width: 300px;">
+                                <pre style="margin: 0; height: 400px; overflow-y: auto;"><code class="language-java">
 public class Calculadora {
     // Método que no devuelve valor (void) y recibe dos parámetros enteros
     public static void sumar(int num1, int num2) {
@@ -550,20 +2472,55 @@ public class Calculadora {
     }
 
     public static void main(String[] args) {
-        sumar(10, 5); // Llama al método sumar
-
+        // Llamamos al método sumar
+        sumar(10, 5);
+        
+        // Llamamos al método calcularAreaCirculo y guardamos su resultado
         double area = calcularAreaCirculo(3.5);
         System.out.println("Área del círculo: " + area);
+        
+        // Probemos con un valor inválido
+        double areaInvalida = calcularAreaCirculo(-2);
+        System.out.println("Área con radio negativo: " + areaInvalida);
     }
 }
-                    </code></pre>
-                    <p><strong>Sobrecarga de Métodos (Method Overloading):</strong> Definir múltiples métodos con el mismo nombre pero diferentes listas de parámetros (distinto número o tipo de parámetros) en la misma clase.</p>
-
-                    <div class="interactive-element">
-                        <h4 class="interactive-title"><i class="fas fa-code-branch"></i> Diagrama Interactivo: Flujo de Control</h4>
-                        <p>Imagina un diagrama de flujo interactivo. El usuario puede hacer clic en un bloque `if` o `for` y ver cómo el "flujo de ejecución" (una flecha animada) se mueve a través de las diferentes ramas o iteraciones según una condición de entrada que el usuario pueda modificar.</p>
-                        <div class="ide-screenshot-placeholder">
-                            [Diagrama de Flujo Interactivo: Usuario modifica una variable 'edad' y ve el camino que toma un if-else. O modifica un 'límite' y ve cuántas veces itera un bucle for.]
+                                </code></pre>
+                            </div>
+                            
+                            <!-- Simulador interactivo -->
+                            <div style="flex: 1; min-width: 300px;">
+                                <div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                                    <div style="background-color: #e3f2fd; color: #0d47a1; font-weight: 500; padding: 10px; border-bottom: 1px solid #ddd;">
+                                        <i class="fas fa-calculator" style="margin-right: 8px;"></i> Calculadora Interactiva
+                                    </div>
+                                    <div style="padding: 15px;">
+                                        <!-- Suma -->
+                                        <div style="margin-bottom: 20px;">
+                                            <div style="font-weight: 500; margin-bottom: 10px;">Método sumar(int, int)</div>
+                                            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                                <input type="number" id="num1" value="10" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                <span style="align-self: center; font-size: 1.5rem;">+</span>
+                                                <input type="number" id="num2" value="5" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                <button id="btnSumar" style="background-color: var(--primary-color); color: white; border: none; border-radius: 4px; padding: 8px 15px; cursor: pointer;">Calcular</button>
+                                            </div>
+                                            <div id="resultadoSuma" style="padding: 10px; background-color: #f5f5f5; border-radius: 5px;">10 + 5 = 15</div>
+                                        </div>
+                                        
+                                        <!-- Área de círculo -->
+                                        <div>
+                                            <div style="font-weight: 500; margin-bottom: 10px;">Método calcularAreaCirculo(double)</div>
+                                            <div style="margin-bottom: 10px;">
+                                                <label style="display: block; margin-bottom: 5px;">Radio del círculo:</label>
+                                                <div style="display: flex; gap: 10px;">
+                                                    <input type="number" id="radioCirculo" value="3.5" step="0.1" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                    <button id="btnArea" style="background-color: var(--primary-color); color: white; border: none; border-radius: 4px; padding: 8px 15px; cursor: pointer;">Calcular Área</button>
+                                                </div>
+                                            </div>
+                                            <div id="resultadoArea" style="padding: 10px; background-color: #f5f5f5; border-radius: 5px;">Área del círculo: 38.48451001</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -573,6 +2530,57 @@ public class Calculadora {
                         <p>2. Implementa métodos estáticos para las cuatro operaciones básicas (suma, resta, multiplicación, división). Cada método debe aceptar dos números (<code>double</code>) y devolver el resultado.</p>
                         <p>3. El método de división debe manejar el caso de división por cero (ej: imprimiendo un error y devolviendo 0.0 o `Double.NaN`).</p>
                         <p>4. En el método `main`, prueba cada una de tus funciones con diferentes valores e imprime los resultados.</p>
+                        
+                        <div class="solution-toggle" id="toggleCalcSolution">
+                            <i class="fas fa-lightbulb"></i> Ver Ejemplo de Solución
+                        </div>
+                        <div class="solution-content" id="calcSolutionContent" style="display: none; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                            <pre><code class="language-java">
+public class MiniCalculadora {
+    
+    // Método para sumar dos números
+    public static double sumar(double a, double b) {
+        return a + b;
+    }
+    
+    // Método para restar dos números
+    public static double restar(double a, double b) {
+        return a - b;
+    }
+    
+    // Método para multiplicar dos números
+    public static double multiplicar(double a, double b) {
+        return a * b;
+    }
+    
+    // Método para dividir dos números
+    public static double dividir(double a, double b) {
+        if (b == 0) {
+            System.err.println("Error: No se puede dividir por cero.");
+            return Double.NaN; // Not a Number
+        }
+        return a / b;
+    }
+    
+    public static void main(String[] args) {
+        // Probamos cada método
+        double num1 = 10.5;
+        double num2 = 5.0;
+        double num3 = 0.0;
+        
+        System.out.println("Operaciones con " + num1 + " y " + num2 + ":");
+        System.out.println("Suma: " + sumar(num1, num2));
+        System.out.println("Resta: " + restar(num1, num2));
+        System.out.println("Multiplicación: " + multiplicar(num1, num2));
+        System.out.println("División: " + dividir(num1, num2));
+        
+        // Probamos división por cero
+        System.out.println("\nOperación con " + num1 + " y " + num3 + ":");
+        System.out.println("División por cero: " + dividir(num1, num3));
+    }
+}
+                            </code></pre>
+                        </div>
                     </div>
                 </section>
 
@@ -583,118 +2591,297 @@ public class Calculadora {
                     <h3>Arrays (Matrices) en Java</h3>
                     <p>Un array es una estructura de datos que almacena una colección de tamaño fijo de elementos del mismo tipo. Los elementos se acceden mediante un índice numérico (empezando en 0).</p>
                     
-                    <h4>Declaración, Creación e Inicialización:</h4>
-                    <pre><code class="language-java">
-// 1. Declaración
-int[] numeros; // Declara una variable 'numeros' que puede referenciar un array de enteros.
-String[] nombres;
-
-// 2. Creación (Instanciación) - Especifica el tamaño
-numeros = new int[5]; // Crea un array para 5 enteros. Se inicializan a 0 por defecto.
-nombres = new String[3]; // Crea un array para 3 Strings. Se inicializan a null por defecto.
-
-// 3. Inicialización (Asignar valores)
-numeros[0] = 10;
-numeros[1] = 20;
-// ... numeros[4] = 50;
-
-// Declaración, creación e inicialización en una sola línea (array literal)
-double[] calificaciones = {9.5, 8.0, 7.5, 10.0, 6.5};
-char[] vocales = {'a', 'e', 'i', 'o', 'u'};
-                    </code></pre>
-
-                    <h4>Acceso y Longitud:</h4>
-                    <pre><code class="language-java">
-System.out.println("Primer número: " + numeros[0]); // Accede al primer elemento (índice 0)
-System.out.println("Longitud del array de calificaciones: " + calificaciones.length); // .length es una propiedad
-// calificaciones[5] = 9.0; // Esto daría un error: ArrayIndexOutOfBoundsException
-                    </code></pre>
+                    <!-- Visualizador de Arrays -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-table"></i> Visualizador de Arrays</h4>
+                        
+                        <div style="margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                            <div style="display: flex; border-bottom: 1px solid #ddd;">
+                                <div style="padding: 10px 15px; background-color: var(--primary-color); color: white; font-weight: 500;">Array de enteros</div>
+                            </div>
+                            <div style="padding: 20px;">
+                                <pre style="margin: 0 0 20px 0;"><code class="language-java">
+int[] numeros = {10, 20, 30, 40, 50};
+                                </code></pre>
+                                
+                                <div style="display: flex; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px;">
+                                    <div style="display: flex; align-items: flex-end;">
+                                        <div style="text-align: center; width: 60px; font-weight: 500; color: var(--text-light);">Índice:</div>
+                                        <div style="display: flex;">
+                                            <div style="width: 60px; text-align: center;">0</div>
+                                            <div style="width: 60px; text-align: center;">1</div>
+                                            <div style="width: 60px; text-align: center;">2</div>
+                                            <div style="width: 60px; text-align: center;">3</div>
+                                            <div style="width: 60px; text-align: center;">4</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; align-items: center;">
+                                    <div style="text-align: center; width: 60px; font-weight: 500; color: var(--text-light);">Valor:</div>
+                                    <div style="display: flex; flex: 1;">
+                                        <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); margin-right: 2px; font-weight: 500;">10</div>
+                                        <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); margin-right: 2px; font-weight: 500;">20</div>
+                                        <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); margin-right: 2px; font-weight: 500;">30</div>
+                                        <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); margin-right: 2px; font-weight: 500;">40</div>
+                                        <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); margin-right: 2px; font-weight: 500;">50</div>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 30px;">
+                                    <div style="font-weight: 500; margin-bottom: 10px;">Acceso a elementos:</div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                                        <div style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9;">
+                                            <code>numeros[0]</code> = <span style="font-weight: 500; color: var(--primary-color);">10</span>
+                                        </div>
+                                        <div style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9;">
+                                            <code>numeros[2]</code> = <span style="font-weight: 500; color: var(--primary-color);">30</span>
+                                        </div>
+                                        <div style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9;">
+                                            <code>numeros.length</code> = <span style="font-weight: 500; color: var(--primary-color);">5</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <h4>Recorriendo Arrays:</h4>
-                    <pre><code class="language-java">
+                    <div class="code-comparison">
+                        <div>
+                            <h5>Con for tradicional</h5>
+                            <pre><code class="language-java">
 // Usando un bucle for tradicional
 System.out.println("Nombres:");
 for (int i = 0; i < nombres.length; i++) {
     nombres[i] = "Nombre " + (i + 1); // Asignar valores
     System.out.println(nombres[i]);
 }
-
-// Usando un bucle for-each (enhanced for loop) - para leer elementos
+                            </code></pre>
+                        </div>
+                        <div>
+                            <h5>Con for-each (enhanced for)</h5>
+                            <pre><code class="language-java">
+// Usando un bucle for-each - para leer elementos
 System.out.println("\nCalificaciones (for-each):");
-for (double calif : calificaciones) { // "por cada double calif en calificaciones"
+for (double calif : calificaciones) { 
+    // "por cada double calif en calificaciones"
     System.out.println(calif);
 }
-                    </code></pre>
+                            </code></pre>
+                        </div>
+                    </div>
                     
                     <h4>Arrays Multidimensionales:</h4>
                     <p>Arrays de arrays, comúnmente usados para representar matrices o tablas.</p>
-                    <pre><code class="language-java">
+                    
+                    <!-- Visualizador de Matrices 2D -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-th"></i> Matriz Bidimensional</h4>
+                        
+                        <div style="margin-top: 20px;">
+                            <pre><code class="language-java">
 int[][] matriz = {
     {1, 2, 3},  // fila 0
     {4, 5, 6},  // fila 1
     {7, 8, 9}   // fila 2
 };
-
-System.out.println("Elemento en fila 1, columna 2: " + matriz[1][2]); // Salida: 6
-
-// Recorrer una matriz 2D
-for (int i = 0; i < matriz.length; i++) { // Itera sobre las filas
-    for (int j = 0; j < matriz[i].length; j++) { // Itera sobre las columnas de la fila actual
-        System.out.print(matriz[i][j] + "\t");
-    }
-    System.out.println(); // Salto de línea después de cada fila
-}
-                    </code></pre>
-                    <p><strong>Clase <code>java.util.Arrays</code>:</strong> Ofrece métodos útiles como <code>Arrays.toString()</code>, <code>Arrays.sort()</code>, <code>Arrays.fill()</code>, <code>Arrays.binarySearch()</code>.</p>
+                            </code></pre>
+                            
+                            <div style="margin-top: 20px; display: flex; justify-content: center;">
+                                <div style="display: grid; grid-template-columns: repeat(3, 60px); grid-gap: 5px;">
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">1</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">2</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">3</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">4</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">5</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">6</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">7</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">8</div>
+                                    <div style="width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border: 2px solid var(--primary-color); background-color: var(--primary-light); font-weight: 500;">9</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px; text-align: center;">
+                                <div style="display: inline-block; border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9; text-align: left;">
+                                    <div style="margin-bottom: 5px;">Acceso por coordenadas [fila][columna]:</div>
+                                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                                        <div><code>matriz[0][0]</code> = <span style="font-weight: 500; color: var(--primary-color);">1</span></div>
+                                        <div><code>matriz[1][2]</code> = <span style="font-weight: 500; color: var(--primary-color);">6</span></div>
+                                        <div><code>matriz[2][1]</code> = <span style="font-weight: 500; color: var(--primary-color);">8</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info" style="margin-top: 20px;">
+                        <i class="fas fa-info-circle"></i> 
+                        <div>La clase <code>java.util.Arrays</code> ofrece métodos útiles para trabajar con arrays: <code>Arrays.toString()</code>, <code>Arrays.sort()</code>, <code>Arrays.fill()</code>, <code>Arrays.binarySearch()</code>.</div>
+                    </div>
 
                     <h3>Excepciones en Java (Manejo de Errores)</h3>
                     <p>Las excepciones son eventos anómalos que ocurren durante la ejecución de un programa y que interrumpen el flujo normal. Java proporciona un robusto mecanismo para manejarlas.</p>
                     
-                    <h4>Jerarquía de Excepciones:</h4>
-                    <ul>
-                        <li><strong><code>Throwable</code></strong>: Clase raíz.
-                            <ul>
-                                <li><strong><code>Error</code></strong>: Problemas serios que una aplicación razonable no debería intentar atrapar (ej: <code>OutOfMemoryError</code>, <code>StackOverflowError</code>).</li>
-                                <li><strong><code>Exception</code></strong>: Condiciones que una aplicación podría querer atrapar.
-                                    <ul>
-                                        <li><strong>Excepciones Verificadas (Checked Exceptions):</strong> El compilador *obliga* a manejarlas (con `try-catch`) o a declararlas (con `throws`). Indican condiciones externas problemáticas (ej: <code>IOException</code>, <code>SQLException</code>, <code>FileNotFoundException</code>).</li>
-                                        <li><strong>Excepciones No Verificadas (Unchecked/Runtime Exceptions):</strong> Subclases de <code>RuntimeException</code>. No es obligatorio manejarlas o declararlas, aunque se puede. Usualmente indican errores de programación (ej: <code>NullPointerException</code>, <code>ArithmeticException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>IllegalArgumentException</code>).</li>
+                    <!-- Visualizador de jerarquía de excepciones -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-exclamation-triangle"></i> Jerarquía de Excepciones</h4>
+                        
+                        <div style="margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+                            <div style="display: flex; justify-content: center; padding-bottom: 20px;">
+                                <div>
+                                    <!-- Árbol de Jerarquía con CSS básico -->
+                                    <ul style="list-style-type: none; position: relative;">
+                                        <li style="position: relative; padding: 10px 0;">
+                                            <div style="padding: 10px; border: 2px solid #673ab7; background-color: #ede7f6; border-radius: 8px; text-align: center; font-weight: 600; width: 140px; margin: 0 auto;">
+                                                Throwable
+                                            </div>
+                                            <ul style="display: flex; justify-content: space-around; padding-top: 20px; position: relative;">
+                                                <li style="position: relative; padding: 10px 0;">
+                                                    <div style="padding: 10px; border: 2px solid #e53935; background-color: #ffebee; border-radius: 8px; text-align: center; font-weight: 600; width: 140px;">
+                                                        Error
+                                                    </div>
+                                                    <ul style="padding-top: 20px; position: relative;">
+                                                        <li style="position: relative; padding: 10px 0;">
+                                                            <div style="padding: 5px; border: 1px solid #e53935; background-color: #ffcdd2; border-radius: 8px; text-align: center; font-size: 0.85rem; width: 140px;">
+                                                                OutOfMemoryError
+                                                            </div>
+                                                        </li>
+                                                        <li style="position: relative; padding: 10px 0;">
+                                                            <div style="padding: 5px; border: 1px solid #e53935; background-color: #ffcdd2; border-radius: 8px; text-align: center; font-size: 0.85rem; width: 140px;">
+                                                                StackOverflowError
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li style="position: relative; padding: 10px 0;">
+                                                    <div style="padding: 10px; border: 2px solid #43a047; background-color: #e8f5e9; border-radius: 8px; text-align: center; font-weight: 600; width: 140px;">
+                                                        Exception
+                                                    </div>
+                                                    <ul style="display: flex; justify-content: space-around; padding-top: 20px; position: relative;">
+                                                        <li style="position: relative; padding: 10px 0;">
+                                                            <div style="padding: 8px; border: 2px solid #fb8c00; background-color: #fff3e0; border-radius: 8px; text-align: center; font-weight: 500; width: 140px; font-size: 0.9rem;">
+                                                                RuntimeException
+                                                            </div>
+                                                            <ul style="padding-top: 20px; position: relative;">
+                                                                <li style="position: relative; padding: 5px 0;">
+                                                                    <div style="padding: 5px; border: 1px solid #fb8c00; background-color: #ffe0b2; border-radius: 8px; text-align: center; font-size: 0.8rem; width: 140px;">
+                                                                        NullPointerException
+                                                                    </div>
+                                                                </li>
+                                                                <li style="position: relative; padding: 5px 0;">
+                                                                    <div style="padding: 5px; border: 1px solid #fb8c00; background-color: #ffe0b2; border-radius: 8px; text-align: center; font-size: 0.8rem; width: 140px;">
+                                                                        ArrayIndexOutOfBounds
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li style="position: relative; padding: 10px 0;">
+                                                            <div style="padding: 8px; border: 2px solid #0288d1; background-color: #e1f5fe; border-radius: 8px; text-align: center; font-weight: 500; width: 140px; font-size: 0.9rem;">
+                                                                Checked Exceptions
+                                                            </div>
+                                                            <ul style="padding-top: 20px; position: relative;">
+                                                                <li style="position: relative; padding: 5px 0;">
+                                                                    <div style="padding: 5px; border: 1px solid #0288d1; background-color: #b3e5fc; border-radius: 8px; text-align: center; font-size: 0.8rem; width: 140px;">
+                                                                        IOException
+                                                                    </div>
+                                                                </li>
+                                                                <li style="position: relative; padding: 5px 0;">
+                                                                    <div style="padding: 5px; border: 1px solid #0288d1; background-color: #b3e5fc; border-radius: 8px; text-align: center; font-size: 0.8rem; width: 140px;">
+                                                                        SQLException
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 260px; padding: 15px; background-color: #ffe0b2; border-radius: 8px; border-left: 5px solid #fb8c00;">
+                                    <div style="font-weight: 600; margin-bottom: 8px; color: #e65100;">Runtime Exceptions</div>
+                                    <p style="margin: 0; font-size: 0.9rem;">No es obligatorio manejarlas. Indican errores de programación (ej: divisiones por cero, índices fuera de rango).</p>
+                                </div>
+                                <div style="flex: 1; min-width: 260px; padding: 15px; background-color: #e1f5fe; border-radius: 8px; border-left: 5px solid #0288d1;">
+                                    <div style="font-weight: 600; margin-bottom: 8px; color: #01579b;">Checked Exceptions</div>
+                                    <p style="margin: 0; font-size: 0.9rem;">El compilador obliga a manejarlas con try-catch o declararlas con throws. Indican condiciones externas (ej: problemas de E/S, fallos de red).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <h4>Bloque <code>try-catch-finally</code>:</h4>
-                    <pre><code class="language-java">
-public class ManejoExcepciones {
-    public static void main(String[] args) {
-        try {
-            int[] numeros = {1, 2, 3};
-            System.out.println("Intentando acceder al elemento en índice 5...");
-            int valor = numeros[5]; // Esto lanzará ArrayIndexOutOfBoundsException
-            System.out.println("Valor obtenido: " + valor); // No se ejecutará
-
-            // int resultado = 10 / 0; // Esto lanzaría ArithmeticException
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Error: Índice fuera de los límites del array.");
-            System.err.println("Detalle: " + e.getMessage());
-            // e.printStackTrace(); // Para ver el stack trace completo
-        } catch (ArithmeticException e) {
-            System.err.println("Error: División por cero no permitida.");
-        } catch (Exception e) { // Bloque genérico para cualquier otra Exception (colocar al final)
-            System.err.println("Ocurrió una excepción inesperada: " + e.getClass().getSimpleName());
-        } finally {
-            // Este bloque se ejecuta SIEMPRE, haya o no excepción.
-            // Ideal para liberar recursos (cerrar archivos, conexiones de red/BD).
-            System.out.println("Bloque 'finally' ejecutado. Limpieza finalizada.");
-        }
-        System.out.println("El programa continúa después del try-catch-finally.");
-    }
+                    
+                    <!-- Simulador try-catch interactivo -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-shield-alt"></i> Simulador de Try-Catch</h4>
+                        
+                        <div style="margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                            <div style="padding: 15px; border-bottom: 1px solid #ddd; background-color: #f5f5f5;">
+                                <pre style="margin: 0;"><code class="language-java">
+try {
+    int[] numeros = {1, 2, 3};
+    System.out.println("Intentando acceder al elemento en índice " + indice);
+    int valor = numeros[indice]; // Puede lanzar ArrayIndexOutOfBoundsException
+    System.out.println("Valor obtenido: " + valor);
+    
+    int resultado = 10 / divisor; // Puede lanzar ArithmeticException
+    System.out.println("Resultado de división: " + resultado);
+    
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.err.println("Error: Índice fuera de los límites del array");
+    System.err.println("Detalle: " + e.getMessage());
+} catch (ArithmeticException e) {
+    System.err.println("Error: División por cero no permitida");
+    System.err.println("Detalle: " + e.getMessage());
+} finally {
+    System.out.println("Bloque 'finally' ejecutado. Limpieza finalizada.");
 }
-                    </code></pre>
-                    <p><strong>Cláusula <code>throws</code>:</strong> Un método puede declarar que *puede* lanzar ciertas excepciones verificadas, delegando su manejo al código que lo llama.</p>
+                                </code></pre>
+                            </div>
+                            
+                            <div style="padding: 15px;">
+                                <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+                                    <div style="flex: 1; min-width: 200px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Índice del array:</label>
+                                        <select id="indiceArray" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                            <option value="0">0 (válido)</option>
+                                            <option value="1">1 (válido)</option>
+                                            <option value="2">2 (válido)</option>
+                                            <option value="5">5 (fuera de límites)</option>
+                                        </select>
+                                    </div>
+                                    <div style="flex: 1; min-width: 200px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Divisor:</label>
+                                        <select id="divisorValor" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                            <option value="2">2 (válido)</option>
+                                            <option value="0">0 (inválido - división por cero)</option>
+                                        </select>
+                                    </div>
+                                    <div style="align-self: flex-end;">
+                                        <button id="btnEjecutar" style="background-color: var(--primary-color); color: white; border: none; border-radius: 4px; padding: 8px 20px; cursor: pointer; font-weight: 500;"><i class="fas fa-play"></i> Ejecutar</button>
+                                    </div>
+                                </div>
+                                
+                                <div style="background-color: #333; color: #eee; font-family: 'Fira Code', monospace; padding: 15px; border-radius: 8px; max-height: 200px; overflow-y: auto;" id="salidaConsola">
+                                    <!-- La salida se mostrará aquí -->
+                                    <div style="color: #fff;">Selecciona los valores y haz clic en "Ejecutar" para ver el resultado.</div>
+                                </div>
+                                
+                                <div style="margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 5px; font-size: 0.9rem;">
+                                    <div style="font-weight: 500; color: #2e7d32;"><i class="fas fa-lightbulb"></i> Consejo:</div>
+                                    <p style="margin: 5px 0 0;">Prueba diferentes combinaciones para ver cómo se comporta el mecanismo de excepciones de Java. Observa cómo se capturan diferentes excepciones en sus respectivos bloques catch.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 20px;"><strong>Cláusula <code>throws</code>:</strong> Un método puede declarar que *puede* lanzar ciertas excepciones verificadas, delegando su manejo al código que lo llama.</p>
+                    
                     <pre><code class="language-java">
 import java.io.IOException;
 import java.io.FileReader;
@@ -720,14 +2907,91 @@ public class LectorArchivo {
     }
 }
                     </code></pre>
-                    <p><strong><code>throw</code>:</strong> Para lanzar una excepción manualmente: <code>throw new IllegalArgumentException("Argumento inválido");</code></p>
-
+                    
+                    <div class="alert alert-warning" style="margin-top: 20px;">
+                        <i class="fas fa-exclamation-circle"></i> 
+                        <div>Para lanzar una excepción manualmente, usa la palabra clave <code>throw</code>: <br><code>throw new IllegalArgumentException("Argumento inválido");</code></div>
+                    </div>
 
                     <h3>Clases y Objetos: Fundamentos de POO en Java</h3>
                     <p>Java es intrínsecamente orientado a objetos. El código se organiza en clases, que son plantillas para crear objetos.</p>
                     
+                    <!-- Diagrama visual de clase y objetos -->
+                    <div class="interactive-element">
+                        <h4 class="interactive-title"><i class="fas fa-project-diagram"></i> Clases y Objetos Visualizados</h4>
+                        
+                        <div style="margin-top: 20px; display: flex; gap: 30px; flex-wrap: wrap;">
+                            <!-- Clase (molde) -->
+                            <div style="flex: 1; min-width: 300px; border: 2px solid #0288d1; border-radius: 8px; overflow: hidden;">
+                                <div style="background-color: #0288d1; color: white; padding: 10px; text-align: center; font-weight: 600;">
+                                    <i class="fas fa-blueprint" style="margin-right: 8px;"></i> Clase Producto (Plantilla)
+                                </div>
+                                <div style="padding: 15px;">
+                                    <div style="margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                                        <div style="font-weight: 500; margin-bottom: 8px; color: #01579b;">Atributos (Estado):</div>
+                                        <ul style="margin: 0; padding-left: 20px;">
+                                            <li><code>String codigo</code></li>
+                                            <li><code>String nombre</code></li>
+                                            <li><code>double precio</code></li>
+                                            <li><code>int stock</code></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 500; margin-bottom: 8px; color: #01579b;">Métodos (Comportamiento):</div>
+                                        <ul style="margin: 0; padding-left: 20px;">
+                                            <li><code>mostrarInformacion()</code></li>
+                                            <li><code>agregarStock(int cantidad)</code></li>
+                                            <li><code>vender(int cantidad)</code></li>
+                                            <li><code>getPrecio()</code></li>
+                                            <li><code>setPrecio(double nuevoPrecio)</code></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Flecha -->
+                            <div style="align-self: center; display: flex; flex-direction: column; align-items: center;">
+                                <div style="font-weight: 500; font-size: 0.9rem; color: var(--text-light); margin-bottom: 10px;">Instanciación</div>
+                                <i class="fas fa-long-arrow-alt-down" style="font-size: 2rem; color: var(--accent-color);"></i>
+                                <div style="margin-top: 10px; font-weight: 500; font-size: 0.9rem; color: var(--text-light);">new Producto(...)</div>
+                            </div>
+                            
+                            <!-- Objeto (instancia) -->
+                            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 15px;">
+                                <div style="border: 2px solid #43a047; border-radius: 8px; overflow: hidden;">
+                                    <div style="background-color: #43a047; color: white; padding: 10px; text-align: center; font-weight: 600;">
+                                        <i class="fas fa-laptop" style="margin-right: 8px;"></i> Objeto: laptop
+                                    </div>
+                                    <div style="padding: 15px;">
+                                        <ul style="margin: 0; padding-left: 20px; list-style-type: none;">
+                                            <li><code>codigo = "LAP001"</code></li>
+                                            <li><code>nombre = "Laptop Gamer Pro"</code></li>
+                                            <li><code>precio = 1200.50</code></li>
+                                            <li><code>stock = 10</code></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div style="border: 2px solid #e53935; border-radius: 8px; overflow: hidden;">
+                                    <div style="background-color: #e53935; color: white; padding: 10px; text-align: center; font-weight: 600;">
+                                        <i class="fas fa-mouse" style="margin-right: 8px;"></i> Objeto: mouse
+                                    </div>
+                                    <div style="padding: 15px;">
+                                        <ul style="margin: 0; padding-left: 20px; list-style-type: none;">
+                                            <li><code>codigo = "MOU002"</code></li>
+                                            <li><code>nombre = "Mouse Óptico Inalámbrico"</code></li>
+                                            <li><code>precio = 25.99</code></li>
+                                            <li><code>stock = 50</code></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <h4>Definición de una Clase:</h4>
                     <p>Una clase define el estado (<strong>campos</strong> o atributos) y el comportamiento (<strong>métodos</strong>) de los objetos que se crearán a partir de ella.</p>
+                    
                     <pre><code class="language-java">
 // Archivo: Producto.java
 public class Producto {
@@ -797,49 +3061,71 @@ public class Producto {
     }
 }
                     </code></pre>
-
+                    
                     <h4>Creación y Uso de Objetos:</h4>
-                    <pre><code class="language-java">
-// Archivo: Tienda.java (o cualquier otra clase con un método main)
-public class Tienda {
-    public static void main(String[] args) {
-        // Creación de objetos (instanciación) usando el constructor
-        Producto laptop = new Producto("LAP001", "Laptop Gamer Pro", 1200.50, 10);
-        Producto mouse = new Producto("MOU002", "Mouse Óptico Inalámbrico", 25.99, 50);
-        Producto teclado = new Producto("TEC003", "Teclado Mecánico RGB", 75.00); // Usa el constructor sobrecargado
-
-        // Acceder a los métodos de los objetos
-        laptop.mostrarInformacion();
-        mouse.mostrarInformacion();
-        teclado.mostrarInformacion();
-
-        System.out.println("\n--- Operaciones de Stock y Venta ---");
-        laptop.agregarStock(5);
-        boolean ventaExitosa = mouse.vender(10);
-        System.out.println("¿Venta del mouse exitosa?: " + ventaExitosa);
-        mouse.vender(100); // Intentar vender más del stock
-
-        // Usando getters y setters (Encapsulación)
-        System.out.println("\nPrecio actual del laptop: $" + laptop.getPrecio());
-        laptop.setPrecio(1150.00); // Cambiar precio
-        System.out.println("Nuevo precio del laptop: $" + laptop.getPrecio());
-        laptop.setPrecio(-50); // Intento inválido
-        
-        laptop.mostrarInformacion();
-    }
-}
-                    </code></pre>
-                    <p><strong>Encapsulación:</strong> Es uno de los pilares de la POO. Consiste en ocultar el estado interno de un objeto y exponer solo las operaciones necesarias a través de métodos públicos (getters y setters son comunes para controlar el acceso a los campos privados).</p>
-                    <p><strong>Palabra clave <code>this</code>:</strong> Dentro de una clase, <code>this</code> se refiere a la instancia actual del objeto. Se usa para desambiguar entre campos de instancia y parámetros con el mismo nombre, o para llamar a otro constructor de la misma clase (<code>this(...)</code>).</p>
-                    <p><strong>Miembros Estáticos (<code>static</code>):</strong> Los campos y métodos declarados como `static` pertenecen a la clase en sí, no a una instancia particular. Se accede a ellos usando el nombre de la clase (ej: `Math.PI`, `Integer.parseInt()`). El método `main` es siempre `static`.</p>
-
+                    
+                    <!-- Simulador de Objetos Interactivo -->
                     <div class="interactive-element">
-                        <h4 class="interactive-title"><i class="fas fa-object-group"></i> Visualizador de Objetos Simple</h4>
-                        <p>Un elemento interactivo donde se pueda "crear" un objeto `Producto`. El usuario podría ingresar valores para código, nombre, precio y stock en campos de un formulario. Al "crear", se mostraría una representación visual del objeto con sus atributos y botones para "llamar" a sus métodos (como `agregarStock` o `vender`), actualizando visualmente el estado del objeto (ej: el stock).</p>
-                        <div class="ide-screenshot-placeholder">
-                            [Simulador de Creación de Objetos: Campos para los atributos del Producto. Botones para `mostrarInformacion()`, `agregarStock()`, `vender()`. El estado del "objeto" se actualiza visualmente.]
+                        <h4 class="interactive-title"><i class="fas fa-cube"></i> Simulador de Objetos</h4>
+                        
+                        <div class="object-visualizer">
+                            <div class="object-header">
+                                <div class="object-icon">
+                                    <i class="fas fa-laptop"></i>
+                                </div>
+                                <h4 class="object-title">Laptop Gamer Pro</h4>
+                                <p class="object-subtitle">Objeto de la clase Producto (código: LAP001)</p>
+                            </div>
+                            
+                            <div class="object-properties">
+                                <div class="object-property">
+                                    <div class="property-name">código</div>
+                                    <div class="property-value">"LAP001"</div>
+                                </div>
+                                <div class="object-property">
+                                    <div class="property-name">nombre</div>
+                                    <div class="property-value">"Laptop Gamer Pro"</div>
+                                </div>
+                                <div class="object-property">
+                                    <div class="property-name">precio</div>
+                                    <div class="property-value">1200.50</div>
+                                </div>
+                                <div class="object-property">
+                                    <div class="property-name">stock</div>
+                                    <div class="property-value" id="laptopStock">10</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin: 20px 0; text-align: center; font-weight: 500;">
+                                Métodos disponibles:
+                            </div>
+                            
+                            <div class="object-methods">
+                                <div class="object-method">
+                                    <button class="method-btn" id="btnMostrarInfo"><i class="fas fa-info-circle" style="margin-right: 8px;"></i> mostrarInformacion()</button>
+                                    <div class="method-result" id="infoResult"></div>
+                                </div>
+                                <div class="object-method">
+                                    <button class="method-btn" id="btnAgregarStock"><i class="fas fa-plus-circle" style="margin-right: 8px;"></i> agregarStock(5)</button>
+                                    <div class="method-result" id="agregarResult"></div>
+                                </div>
+                                <div class="object-method">
+                                    <button class="method-btn" id="btnVender"><i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> vender(2)</button>
+                                    <div class="method-result" id="venderResult"></div>
+                                </div>
+                                <div class="object-method">
+                                    <button class="method-btn" id="btnSetPrecio"><i class="fas fa-tag" style="margin-right: 8px;"></i> setPrecio(1150.00)</button>
+                                    <div class="method-result" id="precioResult"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
+                    <p style="margin-top: 30px;"><strong>Encapsulación:</strong> Es uno de los pilares de la POO. Consiste en ocultar el estado interno de un objeto y exponer solo las operaciones necesarias a través de métodos públicos (getters y setters son comunes para controlar el acceso a los campos privados).</p>
+                    
+                    <p><strong>Palabra clave <code>this</code>:</strong> Dentro de una clase, <code>this</code> se refiere a la instancia actual del objeto. Se usa para desambiguar entre campos de instancia y parámetros con el mismo nombre, o para llamar a otro constructor de la misma clase (<code>this(...)</code>).</p>
+                    
+                    <p><strong>Miembros Estáticos (<code>static</code>):</strong> Los campos y métodos declarados como `static` pertenecen a la clase en sí, no a una instancia particular. Se accede a ellos usando el nombre de la clase (ej: `Math.PI`, `Integer.parseInt()`). El método `main` es siempre `static`.</p>
 
                     <div class="exercise-box">
                         <h4 class="exercise-title"><i class="fas fa-user-cog"></i> Ejercicio: Clase `CuentaBancaria`</h4>
@@ -854,12 +3140,60 @@ public class Tienda {
                         </ul>
                         <p>4. En una clase `BancoApp` con un método `main`, crea al menos dos objetos `CuentaBancaria` y prueba todas sus funcionalidades (depósitos, retiros, consultas).</p>
                         <p>5. (Opcional Avanzado) Maneja las validaciones (cantidad negativa, saldo insuficiente) lanzando excepciones personalizadas (ej: `SaldoInsuficienteException` que extienda de `Exception`).</p>
+                        
+                        <!-- Prototipo interactivo del ejercicio -->
+                        <div style="margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+                            <div style="padding: 15px; background-color: #f5f5f5; border-bottom: 1px solid #ddd; font-weight: 500;">
+                                Prototipo de Solución Interactiva
+                            </div>
+                            <div style="padding: 20px;">
+                                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                                    <!-- Cuenta 1 -->
+                                    <div style="flex: 1; min-width: 280px; border: 2px solid #3f51b5; border-radius: 8px; padding: 15px;">
+                                        <div style="font-weight: 600; color: #3f51b5; margin-bottom: 10px; display: flex; align-items: center;">
+                                            <i class="fas fa-credit-card" style="margin-right: 8px;"></i> Cuenta: 10001
+                                        </div>
+                                        <div style="margin-bottom: 8px;"><strong>Titular:</strong> Ana García</div>
+                                        <div style="margin-bottom: 15px; display: flex; align-items: center;">
+                                            <strong>Saldo:</strong> 
+                                            <span style="margin-left: 8px; font-size: 1.2rem; font-weight: 500; color: #4caf50;" id="saldoCuenta1">$1,500.00</span>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                            <button style="flex: 1; padding: 8px; background-color: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer;" id="btnDepositar1">Depositar</button>
+                                            <button style="flex: 1; padding: 8px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;" id="btnRetirar1">Retirar</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Cuenta 2 -->
+                                    <div style="flex: 1; min-width: 280px; border: 2px solid #ff9800; border-radius: 8px; padding: 15px;">
+                                        <div style="font-weight: 600; color: #ff9800; margin-bottom: 10px; display: flex; align-items: center;">
+                                            <i class="fas fa-credit-card" style="margin-right: 8px;"></i> Cuenta: 10002
+                                        </div>
+                                        <div style="margin-bottom: 8px;"><strong>Titular:</strong> Carlos López</div>
+                                        <div style="margin-bottom: 15px; display: flex; align-items: center;">
+                                            <strong>Saldo:</strong> 
+                                            <span style="margin-left: 8px; font-size: 1.2rem; font-weight: 500; color: #4caf50;" id="saldoCuenta2">$2,300.00</span>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                            <button style="flex: 1; padding: 8px; background-color: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer;" id="btnDepositar2">Depositar</button>
+                                            <button style="flex: 1; padding: 8px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;" id="btnRetirar2">Retirar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-top: 20px; padding: 15px; background-color: #333; color: white; border-radius: 8px; font-family: 'Fira Code', monospace; max-height: 150px; overflow-y: auto;" id="logBanco">
+                                    <div>// Registro de operaciones bancarias</div>
+                                    <div>// Haz clic en los botones para ver el resultado</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
-                 <div class="lesson-navigation" style="margin-top:2rem;">
+                
+                <div class="lesson-navigation" style="margin-top:2rem;">
                     <a href="#modulo3" class="lesson-nav-button prev"><i class="fas fa-arrow-left"></i> Módulo Anterior</a>
                     <span style="flex-grow:1; text-align:center; color: #777;">¡Has completado los fundamentos!</span>
-                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -922,72 +3256,649 @@ public class Tienda {
         // Año actual
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     
-        // Toggle de soluciones
-        document.querySelectorAll('.solution-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const solutionContent = button.nextElementSibling;
-                if (solutionContent && solutionContent.classList.contains('solution-content')) {
-                    const isVisible = solutionContent.style.display === 'block';
-                    solutionContent.style.display = isVisible ? 'none' : 'block';
-                    button.innerHTML = isVisible ? '<i class="fas fa-lightbulb"></i> Ver Pista/Solución' : '<i class="fas fa-eye-slash"></i> Ocultar Solución';
-                }
-            });
-        });
-
-        // Navegación activa y smooth scroll para menú del curso
-        const courseNavLinks = document.querySelectorAll('.course-nav-link');
-        const moduleSections = document.querySelectorAll('.module-section');
-        let observer;
-
-        function makeLinkActive(link) {
-            courseNavLinks.forEach(l => l.classList.remove('active'));
-            if (link) {
-                link.classList.add('active');
+        // Navegación fija
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
             }
-        }
+        });
         
-        function onIntersection(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const link = document.querySelector(`.course-nav-link[href="#${entry.target.id}"]`);
-                    makeLinkActive(link);
-                }
+        // Animación de secciones al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const modules = document.querySelectorAll('.module-section');
+            
+            // Función para verificar si un elemento está en el viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight * 0.75) &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Añadir la clase 'visible' a los módulos en el viewport
+            function checkVisibility() {
+                modules.forEach(module => {
+                    if (isInViewport(module)) {
+                        module.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Verificar visibilidad al cargar y al hacer scroll
+            checkVisibility();
+            window.addEventListener('scroll', checkVisibility);
+        });
+    
+        // Soluciones desplegables
+        const toggleSolution = document.getElementById('toggleSolution');
+        const solutionContent = document.getElementById('solutionContent');
+        if (toggleSolution && solutionContent) {
+            toggleSolution.addEventListener('click', () => {
+                const isVisible = solutionContent.style.display === 'block';
+                solutionContent.style.display = isVisible ? 'none' : 'block';
+                toggleSolution.innerHTML = isVisible ? 
+                    '<i class="fas fa-lightbulb"></i> Ver Pista/Solución' : 
+                    '<i class="fas fa-eye-slash"></i> Ocultar Solución';
             });
         }
-
-        if (moduleSections.length > 0) {
-            observer = new IntersectionObserver(onIntersection, {
-                rootMargin: "-30% 0px -60% 0px", // Activa cuando el modulo está en el medio de la pantalla
-                threshold: 0.1 
+        
+        const toggleCalcSolution = document.getElementById('toggleCalcSolution');
+        const calcSolutionContent = document.getElementById('calcSolutionContent');
+        if (toggleCalcSolution && calcSolutionContent) {
+            toggleCalcSolution.addEventListener('click', () => {
+                const isVisible = calcSolutionContent.style.display === 'block';
+                calcSolutionContent.style.display = isVisible ? 'none' : 'block';
+                toggleCalcSolution.innerHTML = isVisible ? 
+                    '<i class="fas fa-lightbulb"></i> Ver Ejemplo de Solución' : 
+                    '<i class="fas fa-eye-slash"></i> Ocultar Solución';
             });
-            moduleSections.forEach(section => observer.observe(section));
         }
         
-        courseNavLinks.forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    makeLinkActive(this);
-                    // Desplazamiento suave considerando la barra de navegación fija
-                    const offsetTop = targetElement.offsetTop - 60; // 60px es un offset estimado para el nav
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
+        // Quiz interactivo
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Limpiar selecciones previas en el mismo grupo
+                    const questionOptions = this.parentElement.querySelectorAll('.quiz-option');
+                    questionOptions.forEach(opt => {
+                        opt.classList.remove('correct', 'incorrect');
                     });
-                }
+                    
+                    // Marcar como correcto o incorrecto
+                    if (this.getAttribute('data-correct') === 'true') {
+                        this.classList.add('correct');
+                    } else {
+                        this.classList.add('incorrect');
+                        // Encontrar y resaltar la respuesta correcta
+                        questionOptions.forEach(opt => {
+                            if (opt.getAttribute('data-correct') === 'true') {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+                });
             });
         });
-        // Activar el primer link al cargar si no hay hash o el hash no es un módulo
-        if(window.location.hash === '' && courseNavLinks.length > 0) {
-            makeLinkActive(courseNavLinks[0]);
-        } else if (courseNavLinks.length > 0) {
-            const currentHashLink = document.querySelector(`.course-nav-link[href="${window.location.hash}"]`);
-            if(currentHashLink) makeLinkActive(currentHashLink);
-            else makeLinkActive(courseNavLinks[0]);
+        
+        // Simulador de Greenfoot
+        document.addEventListener('DOMContentLoaded', function() {
+            const actor1 = document.getElementById('actor1');
+            const actor2 = document.getElementById('actor2');
+            const runBtn = document.getElementById('runBtn');
+            const actBtn = document.getElementById('actBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            if (actor1 && actor2 && runBtn && actBtn && resetBtn) {
+                let isRunning = false;
+                let intervalId;
+                
+                // Posiciones iniciales
+                const initialPos1 = { left: 100, top: 100 };
+                const initialPos2 = { left: 200, top: 200 };
+                
+                // Direcciones (ángulos en grados, 0 = derecha, 90 = abajo)
+                let dir1 = 0;
+                let dir2 = 90;
+                
+                function moveActor(actor, dirDegrees, speed) {
+                    const dirRadians = dirDegrees * Math.PI / 180;
+                    const currentLeft = parseInt(actor.style.left);
+                    const currentTop = parseInt(actor.style.top);
+                    
+                    const newLeft = currentLeft + Math.cos(dirRadians) * speed;
+                    const newTop = currentTop + Math.sin(dirRadians) * speed;
+                    
+                    actor.style.left = newLeft + 'px';
+                    actor.style.top = newTop + 'px';
+                    
+                    // Rotar el actor para que mire en la dirección del movimiento
+                    actor.style.transform = `translate(-50%, -50%) rotate(${dirDegrees}deg)`;
+                    
+                    // Comprobar bordes
+                    const world = document.querySelector('.greenfoot-world');
+                    const worldRect = world.getBoundingClientRect();
+                    const actorRect = actor.getBoundingClientRect();
+                    
+                    if (newLeft < 30 || newLeft > worldRect.width - 30 || 
+                        newTop < 30 || newTop > worldRect.height - 30) {
+                        return true; // Está en el borde
+                    }
+                    return false;
+                }
+                
+                function act() {
+                    // Mover actores
+                    const atEdge1 = moveActor(actor1, dir1, 2);
+                    const atEdge2 = moveActor(actor2, dir2, 3);
+                    
+                    // Si llega al borde, girar
+                    if (atEdge1) {
+                        dir1 = (dir1 + 180) % 360;
+                    }
+                    
+                    if (atEdge2) {
+                        dir2 = (dir2 + 180) % 360;
+                    }
+                }
+                
+                function resetActors() {
+                    // Detener el movimiento
+                    if (isRunning) {
+                        clearInterval(intervalId);
+                        isRunning = false;
+                        runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+                    }
+                    
+                    // Restaurar posiciones iniciales
+                    actor1.style.left = initialPos1.left + 'px';
+                    actor1.style.top = initialPos1.top + 'px';
+                    actor2.style.left = initialPos2.left + 'px';
+                    actor2.style.top = initialPos2.top + 'px';
+                    
+                    // Restaurar direcciones
+                    dir1 = 0;
+                    dir2 = 90;
+                    
+                    // Restaurar rotación
+                    actor1.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+                    actor2.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+                }
+                
+                // Event listeners
+                runBtn.addEventListener('click', function() {
+                    if (isRunning) {
+                        clearInterval(intervalId);
+                        isRunning = false;
+                        this.innerHTML = '<i class="fas fa-play"></i> Run';
+                    } else {
+                        intervalId = setInterval(act, 100);
+                        isRunning = true;
+                        this.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                    }
+                });
+                
+                actBtn.addEventListener('click', function() {
+                    act();
+                });
+                
+                resetBtn.addEventListener('click', function() {
+                    resetActors();
+                });
+                
+                // Inicializar
+                resetActors();
+            }
+        });
+        
+        // Simulador de estructuras de control
+        document.addEventListener('DOMContentLoaded', function() {
+            const edadRange = document.getElementById('edadRange');
+            const ifElseResult = document.getElementById('ifElseResult');
+            const iterRange = document.getElementById('iterRange');
+            const forLoopResult = document.getElementById('forLoopResult');
+            
+            if (edadRange && ifElseResult) {
+                edadRange.addEventListener('input', function() {
+                    const edad = parseInt(this.value);
+                    let resultado = '';
+                    
+                    if (edad >= 18) {
+                        resultado = 'Es mayor de edad.';
+                    } else if (edad > 0 && edad < 18) {
+                        resultado = 'Es menor de edad.';
+                    } else {
+                        resultado = 'Edad no válida.';
+                    }
+                    
+                    ifElseResult.textContent = resultado;
+                });
+            }
+            
+            if (iterRange && forLoopResult) {
+                iterRange.addEventListener('input', function() {
+                    const iteraciones = parseInt(this.value);
+                    let resultado = '';
+                    
+                    for (let i = 0; i < iteraciones; i++) {
+                        resultado += `Iteración: ${i}<br>`;
+                    }
+                    
+                    forLoopResult.innerHTML = resultado;
+                });
+            }
+        });
+        
+        // Simulador try-catch
+        document.addEventListener('DOMContentLoaded', function() {
+            const indiceArray = document.getElementById('indiceArray');
+            const divisorValor = document.getElementById('divisorValor');
+            const btnEjecutar = document.getElementById('btnEjecutar');
+            const salidaConsola = document.getElementById('salidaConsola');
+            
+            if (indiceArray && divisorValor && btnEjecutar && salidaConsola) {
+                btnEjecutar.addEventListener('click', function() {
+                    const indice = parseInt(indiceArray.value);
+                    const divisor = parseInt(divisorValor.value);
+                    let output = '';
+                    
+                    output += '<div style="color: #fff;">Intentando acceder al elemento en índice ' + indice + '</div>';
+                    
+                    try {
+                        const numeros = [1, 2, 3];
+                        
+                        // Verificar índice
+                        if (indice < 0 || indice >= numeros.length) {
+                            throw new Error('Index ' + indice + ' out of bounds for length ' + numeros.length);
+                        }
+                        
+                        const valor = numeros[indice];
+                        output += '<div style="color: #fff;">Valor obtenido: ' + valor + '</div>';
+                        
+                        // Verificar divisor
+                        if (divisor === 0) {
+                            throw new Error('/ by zero');
+                        }
+                        
+                        const resultado = 10 / divisor;
+                        output += '<div style="color: #fff;">Resultado de división: ' + resultado + '</div>';
+                        
+                    } catch (error) {
+                        if (error.message.includes('bounds')) {
+                            output += '<div style="color: #ff7043;">Error: Índice fuera de los límites del array</div>';
+                            output += '<div style="color: #ff7043;">Detalle: ' + error.message + '</div>';
+                        } else if (error.message.includes('zero')) {
+                            output += '<div style="color: #ff7043;">Error: División por cero no permitida</div>';
+                            output += '<div style="color: #ff7043;">Detalle: ' + error.message + '</div>';
+                        }
+                    } finally {
+                        output += '<div style="color: #4fc3f7;">Bloque \'finally\' ejecutado. Limpieza finalizada.</div>';
+                    }
+                    
+                    salidaConsola.innerHTML = output;
+                });
+            }
+        });
+        
+        // Simulador de objetos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM para el objeto Laptop
+            const laptopStock = document.getElementById('laptopStock');
+            const btnMostrarInfo = document.getElementById('btnMostrarInfo');
+            const btnAgregarStock = document.getElementById('btnAgregarStock');
+            const btnVender = document.getElementById('btnVender');
+            const btnSetPrecio = document.getElementById('btnSetPrecio');
+            const infoResult = document.getElementById('infoResult');
+            const agregarResult = document.getElementById('agregarResult');
+            const venderResult = document.getElementById('venderResult');
+            const precioResult = document.getElementById('precioResult');
+            
+            // Estado del objeto
+            let laptop = {
+                codigo: "LAP001",
+                nombre: "Laptop Gamer Pro",
+                precio: 1200.50,
+                stock: 10
+            };
+            
+            if (btnMostrarInfo && infoResult) {
+                btnMostrarInfo.addEventListener('click', function() {
+                    infoResult.style.display = 'block';
+                    infoResult.innerHTML = 
+                        "--- Información del Producto ---<br>" +
+                        "Código: " + laptop.codigo + "<br>" +
+                        "Nombre: " + laptop.nombre + "<br>" +
+                        "Precio: $" + laptop.precio + "<br>" +
+                        "Stock: " + laptop.stock + " unidades";
+                });
+            }
+            
+            if (btnAgregarStock && agregarResult && laptopStock) {
+                btnAgregarStock.addEventListener('click', function() {
+                    const cantidad = 5;
+                    laptop.stock += cantidad;
+                    laptopStock.textContent = laptop.stock;
+                    
+                    agregarResult.style.display = 'block';
+                    agregarResult.innerHTML = cantidad + " unidades agregadas al stock de " + laptop.nombre;
+                });
+            }
+            
+            if (btnVender && venderResult && laptopStock) {
+                btnVender.addEventListener('click', function() {
+                    const cantidad = 2;
+                    if (cantidad > 0 && cantidad <= laptop.stock) {
+                        laptop.stock -= cantidad;
+                        laptopStock.textContent = laptop.stock;
+                        
+                        venderResult.style.display = 'block';
+                        venderResult.innerHTML = "Venta realizada: " + cantidad + " unidades de " + laptop.nombre;
+                    } else {
+                        venderResult.style.display = 'block';
+                        venderResult.innerHTML = "No se pudo realizar la venta. Stock insuficiente o cantidad inválida.";
+                    }
+                });
+            }
+            
+            if (btnSetPrecio && precioResult) {
+                btnSetPrecio.addEventListener('click', function() {
+                    const nuevoPrecio = 1150.00;
+                    if (nuevoPrecio > 0) {
+                        laptop.precio = nuevoPrecio;
+                        
+                        precioResult.style.display = 'block';
+                        precioResult.innerHTML = "Precio actualizado a $" + laptop.precio;
+                    } else {
+                        precioResult.style.display = 'block';
+                        precioResult.innerHTML = "El precio debe ser positivo.";
+                    }
+                });
+            }
+        });
+        
+        // Simulador bancario
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const saldoCuenta1 = document.getElementById('saldoCuenta1');
+            const saldoCuenta2 = document.getElementById('saldoCuenta2');
+            const btnDepositar1 = document.getElementById('btnDepositar1');
+            const btnRetirar1 = document.getElementById('btnRetirar1');
+            const btnDepositar2 = document.getElementById('btnDepositar2');
+            const btnRetirar2 = document.getElementById('btnRetirar2');
+            const logBanco = document.getElementById('logBanco');
+            
+            // Estado de las cuentas
+            let cuenta1 = {
+                numeroCuenta: "10001",
+                titular: "Ana García",
+                saldo: 1500.00
+            };
+            
+            let cuenta2 = {
+                numeroCuenta: "10002",
+                titular: "Carlos López",
+                saldo: 2300.00
+            };
+            
+           // Funciones auxiliares
+        function formatearSaldo(saldo) {
+            return "$" + saldo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g,
+             '                    Acceso a elementos => $&.');
         }
-
+            
+            function actualizarInterfaz() {
+                saldoCuenta1.textContent = formatearSaldo(cuenta1.saldo);
+                saldoCuenta2.textContent = formatearSaldo(cuenta2.saldo);
+            }
+            
+            function agregarLog(mensaje) {
+                const fecha = new Date();
+                const hora = fecha.getHours().toString().padStart(2, '0') + ':' + 
+                             fecha.getMinutes().toString().padStart(2, '0') + ':' + 
+                             fecha.getSeconds().toString().padStart(2, '0');
+                
+                logBanco.innerHTML += `<div>[${hora}] ${mensaje}</div>`;
+                logBanco.scrollTop = logBanco.scrollHeight;
+            }
+            
+            // Event Listeners
+            if (btnDepositar1 && btnRetirar1 && btnDepositar2 && btnRetirar2) {
+                // Depósitos
+                btnDepositar1.addEventListener('click', function() {
+                    const cantidad = parseFloat(prompt("Ingrese la cantidad a depositar:", "100"));
+                    if (isNaN(cantidad) || cantidad <= 0) {
+                        agregarLog(`❌ Error: Cantidad inválida para depósito en cuenta ${cuenta1.numeroCuenta}`);
+                        return;
+                    }
+                    
+                    cuenta1.saldo += cantidad;
+                    actualizarInterfaz();
+                    agregarLog(`✅ Depósito de ${formatearSaldo(cantidad)} en cuenta ${cuenta1.numeroCuenta} de ${cuenta1.titular}. Nuevo saldo: ${formatearSaldo(cuenta1.saldo)}`);
+                });
+                
+                btnDepositar2.addEventListener('click', function() {
+                    const cantidad = parseFloat(prompt("Ingrese la cantidad a depositar:", "100"));
+                    if (isNaN(cantidad) || cantidad <= 0) {
+                        agregarLog(`❌ Error: Cantidad inválida para depósito en cuenta ${cuenta2.numeroCuenta}`);
+                        return;
+                    }
+                    
+                    cuenta2.saldo += cantidad;
+                    actualizarInterfaz();
+                    agregarLog(`✅ Depósito de ${formatearSaldo(cantidad)} en cuenta ${cuenta2.numeroCuenta} de ${cuenta2.titular}. Nuevo saldo: ${formatearSaldo(cuenta2.saldo)}`);
+                });
+                
+                // Retiros
+                btnRetirar1.addEventListener('click', function() {
+                    const cantidad = parseFloat(prompt("Ingrese la cantidad a retirar:", "50"));
+                    if (isNaN(cantidad) || cantidad <= 0) {
+                        agregarLog(`❌ Error: Cantidad inválida para retiro en cuenta ${cuenta1.numeroCuenta}`);
+                        return;
+                    }
+                    
+                    if (cantidad > cuenta1.saldo) {
+                        agregarLog(`❌ Error: Saldo insuficiente en cuenta ${cuenta1.numeroCuenta}. Saldo actual: ${formatearSaldo(cuenta1.saldo)}`);
+                        return;
+                    }
+                    
+                    cuenta1.saldo -= cantidad;
+                    actualizarInterfaz();
+                    agregarLog(`✅ Retiro de ${formatearSaldo(cantidad)} de cuenta ${cuenta1.numeroCuenta} de ${cuenta1.titular}. Nuevo saldo: ${formatearSaldo(cuenta1.saldo)}`);
+                });
+                
+                btnRetirar2.addEventListener('click', function() {
+                    const cantidad = parseFloat(prompt("Ingrese la cantidad a retirar:", "50"));
+                    if (isNaN(cantidad) || cantidad <= 0) {
+                        agregarLog(`❌ Error: Cantidad inválida para retiro en cuenta ${cuenta2.numeroCuenta}`);
+                        return;
+                    }
+                    
+                    if (cantidad > cuenta2.saldo) {
+                        agregarLog(`❌ Error: Saldo insuficiente en cuenta ${cuenta2.numeroCuenta}. Saldo actual: ${formatearSaldo(cuenta2.saldo)}`);
+                        return;
+                    }
+                    
+                    cuenta2.saldo -= cantidad;
+                    actualizarInterfaz();
+                    agregarLog(`✅ Retiro de ${formatearSaldo(cantidad)} de cuenta ${cuenta2.numeroCuenta} de ${cuenta2.titular}. Nuevo saldo: ${formatearSaldo(cuenta2.saldo)}`);
+                });
+            }
+        });
+        
+        // Navegación activa y smooth scroll para menú del curso
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseNavLinks = document.querySelectorAll('.course-nav-link');
+            const moduleSections = document.querySelectorAll('.module-section');
+            
+            function makeLinkActive(link) {
+                courseNavLinks.forEach(l => l.classList.remove('active'));
+                if (link) {
+                    link.classList.add('active');
+                }
+            }
+            
+            function onIntersection(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const link = document.querySelector(`.course-nav-link[href="#${entry.target.id}"]`);
+                        makeLinkActive(link);
+                    }
+                });
+            }
+            
+            if (moduleSections.length > 0) {
+                const observer = new IntersectionObserver(onIntersection, {
+                    rootMargin: "-30% 0px -60% 0px", // Activa cuando el módulo está en el medio de la pantalla
+                    threshold: 0.1 
+                });
+                moduleSections.forEach(section => observer.observe(section));
+            }
+            
+            courseNavLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        makeLinkActive(this);
+                        // Desplazamiento suave considerando la barra de navegación fija
+                        const offsetTop = targetElement.offsetTop - 80; // 80px es un offset para el nav
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Activar el primer link al cargar si no hay hash o el hash no es un módulo
+            if(window.location.hash === '' && courseNavLinks.length > 0) {
+                makeLinkActive(courseNavLinks[0]);
+            } else if (courseNavLinks.length > 0) {
+                const currentHashLink = document.querySelector(`.course-nav-link[href="${window.location.hash}"]`);
+                if(currentHashLink) makeLinkActive(currentHashLink);
+                else makeLinkActive(courseNavLinks[0]);
+            }
+        });
+        
+        // Calculadora interactiva
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnSumar = document.getElementById('btnSumar');
+            const btnArea = document.getElementById('btnArea');
+            const num1 = document.getElementById('num1');
+            const num2 = document.getElementById('num2');
+            const radioCirculo = document.getElementById('radioCirculo');
+            const resultadoSuma = document.getElementById('resultadoSuma');
+            const resultadoArea = document.getElementById('resultadoArea');
+            
+            if (btnSumar && num1 && num2 && resultadoSuma) {
+                btnSumar.addEventListener('click', function() {
+                    const valor1 = parseInt(num1.value);
+                    const valor2 = parseInt(num2.value);
+                    const suma = valor1 + valor2;
+                    resultadoSuma.textContent = `${valor1} + ${valor2} = ${suma}`;
+                });
+            }
+            
+            if (btnArea && radioCirculo && resultadoArea) {
+                btnArea.addEventListener('click', function() {
+                    const radio = parseFloat(radioCirculo.value);
+                    if (radio < 0) {
+                        resultadoArea.textContent = "Área con radio negativo: 0.0";
+                    } else {
+                        const area = Math.PI * radio * radio;
+                        resultadoArea.textContent = `Área del círculo: ${area.toFixed(8)}`;
+                    }
+                });
+            }
+        });
+        
+        // Efectos visuales para los elementos interactivos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Alice 3D Viewer interactividad
+            const aliceButtons = document.querySelectorAll('.alice-button');
+            aliceButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const aliceScene = document.querySelector('.alice-scene');
+                    if (this.textContent.includes('Ejecutar')) {
+                        aliceScene.innerHTML = '<div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem;"><div style="text-align: center;"><i class="fas fa-dragon" style="font-size: 3rem; margin-bottom: 1rem; color: var(--accent-color); animation: float 2s infinite;"></i><div>¡Hola Mundo!</div></div></div>';
+                    } else if (this.textContent.includes('Parar')) {
+                        aliceScene.innerHTML = '<div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem;"><div style="text-align: center;"><i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-light);"></i><div>Escena detenida</div></div></div>';
+                    } else {
+                        aliceScene.innerHTML = '<div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem;"><div style="text-align: center;"><i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-light);"></i><div>Escena 3D de Alice</div><div style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.7;">Haz clic en los controles para interactuar</div></div></div>';
+                    }
+                });
+            });
+            
+            // Animación para las visualizaciones de variables
+            const variableBoxes = document.querySelectorAll('.variable-box');
+            variableBoxes.forEach(box => {
+                box.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+                box.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Resaltar nodos del diagrama de flujo
+            const flowNodes = document.querySelectorAll('.flow-node');
+            flowNodes.forEach(node => {
+                node.addEventListener('mouseenter', function() {
+                    this.classList.add('active');
+                });
+                node.addEventListener('mouseleave', function() {
+                    this.classList.remove('active');
+                });
+            });
+            
+            // Resaltar propiedades de objeto
+            const objectProperties = document.querySelectorAll('.object-property');
+            objectProperties.forEach(property => {
+                property.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                });
+                property.addEventListener('mouseleave', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+        
+        // Syntax highlighting básico para código Java
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('pre code.language-java');
+            
+            codeBlocks.forEach(block => {
+                // Palabras clave de Java
+                const keywords = ['public', 'private', 'protected', 'static', 'final', 'void', 'int', 'double', 'boolean', 'String', 'class', 'interface', 'extends', 'implements', 'new', 'return', 'if', 'else', 'for', 'while', 'do', 'try', 'catch', 'finally', 'throw', 'throws', 'this', 'super', 'null', 'true', 'false', 'package', 'import', 'instanceof', 'switch', 'case', 'default', 'break', 'continue', 'byte', 'short', 'long', 'float', 'char'];
+                
+                // Reemplazar palabras clave con span coloreado
+                let html = block.innerHTML;
+                
+                // Comentarios
+                html = html.replace(/(\/\/.*?)($|\n)/g, '<span class="comment">$1</span>$2');
+                html = html.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="comment">$1</span>');
+                
+                // Strings
+                html = html.replace(/"([^"]*)"/g, '"<span class="string">$1</span>"');
+                
+                // Palabras clave
+                keywords.forEach(keyword => {
+                    const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+                    html = html.replace(regex, `<span class="keyword">${keyword}</span>`);
+                });
+                
+                block.innerHTML = html;
+            });
+        });
     </script>
 </body>
 </html>
