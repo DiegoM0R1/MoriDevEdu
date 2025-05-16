@@ -4,70 +4,1813 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curso: Fundamentos de Bases de Datos con Oracle - MoriDevEdu</title>
-    <link rel="stylesheet" href="../../css/normalize.css">
-    <link rel="stylesheet" href="../../css/main.css">
-    <link rel="stylesheet" href="../../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
-        /* Estilos adicionales para elementos interactivos y específicos del curso */
-        .course-layout { display: flex; gap: 2rem; margin-top: 2rem; }
-        .course-navigation { flex: 0 0 280px; }
-        .course-content-area { flex: 1; }
-        .module-section:not(:last-child) { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
-        .module-section { padding-top: 70px; margin-top: -70px; }
+        :root {
+            --primary-color: #2c3e50;
+            --primary-light: #34495e;
+            --secondary-color: #3498db;
+            --secondary-light: #5dade2;
+            --accent-color: #e74c3c;
+            --accent-light: #f1948a;
+            --light-bg: #f5f7fa;
+            --dark-bg: #1a1a2e;
+            --text-color: #333;
+            --text-light: #777;
+            --white: #fff;
+            --success: #27ae60;
+            --info: #3498db;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.25);
+            --shadow-active: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease-in-out;
+            --radius: 8px;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-heading: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        .intro-db-types { display: flex; justify-content: space-around; text-align: center; margin: 2rem 0; }
-        .db-type-card { padding: 1rem; border: 1px solid #ddd; border-radius: 8px; width: 30%; box-shadow: var(--shadow); }
-        .db-type-card i { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--primary-color); }
-        
+        /* Base Styles */
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            transition: background-color 0.3s;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Reset links */
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            padding-bottom: 0.3em;
+            border-bottom: 2px solid var(--primary-light);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--secondary-color);
+            border-radius: var(--radius);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        code {
+            font-family: 'Consolas', monospace;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            padding: 1em;
+            border-radius: var(--radius);
+            overflow: auto;
+            font-family: 'Consolas', monospace;
+            margin: 1.5em 0;
+        }
+
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: inherit;
+            font-size: 0.95em;
+        }
+
+        /* Buttons & UI Elements */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.5;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-active);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-light);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 5px 12px;
+            font-size: 0.9rem;
+        }
+
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            border-left: 5px solid transparent;
+            background-color: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert i {
+            font-size: 1.5rem;
+        }
+
+        .alert-info {
+            border-color: var(--info);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .alert-success {
+            border-color: var(--success);
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+
+        .alert-warning {
+            border-color: var(--warning);
+            background-color: rgba(243, 156, 18, 0.1);
+        }
+
+        .alert-danger {
+            border-color: var(--danger);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        /* Nav/Header */
+        nav {
+            background-color: var(--primary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav.scrolled {
+            background-color: rgba(44, 62, 80, 0.95);
+            backdrop-filter: blur(10px);
+            transform: translateY(-10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links li a {
+            color: white;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Hero Section */
+        .course-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/api/placeholder/1200/400');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            animation: pulse 15s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .course-header {
+            position: relative;
+            z-index: 2;
+        }
+
+        .course-title {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 1s ease;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .course-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .course-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+
+        .course-meta-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumb {
+            margin: 1.5rem 0;
+        }
+
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb li {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '>';
+            margin: 0 8px;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--secondary-color);
+        }
+
+        .breadcrumb li:last-child a {
+            color: var(--text-color);
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        /* Course Layout */
+        .course-layout {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-navigation {
+            flex: 0 0 280px;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-light) transparent;
+            transition: var(--transition);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .course-navigation.hidden {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .course-navigation::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .course-navigation::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .course-navigation::-webkit-scrollbar-thumb {
+            background-color: var(--primary-light);
+            border-radius: 20px;
+        }
+
+        .course-nav-title {
+            font-size: 1.1rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .course-nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0 0;
+        }
+
+        .course-nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .course-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            color: var(--text-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-nav-link::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: var(--secondary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s, left 0.3s;
+        }
+
+        .course-nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .course-nav-link:hover::before {
+            transform: scaleY(1);
+            left: 0;
+        }
+
+        .course-nav-link.active {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .course-nav-link.active::before {
+            transform: scaleY(1);
+            left: 0;
+        }
+
+        .course-nav-link i {
+            font-size: 0.9rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .course-content-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Module Sections */
+        .module-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            padding-top: 70px;
+            margin-top: -70px;
+        }
+
+        .module-section:not(:last-child) {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .module-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .module-section.active::before {
+            transform: scaleX(1);
+        }
+
+        .lesson-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+            color: var(--primary-color);
+            transition: color 0.3s;
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .module-section:hover .lesson-title {
+            color: var(--accent-color);
+        }
+
+        .module-section:hover .lesson-title i {
+            transform: scale(1.1);
+            color: var(--secondary-color);
+        }
+
+        /* Interactive Components */
+        .intro-db-types {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .db-type-card {
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            width: 30%;
+            min-width: 250px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .db-type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s;
+        }
+
+        .db-type-card:hover {
+            transform: translateY(-10px);
+            border-color: transparent;
+        }
+
+        .db-type-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .db-type-card i {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .db-type-card:hover i {
+            color: var(--accent-color);
+            transform: scale(1.1) rotateY(360deg);
+            transition: color 0.3s, transform 0.5s;
+        }
+
+        .db-type-card h4 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .db-type-card h4::after {
+            content: '';
+            position: absolute;
+            left: 25%;
+            bottom: -5px;
+            width: 50%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s, left 0.3s;
+        }
+
+        .db-type-card:hover h4::after {
+            width: 90%;
+            left: 5%;
+        }
+
+        .db-type-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            transition: color 0.3s;
+        }
+
+        .db-type-card:hover p {
+            color: var(--text-color);
+        }
+
         .interactive-zone {
-            border: 2px dashed var(--primary-color); padding: 1.5rem; margin: 1.5rem 0;
-            border-radius: 8px; background-color: #f9f9f9;
+            border: 2px dashed var(--secondary-color);
+            padding: 1.8rem;
+            margin: 2rem 0;
+            border-radius: var(--radius);
+            background-color: rgba(52, 152, 219, 0.05);
+            position: relative;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
         }
-        .interactive-zone h5, .interactive-zone h4 {
-            margin-top: 0; color: var(--primary-color);
-            display: flex; align-items: center; gap: 0.5rem;
-        }
-        .clickable-concept { cursor: pointer; color: var(--secondary-color); text-decoration: underline; font-weight: bold; }
-        .concept-explanation {
-            background-color: white; padding: 10px; margin-top: 10px; border-left: 3px solid var(--accent-color);
-            border-radius: 4px; display: none; /* Oculto por defecto */
-        }
-        .entity-diagram-placeholder, .data-modeler-placeholder, .sql-script-runner-placeholder {
-            border: 1px dashed #aaa; padding: 2rem; text-align: center; background-color: #e9ecef;
-            margin: 1rem 0; font-style: italic; color: #6c757d; min-height: 150px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .entity-box {
-            border: 2px solid var(--secondary-color); background-color: white; padding: 10px; margin: 10px;
-            border-radius: 5px; text-align: center; width: 150px;
-        }
-        .relationship-line {
-            border-top: 2px dashed var(--accent-color); margin: 0 5px; flex-grow: 1;
-            position: relative; top: -30px; /* Ajustar para alinear con el centro de las cajas */
-        }
-        .normalization-example table { width: 100%; margin-top: 0.5rem; }
-        .normalization-example th, .normalization-example td { border: 1px solid #ccc; padding: 6px; text-align: left; }
-        .bad-practice { background-color: #ffebee; }
-        .good-practice { background-color: #e8f5e9; }
 
-        /* Para el script runner simulado */
-        #sqlOutputArea, #sqlTableVizArea {
-            background-color: white; border: 1px solid #ccc; padding: 1rem; margin-top: 1rem;
-            min-height: 100px; font-family: 'Consolas', monospace; white-space: pre-wrap;
+        .interactive-zone:hover {
+            border-style: solid;
+            background-color: rgba(52, 152, 219, 0.1);
+            box-shadow: var(--shadow-hover);
         }
-        #sqlTableVizArea table { width: auto; } /* No llenar todo el ancho */
+
+        .interactive-zone h4, .interactive-zone h5 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-zone h4 i, .interactive-zone h5 i {
+            color: var(--accent-color);
+        }
+
+        .clickable-concept {
+            cursor: pointer;
+            color: var(--secondary-color);
+            text-decoration: underline;
+            font-weight: bold;
+            position: relative;
+            padding: 0 2px;
+            transition: var(--transition);
+        }
+
+        .clickable-concept::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .clickable-concept:hover {
+            color: var(--accent-color);
+        }
+
+        .clickable-concept:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+            background-color: var(--accent-color);
+        }
+
+        .concept-explanation {
+            background-color: white;
+            padding: 15px;
+            margin-top: 10px;
+            border-left: 3px solid var(--accent-color);
+            border-radius: 4px;
+            display: none;
+            box-shadow: var(--shadow);
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .concept-explanation.visible {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .entity-diagram-placeholder, .data-modeler-placeholder, .sql-script-runner-placeholder {
+            border: 1px dashed #aaa;
+            padding: 2rem;
+            text-align: center;
+            background-color: #e9ecef;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #6c757d;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .entity-diagram-placeholder:hover, .data-modeler-placeholder:hover, .sql-script-runner-placeholder:hover {
+            border-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .entity-box {
+            border: 2px solid var(--secondary-color);
+            background-color: white;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 5px;
+            text-align: center;
+            width: 160px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .entity-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .entity-box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .entity-box:hover::before {
+            transform: scaleX(1);
+        }
+
+        .entity-box strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .relationship-line {
+            border-top: 2px dashed var(--accent-color);
+            margin: 0 5px;
+            flex-grow: 1;
+            position: relative;
+            top: -30px;
+            transition: border-top 0.3s;
+        }
+
+        .entity-box:hover + .relationship-line,
+        .relationship-line:hover {
+            border-top: 2px solid var(--accent-color);
+        }
+
+        .normalization-example table {
+            width: 100%;
+            margin-top: 0.8rem;
+            border-collapse: collapse;
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .normalization-example th, .normalization-example td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+            transition: var(--transition);
+        }
+
+        .normalization-example th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .normalization-example tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .normalization-example tr:hover td {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .bad-practice {
+            background-color: rgba(231, 76, 60, 0.1);
+            position: relative;
+        }
+
+        .good-practice {
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+
+        .bad-practice th {
+            background-color: rgba(231, 76, 60, 0.8);
+        }
+
+        .good-practice th {
+            background-color: rgba(39, 174, 96, 0.8);
+        }
+
+        /* SQL Script Runner */
+        #sqlScriptContent {
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            margin-bottom: 15px;
+        }
+
+        #sqlScriptContent code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        #sqlOutputArea, #sqlTableVizArea {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-top: 1rem;
+            min-height: 100px;
+            font-family: 'Consolas', monospace;
+            white-space: pre-wrap;
+            border-radius: var(--radius);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #sqlTableVizArea table {
+            width: auto;
+            border-collapse: collapse;
+            margin: 0.5rem 0;
+        }
+
+        #sqlTableVizArea th,
+        #sqlTableVizArea td {
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            text-align: left;
+        }
+
+        #sqlTableVizArea th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Lesson Navigation */
+        .lesson-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-nav-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: var(--white);
+            color: var(--primary-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .lesson-nav-button.prev {
+            padding-left: 12px;
+        }
+
+        .lesson-nav-button.next {
+            padding-right: 12px;
+        }
+
+        .lesson-nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 3rem 0 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-links {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-links h4 {
+            color: white;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes rotateY {
+            0% { transform: rotateY(0); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(-10px); }
+        }
+
+        /* ER Diagram Interactive Animation */
+        .er-diagram-container {
+            position: relative;
+            width: 100%;
+            padding: 1.5rem;
+            background-color: #f5f7fa;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .er-entity {
+            position: absolute;
+            background-color: white;
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            padding: 10px;
+            width: 140px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .er-entity:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-color);
+        }
+
+        .er-entity-title {
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .er-attribute {
+            font-size: 0.8rem;
+            text-align: left;
+            padding: 2px 5px;
+            margin: 2px 0;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .er-attribute.primary {
+            font-weight: bold;
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .er-attribute.foreign {
+            font-style: italic;
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .er-attribute:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+
+        .er-relationship {
+            position: absolute;
+            height: 2px;
+            background-color: var(--accent-color);
+            transform-origin: left;
+            z-index: 0;
+        }
+
+        .er-relationship::before, .er-relationship::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+        }
+
+        .er-relationship::before {
+            left: -5px;
+            top: -4px;
+        }
+
+        .er-relationship::after {
+            right: -5px;
+            top: -4px;
+        }
+
+        .er-cardinality {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        /* SQL Animation */
+        .sql-animation-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin: 2rem 0;
+            background-color: #f5f7fa;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .sql-code-block {
+            position: absolute;
+            width: 300px;
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            top: 50px;
+            left: 50px;
+            box-shadow: var(--shadow);
+            z-index: 2;
+        }
+
+        .sql-table {
+            position: absolute;
+            width: 250px;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            top: 70px;
+            right: 50px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .sql-table.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sql-table-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 12px;
+            font-weight: bold;
+        }
+
+        .sql-table-row {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sql-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .sql-table-cell {
+            flex: 1;
+            padding: 8px 12px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sql-table-cell:last-child {
+            border-right: none;
+        }
+
+        .sql-animation-arrow {
+            position: absolute;
+            width: 150px;
+            height: 40px;
+            top: 130px;
+            left: 370px;
+            border-top: 2px dashed var(--accent-color);
+            opacity: 0;
+        }
+
+        .sql-animation-arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid var(--accent-color);
+        }
+
+        .sql-animation-arrow.visible {
+            opacity: 1;
+            animation: arrowPulse 2s infinite;
+        }
+
+        @keyframes arrowPulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Data type selector animation */
+        .data-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 1rem 0;
+        }
+
+        .data-type-option {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-type-option::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-color), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+
+        .data-type-option span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .data-type-option:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--secondary-color);
+        }
+
+        .data-type-option:hover::before {
+            opacity: 0.1;
+        }
+
+        .data-type-option.selected {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .data-type-option.selected::before {
+            opacity: 0;
+        }
+
+        .data-type-info {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .data-type-info.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .data-type-info h5 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .data-type-info ul {
+            margin-bottom: 0;
+        }
+
+        /* 3D Card Effect */
+        .card-3d {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card-3d-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card-3d:hover .card-3d-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-3d-front, .card-3d-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .card-3d-front {
+            background-color: white;
+            color: var(--text-color);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .card-3d-back {
+            background-color: var(--primary-color);
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        /* Lottie animations placeholder */
+        .lottie-placeholder {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+            background-color: rgba(0, 0, 0, 0.03);
+            border-radius: var(--radius);
+        }
+
+        /* Database Table Animation */
+        .db-table-animation {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background-color: #f5f7fa;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .db-row {
+            position: absolute;
+            height: 40px;
+            width: 90%;
+            margin: 0 5%;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            display: flex;
+            transform: translateX(-120%);
+            opacity: 0;
+        }
+
+        .db-cell {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        .db-cell:last-child {
+            border-right: none;
+        }
+
+        .db-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        /* Continuous Rotation Animation for Icons */
+        .rotate-icon {
+            animation: rotateAnimation 4s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes rotateAnimation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Normalization Animation */
+        .normalization-demo {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background-color: #f5f7fa;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+
+        .table-stage {
+            position: absolute;
+            width: 90%;
+            left: 5%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .table-stage.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .table-title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stage-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stage-table th, .stage-table td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .stage-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .normalize-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 16px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .normalize-button:hover {
+            background-color: var(--accent-light);
+            transform: translateX(-50%) translateY(-3px);
+        }
+
+        .bad-column {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .highlight-column {
+            animation: highlightColumn 1.5s infinite;
+        }
+
+        @keyframes highlightColumn {
+            0% { background-color: rgba(231, 76, 60, 0.1); }
+            50% { background-color: rgba(231, 76, 60, 0.3); }
+            100% { background-color: rgba(231, 76, 60, 0.1); }
+        }
+
+        .table-message {
+            position: absolute;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .table-message.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .splitting-animation {
+            position: absolute;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            opacity: 0;
+        }
+
+        .splitting-animation.active {
+            opacity: 1;
+            animation: splitTables 1.5s ease-in-out;
+        }
+
+        @keyframes splitTables {
+            0% { transform: scaleY(1); opacity: 0.8; }
+            50% { transform: scaleY(0.2); opacity: 0.5; }
+            100% { transform: scaleY(1); opacity: 0; }
+        }
+
+        /* Floating Elements */
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Code highlighter animation */
+        .code-highlighter {
+            position: relative;
+        }
+
+        .highlight-line {
+            position: absolute;
+            left: 0;
+            height: 24px;
+            width: 100%;
+            background-color: rgba(231, 76, 60, 0.2);
+            transform: translateY(0);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        /* Tooltip animations */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: 200px;
+            padding: 8px 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 10;
+            box-shadow: var(--shadow);
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--primary-color) transparent transparent transparent;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 10;
+        }
+
+        .tooltip:hover::after,
+        .tooltip:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .course-layout {
+                flex-direction: column;
+            }
+
+            .course-navigation {
+                position: relative;
+                top: 0;
+                width: 100%;
+                flex: none;
+                margin-bottom: 2rem;
+                max-height: none;
+            }
+
+            .db-type-card {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background-color: var(--primary-color);
+                padding: 1rem 0;
+                box-shadow: var(--shadow);
+                gap: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 0.8rem 2rem;
+                width: 100%;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .course-title {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .footer-logo, .footer-links {
+                flex: none;
+                width: 100%;
+            }
+
+            .module-section {
+                padding: 1.5rem;
+            }
+
+            .interactive-zone {
+                padding: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav>
+    <nav id="main-nav">
         <div class="container nav-container">
-            <a href="../../index.html" class="logo"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
+            <a href="#" class="logo"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
             <ul class="nav-links">
-                <li><a href="../../index.html">Inicio</a></li>
-                <li><a href="../../index.html#cursos">Cursos</a></li>
-                <li><a href="../../index.html#about">Sobre Nosotros</a></li>
-                <li><a href="../../index.html#contact">Contacto</a></li>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Cursos</a></li>
+                <li><a href="#">Sobre Nosotros</a></li>
+                <li><a href="#">Contacto</a></li>
             </ul>
             <div class="mobile-menu"><i class="fas fa-bars"></i></div>
         </div>
@@ -90,27 +1833,27 @@
     <div class="container">
         <div class="breadcrumb">
             <ul>
-                <li><a href="../../index.html">Inicio</a></li>
-                <li><a href="../../index.html#cursos">Cursos</a></li>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Cursos</a></li>
                 <li><a href="#">Fundamentos de Bases de Datos (Oracle)</a></li>
             </ul>
         </div>
 
         <div class="course-layout">
-            <aside class="course-navigation">
+            <aside class="course-navigation" id="course-nav">
                 <h3 class="course-nav-title"><i class="fas fa-stream"></i> Módulos del Curso</h3>
                 <ul class="course-nav-list">
                     <li class="course-nav-item"><a href="#modulo0" class="course-nav-link active"><i class="fas fa-info-circle"></i> Introducción a las BD</a></li>
-                    <li class="course-nav-item"><a href="#modulo13" class="course-nav-link"><i class="fas fa-drafting-compass"></i> Módulo 1: Modelado Conceptual</a></li>
-                    <li class="course-nav-item"><a href="#modulo14" class="course-nav-link"><i class="fas fa-cogs"></i> Módulo 2: Modelo Físico y SQL</a></li>
-                    <li class="course-nav-item"><a href="#modulo15" class="course-nav-link"><i class="fas fa-tools"></i> Módulo 3: Data Modeler</a></li>
-                    <li class="course-nav-item"><a href="#modulo16" class="course-nav-link"><i class="fas fa-scroll"></i> Módulo 4: Scripts SQL</a></li>
+                    <li class="course-nav-item"><a href="#modulo13" class="course-nav-link"><i class="fas fa-drafting-compass"></i> Modelado Conceptual</a></li>
+                    <li class="course-nav-item"><a href="#modulo14" class="course-nav-link"><i class="fas fa-cogs"></i> Modelo Físico y SQL</a></li>
+                    <li class="course-nav-item"><a href="#modulo15" class="course-nav-link"><i class="fas fa-tools"></i> Data Modeler</a></li>
+                    <li class="course-nav-item"><a href="#modulo16" class="course-nav-link"><i class="fas fa-scroll"></i> Scripts SQL</a></li>
                 </ul>
                 <div style="padding: 1rem; margin-top:1rem; background-color: #f9f9f9; border-radius: 8px;">
                     <h4><i class="fas fa-download"></i> Herramientas Clave</h4>
                     <ul style="list-style: none; padding-left: 0.5rem;">
-                        <li style="margin-bottom: 0.5rem;"><a href="https://www.oracle.com/database/technologies/xe-downloads.html" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-database"></i> Oracle DB XE (Gratuita)</a></li>
-                        <li style="margin-bottom: 0.5rem;"><a href="https://www.oracle.com/database/sqldeveloper/technologies/sql-developer-data-modeler/" target="_blank" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-project-diagram"></i> SQL Developer Data Modeler</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-database"></i> Oracle DB XE (Gratuita)</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-outline btn-sm" style="width:100%; text-align:left;"><i class="fas fa-project-diagram"></i> SQL Developer Data Modeler</a></li>
                     </ul>
                 </div>
             </aside>
@@ -119,28 +1862,95 @@
                 <section id="modulo0" class="module-section" style="padding-top:0; margin-top:0;">
                     <h2 class="lesson-title"><i class="fas fa-info-circle"></i> Introducción: El Universo de las Bases de Datos</h2>
                     <p>Imagina una gigantesca biblioteca digital, perfectamente organizada, donde cada pieza de información tiene su lugar y puede ser encontrada en segundos. ¡Eso es, en esencia, una base de datos! Son sistemas cruciales diseñados para <strong>almacenar, organizar, proteger y permitir el acceso eficiente a la información</strong>. Hoy en día, casi todas las aplicaciones que usas, desde tu red social favorita hasta el sistema de tu banco, dependen vitalmente de ellas.</p>
-                    <div class="alert alert-info">
+                    
+                    <div class="alert alert-info animate__animated animate__fadeIn">
                         <i class="fas fa-lightbulb"></i> <strong>Analogía:</strong> Piensa en una base de datos como una biblioteca, los datos son los libros, el esquema de la base de datos es el catálogo, y el Sistema Gestor de Base de Datos (DBMS) es el bibliotecario experto que te ayuda a encontrar y gestionar todo.
                     </div>
+                    
+                    <div class="lottie-placeholder" id="db-intro-animation">
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                            <div class="floating" style="animation-delay: 0s;">
+                                <i class="fas fa-database fa-4x" style="color: var(--secondary-color);"></i>
+                            </div>
+                            <div class="floating" style="animation-delay: 0.5s;">
+                                <i class="fas fa-server fa-4x" style="color: var(--primary-color);"></i>
+                            </div>
+                            <div class="floating" style="animation-delay: 1s;">
+                                <i class="fas fa-table fa-4x" style="color: var(--accent-color);"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <p><strong>Oracle Database</strong> es uno de los "bibliotecarios" más robustos y utilizados a nivel mundial, especialmente en entornos empresariales que demandan alta performance, seguridad y escalabilidad.</p>
                     
                     <h3>Un Vistazo a los Tipos de Bases de Datos:</h3>
                     <p>No todas las "bibliotecas" son iguales. Existen diferentes enfoques para organizar la información:</p>
                     <div class="intro-db-types">
-                        <div class="db-type-card">
-                            <i class="fas fa-table"></i>
-                            <h4>Relacionales (SQL)</h4>
-                            <p>Organizan los datos en tablas estructuradas (filas y columnas) con relaciones bien definidas entre ellas. Usan SQL (Lenguaje de Consulta Estructurado). <br><em>Ej: Oracle DB, MySQL, PostgreSQL.</em></p>
+                        <div class="db-type-card" data-aos="fade-up" data-aos-delay="0">
+                            <div class="card-3d" style="height: 200px;">
+                                <div class="card-3d-inner">
+                                    <div class="card-3d-front">
+                                        <i class="fas fa-table"></i>
+                                        <h4>Relacionales (SQL)</h4>
+                                        <p>Organizan datos en tablas estructuradas con relaciones bien definidas.</p>
+                                        <p><em>Ej: Oracle DB, MySQL, PostgreSQL</em></p>
+                                    </div>
+                                    <div class="card-3d-back">
+                                        <h4>Características</h4>
+                                        <ul style="text-align: left; padding-left: 15px;">
+                                            <li>Estructura tabular</li>
+                                            <li>Lenguaje SQL</li>
+                                            <li>Soporte transaccional</li>
+                                            <li>Integridad referencial</li>
+                                            <li>Modelo ACID</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="db-type-card">
-                            <i class="fas fa-file-alt"></i>
-                            <h4>NoSQL</h4>
-                            <p>Ofrecen modelos de datos más flexibles (documentos, clave-valor, grafos) para datos no estructurados o semi-estructurados. Gran escalabilidad. <br><em>Ej: MongoDB, Cassandra, Redis.</em></p>
+                        <div class="db-type-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-3d" style="height: 200px;">
+                                <div class="card-3d-inner">
+                                    <div class="card-3d-front">
+                                        <i class="fas fa-file-alt"></i>
+                                        <h4>NoSQL</h4>
+                                        <p>Ofrecen modelos de datos más flexibles para datos no estructurados.</p>
+                                        <p><em>Ej: MongoDB, Cassandra, Redis</em></p>
+                                    </div>
+                                    <div class="card-3d-back">
+                                        <h4>Características</h4>
+                                        <ul style="text-align: left; padding-left: 15px;">
+                                            <li>Esquemas flexibles</li>
+                                            <li>Alta escalabilidad</li>
+                                            <li>Múltiples modelos de datos</li>
+                                            <li>Optimizado para grandes volúmenes</li>
+                                            <li>Distribución horizontal</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="db-type-card">
-                            <i class="fas fa-cloud"></i>
-                            <h4>En la Nube (Cloud Databases)</h4>
-                            <p>Alojadas y gestionadas por proveedores de nube. Accesibles desde cualquier lugar y ofrecen escalabilidad bajo demanda. Pueden ser SQL o NoSQL. <br><em>Ej: Amazon RDS, Azure SQL Database, Google Cloud SQL.</em></p>
+                        <div class="db-type-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="card-3d" style="height: 200px;">
+                                <div class="card-3d-inner">
+                                    <div class="card-3d-front">
+                                        <i class="fas fa-cloud"></i>
+                                        <h4>Cloud Databases</h4>
+                                        <p>Alojadas y gestionadas por proveedores de nube. Accesibles desde cualquier lugar.</p>
+                                        <p><em>Ej: Amazon RDS, Azure SQL Database</em></p>
+                                    </div>
+                                    <div class="card-3d-back">
+                                        <h4>Características</h4>
+                                        <ul style="text-align: left; padding-left: 15px;">
+                                            <li>Acceso global</li>
+                                            <li>Alta disponibilidad</li>
+                                            <li>Escalabilidad automática</li>
+                                            <li>Pago por uso</li>
+                                            <li>Administración simplificada</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <p>En este curso, <strong>nos enfocaremos en el mundo de las bases de datos relacionales (SQL)</strong>, utilizando el poder de Oracle para modelar, construir y gestionar la información.</p>
@@ -149,10 +1959,32 @@
                 <section id="modulo13" class="module-section">
                     <h2 class="lesson-title"><i class="fas fa-drafting-compass"></i> Módulo 1: Modelado Conceptual de Bases de Datos</h2>
                     <p>Antes de construir cualquier cosa, ¡necesitamos un plano! El modelado de bases de datos es como diseñar el plano arquitectónico de nuestra "biblioteca de datos". Un buen modelo asegura que la información esté organizada lógicamente, sea fácil de acceder y se eviten problemas futuros como datos duplicados o inconsistentes.</p>
+                    
+                    <div class="lottie-placeholder" id="model-animation">
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 30px;">
+                            <div class="entity-box">
+                                <strong>Ideas</strong>
+                                <hr>
+                                <span>Modelar</span>
+                            </div>
+                            <i class="fas fa-long-arrow-alt-right fa-2x" style="color: var(--accent-color);"></i>
+                            <div class="entity-box">
+                                <strong>Diseño</strong>
+                                <hr>
+                                <span>Planificar</span>
+                            </div>
+                            <i class="fas fa-long-arrow-alt-right fa-2x" style="color: var(--accent-color);"></i>
+                            <div class="entity-box">
+                                <strong>Base de Datos</strong>
+                                <hr>
+                                <span>Implementar</span>
+                            </div>
+                        </div>
+                    </div>
 
                     <h3>🔹 ¿Por qué modelar? La Importancia de un Buen Diseño</h3>
                     <p>Imagina intentar construir una casa sin planos: ¡sería un caos! Un modelo de datos bien pensado:</p>
-                    <ul>
+                    <ul data-aos="fade-right">
                         <li>Asegura la <strong>integridad y consistencia</strong> de los datos.</li>
                         <li>Facilita la <strong>comprensión</strong> de la estructura de la información.</li>
                         <li>Reduce la <strong>redundancia</strong> de datos (ahorrando espacio y evitando errores).</li>
@@ -163,7 +1995,7 @@
                     <h3>Pasos para Modelar tu Universo de Datos:</h3>
                     <p>Modelar una base de datos es un proceso que parte de entender una necesidad del mundo real. Tomemos como ejemplo un sistema para una <strong>pequeña tienda online</strong>.</p>
                     
-                    <div class="interactive-zone">
+                    <div class="interactive-zone" data-aos="fade-up">
                         <h4><i class="fas fa-list-check"></i> Paso 1: Definir los Requisitos 📝</h4>
                         <p>¿Qué información es crucial para nuestra tienda online? <span class="clickable-concept" onclick="toggleExplanation('req-expl')">Haz clic para reflexionar.</span></p>
                         <div id="req-expl" class="concept-explanation">
@@ -177,93 +2009,328 @@
                         </div>
                     </div>
 
-                    <div class="interactive-zone">
+                    <div class="interactive-zone" data-aos="fade-up">
                         <h4><i class="fas fa-cubes"></i> Paso 2: Identificar Entidades y Atributos 🏗️</h4>
                         <p>Las <strong>Entidades</strong> son los "sustantivos" principales de nuestro sistema (objetos o conceptos sobre los que guardamos información). Los <strong>Atributos</strong> son las características o propiedades de esas entidades.</p>
-                        <p>Para nuestra tienda, las entidades clave y algunos de sus atributos serían:</p>
-                        <div style="display:flex; justify-content:space-around; text-align:center; flex-wrap:wrap;">
-                            <div class="entity-box"><strong>Cliente</strong><hr>ID_Cliente (PK) <br>Nombre<br>Apellido<br>Email<br>Dirección</div>
-                            <div class="entity-box"><strong>Producto</strong><hr>ID_Producto (PK)<br>NombreProd<br>Descripción<br>PrecioUnit<br>StockDisp</div>
-                            <div class="entity-box"><strong>Venta</strong><hr>ID_Venta (PK)<br>FechaVenta<br>MontoTotal<br><em>ID_Cliente (FK)</em><br></div>
-                        </div>
-                        <p class="alert alert-info" style="margin-top:1rem;"><i class="fas fa-key"></i> <strong>(PK)</strong> indica Clave Primaria: un identificador único para cada registro en la entidad. <strong>(FK)</strong> indica Clave Foránea: un campo que enlaza con la Clave Primaria de otra entidad.</p>
                         
-                        <h5><i class="fas fa-mouse-pointer"></i> Mini-Juego: Identifica Entidades y Atributos</h5>
-                        <p>Escenario: Una <strong>Biblioteca</strong>. Arrastra (mentalmente) los siguientes ítems a "Entidades" o "Atributos": <em>Libro, Título, Autor, ISBN, Socio, NombreSocio, Préstamo, FechaPréstamo.</em></p>
-                        <div class="entity-diagram-placeholder">
-                            <p>[Simulación de Arrastrar y Soltar: "Libro", "Socio", "Préstamo" serían Entidades. El resto, Atributos de estas.]</p>
+                        <div class="er-diagram-container" style="height: 300px;" id="er-diagram">
+                            <div class="er-entity" id="cliente-entity" style="top: 40px; left: 80px;">
+                                <div class="er-entity-title">Cliente</div>
+                                <div class="er-attribute primary">ID_Cliente (PK)</div>
+                                <div class="er-attribute">Nombre</div>
+                                <div class="er-attribute">Apellido</div>
+                                <div class="er-attribute">Email</div>
+                                <div class="er-attribute">Dirección</div>
+                            </div>
+                            
+                            <div class="er-entity" id="producto-entity" style="top: 40px; right: 80px;">
+                                <div class="er-entity-title">Producto</div>
+                                <div class="er-attribute primary">ID_Producto (PK)</div>
+                                <div class="er-attribute">NombreProd</div>
+                                <div class="er-attribute">Descripción</div>
+                                <div class="er-attribute">PrecioUnit</div>
+                                <div class="er-attribute">StockDisp</div>
+                            </div>
+                            
+                            <div class="er-entity" id="venta-entity" style="bottom: 40px; left: 230px;">
+                                <div class="er-entity-title">Venta</div>
+                                <div class="er-attribute primary">ID_Venta (PK)</div>
+                                <div class="er-attribute">FechaVenta</div>
+                                <div class="er-attribute">MontoTotal</div>
+                                <div class="er-attribute foreign">ID_Cliente (FK)</div>
+                            </div>
+                            
+                            <div id="rel-cliente-venta" class="er-relationship" style="top: 140px; left: 170px; width: 100px; transform: rotate(45deg);"></div>
+                            <div id="rel-producto-venta" class="er-relationship" style="top: 140px; left: 400px; width: 100px; transform: rotate(135deg);"></div>
+                            
+                            <div class="er-cardinality" style="top: 130px; left: 195px;">1:N</div>
+                            <div class="er-cardinality" style="top: 130px; left: 370px;">M:N</div>
                         </div>
+                        
+                        <p class="alert alert-info" style="margin-top:1rem;"><i class="fas fa-key"></i> <strong>(PK)</strong> indica Clave Primaria: un identificador único para cada registro en la entidad. <strong>(FK)</strong> indica Clave Foránea: un campo que enlaza con la Clave Primaria de otra entidad.</p>
                     </div>
 
-                    <div class="interactive-zone">
+                    <div class="interactive-zone" data-aos="fade-up">
                         <h4><i class="fas fa-link"></i> Paso 3: Establecer Relaciones entre Entidades 🔗</h4>
                         <p>¿Cómo se conectan nuestras entidades? Usamos relaciones:</p>
                         <ul>
                             <li><strong>Un Cliente puede realizar muchas Ventas (1:N).</strong> Una Venta pertenece a un solo Cliente.</li>
                             <li><strong>Una Venta puede incluir muchos Productos, y un Producto puede estar en muchas Ventas (M:N).</strong> Esta relación M:N se resuelve con una tabla intermedia llamada, por ejemplo, <code>Detalle_Venta</code>.</li>
                         </ul>
-                        <p><code>Detalle_Venta</code> contendría: <em>ID_Detalle (PK), ID_Venta (FK), ID_Producto (FK), Cantidad, PrecioVentaUnidad.</em></p>
-                        <div style="display:flex; justify-content:center; align-items:center; margin-top:1rem;">
-                            <div class="entity-box">Cliente</div>
-                            <div class="relationship-line">1..*</div>
-                            <div class="entity-box">Venta</div>
-                            <div class="relationship-line">1..*</div>
-                            <div class="entity-box">Detalle_Venta</div>
-                            <div class="relationship-line">*..1</div>
-                             <div class="entity-box">Producto</div>
+                        
+                        <div style="margin: 2rem 0; text-align: center;">
+                            <button id="show-detalle-btn" class="btn btn-accent">Mostrar Resolución M:N</button>
                         </div>
-                        <p style="text-align:center; font-size:0.9em;">(Diagrama simplificado. Las líneas representan relaciones, los símbolos indican cardinalidad: 1..* significa "uno a muchos")</p>
-                        <h5><i class="fas fa-project-diagram"></i> Visualizador de Relaciones (Conceptual)</h5>
-                        <p>Elige dos entidades y el tipo de relación. <span class="clickable-concept" onclick="toggleExplanation('rel-expl')">Haz clic para ver ejemplos comunes.</span></p>
-                         <div id="rel-expl" class="concept-explanation">
-                            <ul>
-                                <li><strong>Profesor - Curso (M:N):</strong> Un profesor imparte muchos cursos, un curso puede ser impartido por muchos profesores (si hay co-docencia o diferentes secciones). Se resuelve con una tabla `Imparte(ID_Profesor_FK, ID_Curso_FK)`.</li>
-                                <li><strong>País - Ciudad (1:N):</strong> Un país tiene muchas ciudades, una ciudad pertenece a un solo país.</li>
-                                <li><strong>Usuario - PerfilUsuario (1:1):</strong> Un usuario tiene un solo perfil, un perfil pertenece a un solo usuario.</li>
-                            </ul>
+                        
+                        <div id="mn-resolution" style="display: none; transition: all 0.5s ease;">
+                            <p><code>Detalle_Venta</code> contendría: <em>ID_Detalle (PK), ID_Venta (FK), ID_Producto (FK), Cantidad, PrecioVentaUnidad.</em></p>
+                            <div style="display:flex; justify-content:center; align-items:center; margin-top:1rem;">
+                                <div class="entity-box">Cliente</div>
+                                <div class="relationship-line">1..*</div>
+                                <div class="entity-box">Venta</div>
+                                <div class="relationship-line">1..*</div>
+                                <div class="entity-box">Detalle_Venta</div>
+                                <div class="relationship-line">*..1</div>
+                                <div class="entity-box">Producto</div>
+                            </div>
+                            <p style="text-align:center; font-size:0.9em; margin-top: 1rem;">(Las líneas representan relaciones, los símbolos indican cardinalidad: 1..* significa "uno a muchos")</p>
                         </div>
                     </div>
 
-                    <div class="interactive-zone">
+                    <div class="interactive-zone" data-aos="fade-up">
                         <h4><i class="fas fa-ruler-combined"></i> Paso 4: Crear el Esquema Lógico (Diagrama Entidad-Relación - DER) 📐</h4>
                         <p>El DER es la representación gráfica de nuestro modelo. Muestra entidades, atributos y relaciones. Herramientas como Oracle SQL Developer Data Modeler nos ayudan a crearlos.</p>
-                        <div class="entity-diagram-placeholder">
-                            <i class="fas fa-image fa-3x" style="color:#bdc3c7;"></i>
-                            <p>[Aquí iría una imagen de un DER simple para la Tienda, mostrando las tablas Cliente, Producto, Venta y Detalle_Venta con sus atributos PK y FK, y las líneas de relación con cardinalidad (patas de gallo).]</p>
-                            <p><em>Al pasar el mouse sobre una PK o FK, se podría mostrar una tooltip explicando su función (simulado).</em></p>
+                        
+                        <div class="data-modeler-placeholder" id="data-modeler-preview">
+                            <img src="/api/placeholder/800/400" alt="Data Modeler Preview" style="max-width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); opacity: 0.7;"/>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.5); border-radius: var(--radius);">
+                                <i class="fas fa-project-diagram fa-3x" style="color: white; margin-bottom: 1rem;"></i>
+                                <p style="color: white; font-style: normal; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Diagrama Entidad-Relación Interactivo</p>
+                                <button id="preview-der-btn" class="btn btn-primary">Ver Diagrama</button>
+                            </div>
                         </div>
                     </div>
                     
                     <h3>🔹 Concepto Clave: Normalización 📊 - ¡Organizando para la Eficiencia!</h3>
                     <p>La normalización es un proceso para refinar la estructura de nuestras tablas, eliminando la redundancia de datos y mejorando su integridad. Imagina que tienes la dirección de un cliente repetida en cada una de sus 100 ventas; si el cliente se muda, ¡tendrías que actualizarla en 100 sitios! La normalización evita esto.</p>
-                    <p>Se organiza en "Formas Normales" (1NF, 2NF, 3NF son las más comunes):</p>
-                    <div class="normalization-example">
-                        <p><strong>No Normalizado (Ejemplo Malo):</strong> Tabla `PedidoCompleto`</p>
-                        <table>
-                            <tr class="bad-practice"><th>ID_Pedido</th><th>Cliente</th><th>Productos (Nombre, Cantidad)</th><th>DirecciónCliente</th></tr>
-                            <tr><td>101</td><td>Ana Solis</td><td>Laptop(1), Mouse(1)</td><td>Calle Falsa 123</td></tr>
-                             <tr><td>102</td><td>Luis Cruz</td><td>Teclado(2)</td><td>Av. Siempre Viva 742</td></tr>
-                        </table>
-                        <p>Problemas: "Productos" es una lista (viola 1NF), "DirecciónCliente" se repetiría para cada pedido de Ana.</p>
+                    
+                    <div class="normalization-demo" id="normalization-demo">
+                        <div class="table-stage active" id="stage-0">
+                            <div class="table-title">Tabla No Normalizada: PedidoCompleto</div>
+                            <table class="stage-table">
+                                <tr>
+                                    <th>ID_Pedido</th>
+                                    <th>Cliente</th>
+                                    <th class="bad-column">Productos (Nombre, Cantidad)</th>
+                                    <th class="bad-column">DirecciónCliente</th>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>Ana Solis</td>
+                                    <td class="bad-column">Laptop(1), Mouse(1)</td>
+                                    <td class="bad-column">Calle Falsa 123</td>
+                                </tr>
+                                <tr>
+                                    <td>102</td>
+                                    <td>Luis Cruz</td>
+                                    <td class="bad-column">Teclado(2)</td>
+                                    <td class="bad-column">Av. Siempre Viva 742</td>
+                                </tr>
+                                <tr>
+                                    <td>103</td>
+                                    <td>Ana Solis</td>
+                                    <td class="bad-column">Monitor(1)</td>
+                                    <td class="bad-column">Calle Falsa 123</td>
+                                </tr>
+                            </table>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <button class="normalize-button" id="normalize-btn-1">Aplicar 1NF</button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-message" id="message-1nf">
+                            <p>1NF: Eliminando valores múltiples en celdas (Productos)</p>
+                        </div>
+                        
+                        <div class="splitting-animation" id="split-animation-1"></div>
+                        
+                        <div class="table-stage" id="stage-1">
+                            <div class="table-title">Primera Forma Normal (1NF): Pedidos y Detalles</div>
+                            <div style="display: flex; justify-content: space-between; gap: 20px;">
+                                <div style="flex: 1;">
+                                    <p style="text-align: center; font-weight: bold;">Pedido</p>
+                                    <table class="stage-table">
+                                        <tr>
+                                            <th>ID_Pedido</th>
+                                            <th>Cliente</th>
+                                            <th class="bad-column">DirecciónCliente</th>
+                                        </tr>
+                                        <tr>
+                                            <td>101</td>
+                                            <td>Ana Solis</td>
+                                            <td class="bad-column highlight-column">Calle Falsa 123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>102</td>
+                                            <td>Luis Cruz</td>
+                                            <td class="bad-column">Av. Siempre Viva 742</td>
+                                        </tr>
+                                        <tr>
+                                            <td>103</td>
+                                            <td>Ana Solis</td>
+                                            <td class="bad-column highlight-column">Calle Falsa 123</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="flex: 1;">
+                                    <p style="text-align: center; font-weight: bold;">Detalle_Pedido</p>
+                                    <table class="stage-table">
+                                        <tr>
+                                            <th>ID_Detalle</th>
+                                            <th>ID_Pedido</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>101</td>
+                                            <td>Laptop</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>101</td>
+                                            <td>Mouse</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>102</td>
+                                            <td>Teclado</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>103</td>
+                                            <td>Monitor</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <button class="normalize-button" id="normalize-btn-2">Aplicar 3NF</button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-message" id="message-3nf">
+                            <p>3NF: Eliminando dependencias transitivas (DirecciónCliente depende del Cliente, no del Pedido)</p>
+                        </div>
+                        
+                        <div class="splitting-animation" id="split-animation-2"></div>
+                        
+                        <div class="table-stage" id="stage-2">
+                            <div class="table-title">Tercera Forma Normal (3NF): Modelo Completo Normalizado</div>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;">
+                                <div style="flex: 1; min-width: 200px;">
+                                    <p style="text-align: center; font-weight: bold;">Cliente</p>
+                                    <table class="stage-table">
+                                        <tr>
+                                            <th>ID_Cliente</th>
+                                            <th>Nombre</th>
+                                            <th>Dirección</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Ana Solis</td>
+                                            <td>Calle Falsa 123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Luis Cruz</td>
+                                            <td>Av. Siempre Viva 742</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="flex: 1; min-width: 200px;">
+                                    <p style="text-align: center; font-weight: bold;">Pedido</p>
+                                    <table class="stage-table">
+                                        <tr>
+                                            <th>ID_Pedido</th>
+                                            <th>ID_Cliente</th>
+                                        </tr>
+                                        <tr>
+                                            <td>101</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>102</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>103</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="flex: 1; min-width: 200px;">
+                                    <p style="text-align: center; font-weight: bold;">Detalle_Pedido</p>
+                                    <table class="stage-table">
+                                        <tr>
+                                            <th>ID_Detalle</th>
+                                            <th>ID_Pedido</th>
+                                            <th>ID_Producto</th>
+                                            <th>Cantidad</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>101</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>101</td>
+                                            <td>2</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>102</td>
+                                            <td>3</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>103</td>
+                                            <td>4</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="flex: 1; min-width: 200px;">
+                                    <p style="text-align: center; font-weight: bold;">Producto</p>
+                                    <table class="stage-table">
+                                        <tr>
+                                            <th>ID_Producto</th>
+                                            <th>Nombre</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Laptop</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Mouse</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Teclado</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Monitor</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem; padding: 10px; background-color: rgba(39, 174, 96, 0.1); border-radius: var(--radius);">
+                                <p><i class="fas fa-check-circle" style="color: var(--success);"></i> Modelo completamente normalizado (3NF)</p>
+                            </div>
+                        </div>
                     </div>
-
-                    <ul>
-                        <li><strong>1NF (Primera Forma Normal): Atomicidad.</strong> <span class="clickable-concept" onclick="toggleExplanation('nf1-expl')">¿Qué significa?</span>
-                            <div id="nf1-expl" class="concept-explanation">Cada celda de la tabla debe contener un único valor (atómico). No listas ni grupos de valores. <br><em>Solución para `PedidoCompleto`:</em> Separar los productos en una tabla `Detalle_Pedido`.</div>
-                        </li>
-                        <li><strong>2NF (Segunda Forma Normal): Dependencia completa de la PK (Clave Primaria).</strong> <span class="clickable-concept" onclick="toggleExplanation('nf2-expl')">¿Qué significa?</span>
-                            <div id="nf2-expl" class="concept-explanation">Se aplica si tienes una clave primaria compuesta (múltiples columnas). Todos los atributos que no son clave deben depender de *toda* la clave primaria compuesta, no solo de una parte. <br><em>Ejemplo:</em> Si `Detalle_Pedido` tuviera `(ID_Pedido, ID_Producto)` como PK y un atributo `Nombre_Producto`, este último solo depende de `ID_Producto`, violando 2NF. Se saca `Nombre_Producto` a la tabla `Producto`.</div>
-                        </li>
-                        <li><strong>3NF (Tercera Forma Normal): Sin dependencias transitivas.</strong> <span class="clickable-concept" onclick="toggleExplanation('nf3-expl')">¿Qué significa?</span>
-                            <div id="nf3-expl" class="concept-explanation">Ningún atributo que no sea clave debe depender de otro atributo que tampoco sea clave. <br><em>Ejemplo:</em> Si en la tabla `Empleado` tienes `ID_Empleado (PK), Nombre_Empleado, ID_Departamento, Nombre_Departamento`. Aquí, `Nombre_Departamento` depende de `ID_Departamento` (que no es la PK de `Empleado`). Esto es una dependencia transitiva. <br><em>Solución:</em> Crear una tabla `Departamento(ID_Departamento PK, Nombre_Departamento)`. En `Empleado` quedaría `ID_Departamento` como FK.</div>
-                        </li>
-                    </ul>
+                    
                     <p>La normalización puede parecer compleja, pero resulta en bases de datos más limpias, eficientes y fáciles de mantener.</p>
-                    <div class="interactive-zone">
+                    <div class="interactive-zone" data-aos="fade-up">
                         <h5><i class="fas fa-check-double"></i> Mini-Quiz de Normalización</h5>
                         <p>Tabla: <code>Libro(ISBN (PK), Titulo, ID_Autor, Nombre_Autor, Editorial)</code><br>
                         ¿Qué Forma Normal (probablemente) viola esta tabla si <code>Nombre_Autor</code> depende de <code>ID_Autor</code>, y <code>ID_Autor</code> no es parte de la PK de <code>Libro</code>?</p>
-                        <p><span class="clickable-concept" onclick="this.nextElementSibling.style.display='block';">Ver Respuesta</span> <span class="concept-explanation" style="display:inline-block; padding:5px;">Probablemente viola la 3NF (dependencia transitiva: Titulo -> ID_Autor -> Nombre_Autor). Deberíamos tener una tabla Autor(ID_Autor, Nombre_Autor).</span></p>
+                        <div id="quiz-options" style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn btn-outline btn-sm quiz-option" data-correct="false">Primera Forma Normal (1NF)</button>
+                            <button class="btn btn-outline btn-sm quiz-option" data-correct="false">Segunda Forma Normal (2NF)</button>
+                            <button class="btn btn-outline btn-sm quiz-option" data-correct="true">Tercera Forma Normal (3NF)</button>
+                        </div>
+                        <div id="quiz-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--radius); display: none;"></div>
                     </div>
                 </section>
 
@@ -271,45 +2338,127 @@
                     <h2 class="lesson-title"><i class="fas fa-cogs"></i> Módulo 2: Creando el Modelo Físico en Oracle (SQL)</h2>
                     <p>Una vez que tenemos nuestro "plano" conceptual (modelo lógico y DER), es hora de traducirlo a la realidad de cómo se almacenarán los datos en Oracle. Esto es el <strong>Modelo Físico</strong>. Aquí entran en juego los tipos de datos específicos de Oracle, las restricciones y las optimizaciones.</p>
 
+                    <div class="lottie-placeholder" id="physical-model-animation">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-project-diagram fa-3x" style="color: var(--primary-color);"></i>
+                                    <p>Modelo Lógico</p>
+                                </div>
+                                <i class="fas fa-arrow-right fa-2x" style="color: var(--accent-color);"></i>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-table fa-3x" style="color: var(--secondary-color);"></i>
+                                    <p>Modelo Físico</p>
+                                </div>
+                                <i class="fas fa-arrow-right fa-2x" style="color: var(--accent-color);"></i>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-database fa-3x" style="color: var(--accent-color);"></i>
+                                    <p>Base de Datos</p>
+                                </div>
+                            </div>
+                            <div class="code-highlighter" style="margin-top: 15px;">
+                                <pre style="margin: 0;"><code>CREATE TABLE Cliente (
+  ID_Cliente NUMBER(10) PRIMARY KEY,
+  Nombre VARCHAR2(50) NOT NULL
+);</code></pre>
+                                <div class="highlight-line" id="code-highlighter-line"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <h3>Del Lógico al Físico: Materializando el Diseño</h3>
                     <p>El modelo físico detalla:</p>
-                    <ul>
+                    <ul data-aos="fade-right">
                         <li>Nombres exactos de <strong>tablas y columnas</strong>.</li>
                         <li><strong>Tipos de datos Oracle</strong> para cada columna (<code>NUMBER</code>, <code>VARCHAR2</code>, <code>DATE</code>, etc.).</li>
                         <li><strong>Restricciones (Constraints)</strong> para asegurar la integridad de los datos (<code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>, <code>UNIQUE</code>, <code>NOT NULL</code>, <code>CHECK</code>).</li>
                         <li><strong>Índices</strong> para acelerar las búsquedas.</li>
                         <li>Otras estructuras específicas del DBMS como <strong>tablespaces</strong> o <strong>particiones</strong> (conceptos más avanzados que mencionaremos).</li>
                     </ul>
-                    <div class="entity-diagram-placeholder">
-                        <i class="fas fa-exchange-alt fa-3x" style="color:#bdc3c7;"></i>
-                        <p>[Diagrama conceptual: Modelo Lógico (cajas y líneas simples) -> Flecha de Transformación -> Modelo Físico (cajas con tipos de datos Oracle, PK/FK marcados, índices mostrados).]</p>
-                    </div>
 
                     <h4>Tipos de Datos Comunes en Oracle SQL:</h4>
-                    <div class="interactive-zone">
-                        <h5><i class="fas fa-ruler-vertical"></i> Selector de Tipo de Dato Oracle (Conceptual)</h5>
+                    <div class="interactive-zone" data-aos="fade-up">
+                        <h5><i class="fas fa-ruler-vertical"></i> Selector de Tipo de Dato Oracle</h5>
                         <p>Para cada tipo de información, Oracle ofrece un tipo de dato adecuado. ¡Elegir bien es clave!</p>
-                        <ul>
-                            <li><strong><code>NUMBER(p, s)</code></strong>: Para números. <code>p</code> es la precisión (total de dígitos), <code>s</code> es la escala (dígitos después del punto decimal).
-                                <ul class="concept-explanation" style="display:block; border:none; padding-left:10px;">
-                                    <li><code>NUMBER(5)</code>: Entero hasta 99999.</li>
-                                    <li><code>NUMBER(7,2)</code>: Número como 12345.67.</li>
-                                    <li><code>NUMBER</code> (sin p,s): Número de punto flotante de alta precisión.</li>
-                                </ul>
-                            </li>
-                            <li><strong><code>VARCHAR2(size [BYTE | CHAR])</code></strong>: Cadenas de texto de longitud variable. <code>size</code> es la longitud máxima. <code>BYTE</code> (defecto) o <code>CHAR</code> (para caracteres multibyte). ¡El tipo de dato más común para texto!</li>
-                            <li><strong><code>CHAR(size [BYTE | CHAR])</code></strong>: Cadenas de texto de longitud fija. Si el texto es más corto, se rellena con espacios. Usar con cuidado.</li>
-                            <li><strong><code>DATE</code></strong>: Almacena fecha y hora (siglo, año, mes, día, hora, minuto, segundo).</li>
-                            <li><strong><code>TIMESTAMP</code></strong>: Similar a <code>DATE</code> pero con fracciones de segundo y opcionalmente zona horaria.</li>
-                            <li><strong><code>CLOB</code> (Character Large Object)</strong>: Para textos muy largos (documentos, descripciones extensas).</li>
-                            <li><strong><code>BLOB</code> (Binary Large Object)</strong>: Para datos binarios grandes (imágenes, videos, archivos).</li>
-                        </ul>
-                        <p><em>Intenta asociar: ¿Qué tipo usarías para... un DNI? ¿El precio de un producto? ¿La descripción de un libro?</em></p>
+                        
+                        <div class="data-type-selector" id="data-type-selector">
+                            <div class="data-type-option" data-type="number">
+                                <span><i class="fas fa-calculator"></i> NUMBER</span>
+                            </div>
+                            <div class="data-type-option" data-type="varchar2">
+                                <span><i class="fas fa-font"></i> VARCHAR2</span>
+                            </div>
+                            <div class="data-type-option" data-type="char">
+                                <span><i class="fas fa-text-width"></i> CHAR</span>
+                            </div>
+                            <div class="data-type-option" data-type="date">
+                                <span><i class="fas fa-calendar-alt"></i> DATE</span>
+                            </div>
+                            <div class="data-type-option" data-type="timestamp">
+                                <span><i class="fas fa-clock"></i> TIMESTAMP</span>
+                            </div>
+                            <div class="data-type-option" data-type="clob">
+                                <span><i class="fas fa-file-alt"></i> CLOB</span>
+                            </div>
+                            <div class="data-type-option" data-type="blob">
+                                <span><i class="fas fa-file-image"></i> BLOB</span>
+                            </div>
+                        </div>
+                        
+                        <div class="data-type-info" id="data-type-info">
+                            <h5><i id="data-type-icon" class="fas fa-info-circle"></i> <span id="data-type-title">Selecciona un tipo de dato</span></h5>
+                            <p id="data-type-description">Haz clic en uno de los tipos de datos para ver su descripción y usos comunes.</p>
+                            <div id="data-type-examples" style="display: none;">
+                                <p><strong>Ejemplo(s):</strong></p>
+                                <code id="data-type-syntax"></code>
+                                <p><strong>Uso común:</strong> <span id="data-type-usage"></span></p>
+                            </div>
+                        </div>
                     </div>
 
                     <h4>Definiendo Tablas con <code>CREATE TABLE</code> y Restricciones:</h4>
-                    <p>El comando SQL principal para crear la estructura es <code>CREATE TABLE</code>.</p>
-                    <pre><code class="language-sql">
+                    <p>El comando SQL principal para crear la estructura es <code>CREATE TABLE</code>. Aquí un ejemplo completo para nuestra tienda:</p>
+                    
+                    <div class="sql-animation-container" id="sql-animation">
+                        <div class="sql-code-block">
+                            <code>CREATE TABLE Cliente (
+  ID_Cliente NUMBER(10) PRIMARY KEY,
+  Nombre VARCHAR2(50) NOT NULL,
+  Email VARCHAR2(100) UNIQUE,
+  FechaRegistro DATE DEFAULT SYSDATE
+);</code>
+                        </div>
+                        
+                        <div class="sql-animation-arrow" id="sql-arrow"></div>
+                        
+                        <div class="sql-table" id="sql-table">
+                            <div class="sql-table-header">Tabla: CLIENTE</div>
+                            <div class="sql-table-row">
+                                <div class="sql-table-cell"><strong>ID_CLIENTE (PK)</strong></div>
+                                <div class="sql-table-cell"><strong>NOMBRE</strong></div>
+                                <div class="sql-table-cell"><strong>EMAIL (UQ)</strong></div>
+                                <div class="sql-table-cell"><strong>FECHA_REGISTRO</strong></div>
+                            </div>
+                            <div class="sql-table-row">
+                                <div class="sql-table-cell">1</div>
+                                <div class="sql-table-cell">Ana García</div>
+                                <div class="sql-table-cell">ana@ejemplo.com</div>
+                                <div class="sql-table-cell">15-MAY-25</div>
+                            </div>
+                            <div class="sql-table-row">
+                                <div class="sql-table-cell">2</div>
+                                <div class="sql-table-cell">Luis Torres</div>
+                                <div class="sql-table-cell">luis@ejemplo.com</div>
+                                <div class="sql-table-cell">14-MAY-25</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <button id="animate-sql-btn" class="btn btn-primary">Ver Animación SQL → Tabla</button>
+                    </div>
+
+                    <pre data-aos="fade-up"><code class="language-sql">
 CREATE TABLE Cliente (
     ID_Cliente      NUMBER(10)      CONSTRAINT pk_cliente PRIMARY KEY,
     Nombre          VARCHAR2(50)    CONSTRAINT nn_cliente_nombre NOT NULL,
@@ -344,7 +2493,7 @@ CREATE TABLE Venta (
 -- Nota: La tabla Detalle_Venta para la relación M:N se crearía de forma similar.
                     </code></pre>
                     <p><strong>Explicación de las Restricciones (Constraints):</strong></p>
-                    <ul>
+                    <ul data-aos="fade-right">
                         <li><code>CONSTRAINT nombre_constraint TIPO_CONSTRAINT (columnas)</code>: Forma explícita de nombrar una restricción. Facilita su gestión.</li>
                         <li><code>PRIMARY KEY</code>: Identificador único de la fila. Implícitamente <code>NOT NULL</code> y <code>UNIQUE</code>.</li>
                         <li><code>NOT NULL</code>: La columna no puede tener valores nulos.</li>
@@ -353,35 +2502,69 @@ CREATE TABLE Venta (
                         <li><code>FOREIGN KEY ... REFERENCES ...</code>: Establece una relación con otra tabla, asegurando la integridad referencial.</li>
                         <li><code>DEFAULT</code>: Asigna un valor por defecto si no se especifica uno al insertar.</li>
                     </ul>
-                    <div class="interactive-zone">
-                        <h5><i class="fas fa-tools"></i> Constructor de <code>CREATE TABLE</code> (Simplificado)</h5>
-                        <p>Elige un nombre de tabla, añade columnas con tipos y restricciones, ¡y mira cómo se forma el SQL!</p>
-                        <div class="entity-diagram-placeholder">
-                            <p>[Simulación: Inputs para NombreTabla, NombreCol1, TipoCol1, RestriccionesCol1 (checkboxes para PK, NN, UQ). Al añadir columnas, se actualiza un `<pre>` con el `CREATE TABLE` SQL.]</p>
-                        </div>
-                    </div>
 
                     <h4>Acelerando Consultas con Índices:</h4>
                     <p>Un índice es como el índice de un libro: permite a Oracle encontrar datos más rápidamente sin tener que leer toda la tabla (Full Table Scan).</p>
-                    <pre><code class="language-sql">
+                    <pre data-aos="fade-up"><code class="language-sql">
 -- Crear un índice en la columna Email de la tabla Cliente para búsquedas rápidas por email
 CREATE INDEX idx_cliente_email ON Cliente(Email);
 
 -- Crear un índice compuesto si a menudo buscas por Apellido y Nombre juntos
 CREATE INDEX idx_cliente_apellinom ON Cliente(Apellido, Nombre);
                     </code></pre>
-                    <ul>
-                        <li><strong>Cuándo crear índices:</strong> En columnas usadas frecuentemente en cláusulas <code>WHERE</code>, <code>JOIN</code>, o para <code>ORDER BY</code>. En Claves Foráneas es buena práctica.</li>
-                        <li><strong>Impacto:</strong> Aceleran las lecturas (<code>SELECT</code>), pero pueden ralentizar un poco las escrituras (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) porque el índice también debe actualizarse. ¡No abuses de ellos!</li>
-                    </ul>
-                    <div class="interactive-zone">
-                        <h5><i class="fas fa-tachometer-alt"></i> Sin Índice vs. Con Índice (Visualización Conceptual)</h5>
+                    
+                    <div class="interactive-zone" data-aos="fade-up">
+                        <h5><i class="fas fa-tachometer-alt"></i> Sin Índice vs. Con Índice (Visualización)</h5>
                         <p>Imagina buscar un nombre en una guía telefónica enorme...</p>
-                        <div style="display:flex; justify-content:space-around;">
-                            <div style="width:45%; text-align:center;"><strong>Sin Índice (Lento)</strong><br><i class="fas fa-search fa-2x" style="animation: scan 2s linear infinite;"></i><br>Revisando cada página...</div>
-                            <div style="width:45%; text-align:center;"><strong>Con Índice (Rápido)</strong><br><i class="fas fa-book-open fa-2x"></i><br>¡Directo a la letra 'P'!</div>
+                        
+                        <div class="db-table-animation" id="index-animation">
+                            <div class="db-row db-header" style="top: 10px;">
+                                <div class="db-cell">ID</div>
+                                <div class="db-cell">Nombre</div>
+                                <div class="db-cell">Email</div>
+                                <div class="db-cell">Teléfono</div>
+                            </div>
+                            
+                            <div class="db-row" style="top: 60px;">
+                                <div class="db-cell">1</div>
+                                <div class="db-cell">Ana García</div>
+                                <div class="db-cell">ana@mail.com</div>
+                                <div class="db-cell">555-1234</div>
+                            </div>
+                            
+                            <div class="db-row" style="top: 100px;">
+                                <div class="db-cell">2</div>
+                                <div class="db-cell">Carlos López</div>
+                                <div class="db-cell">carlos@mail.com</div>
+                                <div class="db-cell">555-2345</div>
+                            </div>
+                            
+                            <div class="db-row" style="top: 140px;">
+                                <div class="db-cell">3</div>
+                                <div class="db-cell">Elena Torres</div>
+                                <div class="db-cell">elena@mail.com</div>
+                                <div class="db-cell">555-3456</div>
+                            </div>
+                            
+                            <div class="db-row" style="top: 180px;">
+                                <div class="db-cell">4</div>
+                                <div class="db-cell">María Ramírez</div>
+                                <div class="db-cell">maria@mail.com</div>
+                                <div class="db-cell">555-4567</div>
+                            </div>
+                            
+                            <div class="db-row" style="top: 220px;">
+                                <div class="db-cell">5</div>
+                                <div class="db-cell">Pablo Sánchez</div>
+                                <div class="db-cell">pablo@mail.com</div>
+                                <div class="db-cell">555-5678</div>
+                            </div>
+                            
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 10px;">
+                                <button id="full-scan-btn" class="btn btn-sm btn-outline">Sin Índice (Full Scan)</button>
+                                <button id="index-scan-btn" class="btn btn-sm btn-outline">Con Índice</button>
+                            </div>
                         </div>
-                        <style>@keyframes scan { 0%{transform:translateX(-10px)} 50%{transform:translateX(10px)} 100%{transform:translateX(-10px)}}</style>
                     </div>
                 </section>
 
@@ -389,8 +2572,28 @@ CREATE INDEX idx_cliente_apellinom ON Cliente(Apellido, Nombre);
                     <h2 class="lesson-title"><i class="fas fa-tools"></i> Módulo 3: Modelado Visual con Oracle SQL Developer Data Modeler</h2>
                     <p>Diseñar bases de datos complejas directamente con código SQL puede ser propenso a errores y difícil de visualizar. Aquí es donde brillan herramientas como <strong>Oracle SQL Developer Data Modeler (SDDM)</strong>. Es una herramienta gráfica, gratuita, que te permite diseñar, documentar y generar los esquemas de tu base de datos de forma visual e intuitiva.</p>
 
+                    <div class="lottie-placeholder" id="datamodeler-animation">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                            <img src="/api/placeholder/800/300" alt="SQL Developer Data Modeler" style="max-width: 100%; border-radius: var(--radius); box-shadow: var(--shadow);"/>
+                            <div style="display: flex; justify-content: center; gap: 40px; width: 100%;">
+                                <div style="text-align: center;">
+                                    <i class="fas fa-object-group fa-3x rotate-icon" style="color: var(--primary-color);"></i>
+                                    <p>Diseño Visual</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-magic fa-3x" style="color: var(--secondary-color);"></i>
+                                    <p>Ingeniería Automática</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <i class="fas fa-file-code fa-3x" style="color: var(--accent-color);"></i>
+                                    <p>Generación de Scripts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <h3>¿Qué puedes hacer con SQL Developer Data Modeler?</h3>
-                    <ul>
+                    <ul data-aos="fade-right">
                         <li><strong>Diseñar Modelos Lógicos:</strong> Representar entidades, atributos y relaciones sin preocuparte aún por los detalles específicos de Oracle.</li>
                         <li><strong>Ingeniería a Modelo Relacional/Físico:</strong> Convertir tu modelo lógico en un modelo físico específico para Oracle (u otros DBMS), asignando tipos de datos, definiendo tablas, etc.</li>
                         <li><strong>Generar DDL:</strong> Crear automáticamente los scripts SQL (<code>CREATE TABLE</code>, <code>ALTER TABLE</code>, etc.) para implementar tu diseño en la base de datos.</li>
@@ -400,57 +2603,133 @@ CREATE INDEX idx_cliente_apellinom ON Cliente(Apellido, Nombre);
                     </ul>
 
                     <h3>Flujo de Trabajo Básico en Data Modeler:</h3>
-                    <div class="interactive-zone">
-                        <h4><i class="fas fa-shoe-prints"></i> Pasos Visuales (Simulados)</h4>
-                        <ol>
-                            <li><strong>Crear un Nuevo Diseño Lógico:</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-logico')">Ver más...</span>
-                                <div id="sddm-logico" class="concept-explanation">
-                                    En SDDM, irías a `Archivo > Nuevo > Diseño Lógico`. Aquí arrastras y sueltas "Entidades" desde la paleta, les das nombres (ej: Cliente, Producto) y añades "Atributos" (ej: Nombre, Precio) con sus tipos de datos lógicos (ej: Cadena, Número).
-                                    <div class="data-modeler-placeholder"><i class="fas fa-object-group fa-2x"></i><p>Panel de Diseño Lógico: Arrastrando Entidades (Cliente, Producto) y añadiendo Atributos.</p></div>
+                    <div class="interactive-zone" data-aos="fade-up">
+                        <h4><i class="fas fa-shoe-prints"></i> Modelado Paso a Paso (Simulado)</h4>
+                        
+                        <div style="display: flex; justify-content: space-between; margin: 2rem 0;">
+                            <div id="step-buttons" style="display: flex; flex-direction: column; gap: 15px; width: 250px;">
+                                <button class="btn btn-outline workflow-step active" data-step="1">
+                                    <i class="fas fa-plus-circle"></i> Crear Diseño Lógico
+                                </button>
+                                <button class="btn btn-outline workflow-step" data-step="2">
+                                    <i class="fas fa-draw-polygon"></i> Definir Entidades
+                                </button>
+                                <button class="btn btn-outline workflow-step" data-step="3">
+                                    <i class="fas fa-link"></i> Establecer Relaciones
+                                </button>
+                                <button class="btn btn-outline workflow-step" data-step="4">
+                                    <i class="fas fa-cogs"></i> Convertir a Modelo Físico
+                                </button>
+                                <button class="btn btn-outline workflow-step" data-step="5">
+                                    <i class="fas fa-file-code"></i> Generar Script SQL
+                                </button>
+                            </div>
+                            
+                            <div style="flex-grow: 1; margin-left: 20px; position: relative; min-height: 300px; border: 1px solid #ddd; border-radius: var(--radius); overflow: hidden;">
+                                <div class="workflow-content active" id="step-content-1">
+                                    <img src="/api/placeholder/600/300" alt="Nuevo Proyecto" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(255,255,255,0.8); padding: 20px;">
+                                        <h5>Paso 1: Crear Nuevo Diseño Lógico</h5>
+                                        <p>En SQL Developer Data Modeler, crea un nuevo proyecto usando <code>Archivo > Nuevo > Diseño Lógico</code></p>
+                                        <p>Aquí definirás las entidades y relaciones sin preocuparte aún por detalles específicos de Oracle.</p>
+                                    </div>
                                 </div>
-                            </li>
-                            <li><strong>Definir Relaciones:</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-rel')">Ver más...</span>
-                                <div id="sddm-rel" class="concept-explanation">
-                                    Usas herramientas para dibujar líneas de relación entre entidades (ej: de Cliente a Venta). Especificas la cardinalidad (1:N, M:N). Para M:N, SDDM puede ayudarte a crear la tabla de intersección.
-                                    <div class="data-modeler-placeholder"><i class="fas fa-link fa-2x"></i><p>Dibujando una Relación 1:N entre Cliente y Venta, y una M:N entre Venta y Producto (que creará Detalle_Venta).</p></div>
+                                
+                                <div class="workflow-content" id="step-content-2">
+                                    <img src="/api/placeholder/600/300" alt="Definir Entidades" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(255,255,255,0.8); padding: 20px;">
+                                        <h5>Paso 2: Definir Entidades y Atributos</h5>
+                                        <p>Arrastra y suelta entidades desde la paleta de herramientas. Define nombres (Cliente, Producto) y atributos (ID_Cliente, Nombre, etc.)</p>
+                                        <p>Para cada atributo, especifica su tipo de dato lógico y si es clave primaria.</p>
+                                    </div>
                                 </div>
-                            </li>
-                            <li><strong>Ingeniería a Modelo Relacional (Físico):</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-fisico')">Ver más...</span>
-                                <div id="sddm-fisico" class="concept-explanation">
-                                    Seleccionas tu modelo lógico y usas la opción "Ingeniería a Modelo Relacional". Eliges "Oracle [versión]". SDDM convierte tus entidades en tablas, atributos en columnas con tipos de datos Oracle, y relaciones en claves foráneas.
-                                    <div class="data-modeler-placeholder"><i class="fas fa-cogs fa-2x"></i><p>Vista del Modelo Físico: Las entidades ahora son tablas con tipos de datos Oracle (VARCHAR2, NUMBER). Las FKs son visibles.</p></div>
+                                
+                                <div class="workflow-content" id="step-content-3">
+                                    <img src="/api/placeholder/600/300" alt="Establecer Relaciones" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(255,255,255,0.8); padding: 20px;">
+                                        <h5>Paso 3: Establecer Relaciones</h5>
+                                        <p>Usa la herramienta de relación para conectar entidades. Define la cardinalidad (1:N, M:N).</p>
+                                        <p>Para relaciones M:N, SDDM puede ayudarte a generar automáticamente la tabla de intersección.</p>
+                                    </div>
                                 </div>
-                            </li>
-                            <li><strong>Generar DDL (Script SQL):</strong> <span class="clickable-concept" onclick="toggleExplanation('sddm-ddl')">Ver más...</span>
-                                <div id="sddm-ddl" class="concept-explanation">
-                                    Con el modelo físico seleccionado, vas a `Archivo > Exportar > Archivo DDL`. Configuras las opciones (qué objetos generar, para qué versión de Oracle) y SDDM crea el script SQL con todos los `CREATE TABLE`, `ALTER TABLE ADD CONSTRAINT`, etc.
-                                    <div class="data-modeler-placeholder"><i class="fas fa-file-code fa-2x"></i><p>Ventana de Generación de DDL: Previsualización del script SQL listo para ser ejecutado en la base de datos.</p></div>
+                                
+                                <div class="workflow-content" id="step-content-4">
+                                    <img src="/api/placeholder/600/300" alt="Modelo Físico" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(255,255,255,0.8); padding: 20px;">
+                                        <h5>Paso 4: Convertir a Modelo Físico</h5>
+                                        <p>Utiliza <code>Ingeniería > Ingeniería a Modelo Relacional</code> y selecciona Oracle como plataforma.</p>
+                                        <p>SDDM convertirá tus entidades lógicas a tablas físicas con tipos de datos Oracle específicos.</p>
+                                    </div>
                                 </div>
-                            </li>
-                        </ol>
+                                
+                                <div class="workflow-content" id="step-content-5">
+                                    <img src="/api/placeholder/600/300" alt="Generar SQL" style="width: 100%; height: 100%; object-fit: cover;"/>
+                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: rgba(255,255,255,0.8); padding: 20px;">
+                                        <h5>Paso 5: Generar Script SQL (DDL)</h5>
+                                        <p>Usa <code>Archivo > Exportar > Archivo DDL</code> para generar automáticamente los scripts SQL.</p>
+                                        <p>El script generado incluirá todos los <code>CREATE TABLE</code>, restricciones, y otros objetos de base de datos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <h4>Ejemplo de Representación Gráfica en Data Modeler:</h4>
-                    <p>Imagina el siguiente diagrama simplificado que podrías ver en SDDM para nuestra tienda (como mencionaste: 📌 Clientes → 📌 Productos → 📌 Ventas):</p>
-                    <div class="data-modeler-placeholder" style="background-image: url('../../img/placeholder_sddm_diagram.png'); background-size:contain; background-repeat:no-repeat; background-position: center; min-height:300px; color:transparent;">
-                        <p style="background:rgba(255,255,255,0.7); padding:5px; color:black;">
-                            <strong>[Diagrama Visual de SQL Developer Data Modeler]</strong><br>
-                            - Entidad <strong>Cliente</strong> (Caja con atributos: ID_Cliente (PK), Nombre, Email (UQ))<br>
-                            - Entidad <strong>Producto</strong> (Caja con atributos: ID_Producto (PK), NombreProd, PrecioUnit)<br>
-                            - Entidad <strong>Venta</strong> (Caja con atributos: ID_Venta (PK), ID_Cliente_FK (FK), FechaVenta)<br>
-                            - Entidad <strong>Detalle_Venta</strong> (Tabla de cruce para M:N entre Venta y Producto, con ID_Venta_FK, ID_Producto_FK como PK compuesta)<br>
-                            - Líneas conectando las cajas, con símbolos de "pata de gallo" (crow's foot) indicando cardinalidad (1:N, M:N).<br>
-                            <em>Al pasar el mouse sobre una FK, se resaltaría la PK a la que apunta en la otra tabla.</em>
-                        </p>
+                    <div class="data-modeler-placeholder" id="data-modeler-example" data-aos="fade-up">
+                        <div class="er-diagram-container" style="height: 350px; padding: 0; margin: 0; box-shadow: none;">
+                            <div class="er-entity" style="top: 40px; left: 50px; width: 160px;">
+                                <div class="er-entity-title">Cliente</div>
+                                <div class="er-attribute primary">ID_Cliente (PK)</div>
+                                <div class="er-attribute">Nombre</div>
+                                <div class="er-attribute">Email</div>
+                                <div class="er-attribute">FechaRegistro</div>
+                            </div>
+                            
+                            <div class="er-entity" style="top: 40px; right: 50px; width: 160px;">
+                                <div class="er-entity-title">Producto</div>
+                                <div class="er-attribute primary">ID_Producto (PK)</div>
+                                <div class="er-attribute">NombreProd</div>
+                                <div class="er-attribute">PrecioUnit</div>
+                                <div class="er-attribute">StockDisp</div>
+                            </div>
+                            
+                            <div class="er-entity" style="bottom: 40px; left: 50px; width: 160px;">
+                                <div class="er-entity-title">Venta</div>
+                                <div class="er-attribute primary">ID_Venta (PK)</div>
+                                <div class="er-attribute">FechaVenta</div>
+                                <div class="er-attribute">MontoTotal</div>
+                                <div class="er-attribute foreign">ID_Cliente (FK)</div>
+                            </div>
+                            
+                            <div class="er-entity" style="bottom: 40px; right: 50px; width: 160px;">
+                                <div class="er-entity-title">Detalle_Venta</div>
+                                <div class="er-attribute primary">ID_Detalle (PK)</div>
+                                <div class="er-attribute foreign">ID_Venta (FK)</div>
+                                <div class="er-attribute foreign">ID_Producto (FK)</div>
+                                <div class="er-attribute">Cantidad</div>
+                            </div>
+                            
+                            <div class="er-relationship" style="top: 130px; left: 170px; width: 140px; transform: rotate(90deg);"></div>
+                            <div class="er-relationship" style="top: 280px; left: 170px; width: 140px; transform: rotate(90deg);"></div>
+                            <div class="er-relationship" style="top: 280px; left: 370px; width: 140px; transform: rotate(90deg);"></div>
+                            <div class="er-relationship" style="top: 130px; left: 370px; width: 140px; transform: rotate(90deg);"></div>
+                            
+                            <div class="er-cardinality" style="top: 150px; left: 110px;">1:N</div>
+                            <div class="er-cardinality" style="top: 260px; left: 110px;">1:N</div>
+                            <div class="er-cardinality" style="top: 260px; left: 430px;">1:N</div>
+                            <div class="er-cardinality" style="top: 150px; left: 430px;">1:N</div>
+                        </div>
                     </div>
                     <p>SDDM te permite ver claramente cómo se conectan tus datos, identificar posibles problemas de diseño y generar la base de tu base de datos de manera eficiente.</p>
-                    <div class="alert alert-success"><i class="fas fa-lightbulb"></i> Descarga e instala Oracle SQL Developer Data Modeler. ¡Experimentar con la herramienta es la mejor forma de aprender!</div>
+                    <div class="alert alert-success" data-aos="fade-in">
+                        <i class="fas fa-lightbulb"></i> Descarga e instala Oracle SQL Developer Data Modeler. ¡Experimentar con la herramienta es la mejor forma de aprender!
+                    </div>
                 </section>
 
                 <section id="modulo16" class="module-section">
                     <h2 class="lesson-title"><i class="fas fa-scroll"></i> Módulo 4: Creando tu Base de Datos con Scripts SQL</h2>
                     <p>Un script SQL es simplemente un archivo de texto que contiene una secuencia de comandos SQL. Son increíblemente útiles para:</p>
-                    <ul>
+                    <ul data-aos="fade-right">
                         <li><strong>Automatizar la creación</strong> de la estructura de la base de datos (tablas, índices, restricciones, vistas, etc.).</li>
                         <li><strong>Poblar la base de datos</strong> con datos iniciales o de prueba.</li>
                         <li><strong>Realizar modificaciones</strong> consistentes en la estructura (ej: añadir una columna).</li>
@@ -458,17 +2737,45 @@ CREATE INDEX idx_cliente_apellinom ON Cliente(Apellido, Nombre);
                         <li><strong>Control de versiones</strong> de tu esquema de base de datos.</li>
                     </ul>
 
+                    <div class="lottie-placeholder" id="script-animation">
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                            <div style="text-align: center;">
+                                <i class="fas fa-file-code fa-4x" style="color: var(--primary-color);"></i>
+                                <p>Script SQL</p>
+                            </div>
+                            <i class="fas fa-arrow-right fa-2x" style="color: var(--accent-color);"></i>
+                            <div style="text-align: center;">
+                                <i class="fas fa-cogs fa-4x rotating" style="color: var(--secondary-color);"></i>
+                                <p>Ejecución</p>
+                            </div>
+                            <i class="fas fa-arrow-right fa-2x" style="color: var(--accent-color);"></i>
+                            <div style="text-align: center;">
+                                <i class="fas fa-database fa-4x" style="color: var(--accent-color);"></i>
+                                <p>Base de Datos</p>
+                            </div>
+                        </div>
+                        <style>
+                            .rotating {
+                                animation: rotating 3s linear infinite;
+                            }
+                            @keyframes rotating {
+                                from { transform: rotate(0deg); }
+                                to { transform: rotate(360deg); }
+                            }
+                        </style>
+                    </div>
+
                     <h3>🔹 Estructura de un Script de Creación Típico:</h3>
                     <p>Un buen script suele seguir un orden lógico:</p>
-                    <ol>
+                    <ol data-aos="fade-right">
                         <li><strong>(Opcional) Comandos para limpiar/eliminar objetos existentes:</strong> Para que el script sea re-ejecutable (ej: <code>DROP TABLE nombre_tabla;</code>). En Oracle, esto puede ser más complejo si hay dependencias de FK, a veces se requiere un orden específico o deshabilitar constraints temporalmente.
                             <pre><code class="language-sql">-- Cuidado con DROP en producción! Usar con precaución.
--- BEGIN
---    EXECUTE IMMEDIATE 'DROP TABLE Detalle_Venta';
--- EXCEPTION
---    WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; -- Ignora error "table does not exist"
--- END;
--- / 
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE Detalle_Venta';
+EXCEPTION
+   WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; -- Ignora error "table does not exist"
+END;
+/ 
 -- (Repetir para Venta, Producto, Cliente en orden inverso de dependencias)
                             </code></pre>
                             <p><em>(El bloque PL/SQL anterior es una forma de manejar errores si la tabla no existe. En desarrollo, un simple <code>DROP TABLE ... CASCADE CONSTRAINTS;</code> puede ser más directo si se conocen las implicaciones.)</em></p>
@@ -484,10 +2791,12 @@ CREATE INDEX idx_cliente_apellinom ON Cliente(Apellido, Nombre);
                     </ol>
 
                     <h3>Ejemplo de Script SQL para la Tienda Online (Oracle):</h3>
-                    <div class="interactive-zone">
+                    <div class="interactive-zone" data-aos="fade-up">
                         <h4><i class="fas fa-play-circle"></i> Simulador de Ejecución de Script SQL</h4>
-                        <p>Observa el script y presiona "Ejecutar Siguiente" para ver (conceptualmente) cómo se crea la base de datos paso a paso. Las tablas y datos aparecerán visualmente abajo.</p>
-                        <pre id="sqlScriptContent" style="max-height: 300px; overflow-y: auto; background-color: #2d2d2d; color: #f0f0f0; padding: 10px; border-radius: 5px;"><code class="language-sql">
+                        <p>Observa el script y presiona "Ejecutar Siguiente" para ver (conceptualmente) cómo se crea la base de datos paso a paso.</p>
+                        
+                        <div class="code-execution-simulator">
+                            <pre id="sqlScriptContent" style="max-height: 300px; overflow-y: auto; background-color: #2d2d2d; color: #f0f0f0; padding: 15px; border-radius: 5px; font-family: 'Consolas', monospace; margin-bottom: 15px; position: relative;"><code class="language-sql">
 -- Borrado de tablas (simplificado para demo, en orden inverso de creación y dependencias)
 -- DROP TABLE Detalle_Venta;
 -- DROP TABLE Venta;
@@ -585,263 +2894,560 @@ FROM Cliente c
 JOIN Venta v ON c.ID_Cliente = v.ID_Cliente_FK
 JOIN Detalle_Venta dv ON v.ID_Venta = dv.ID_Venta_FK
 JOIN Producto p ON dv.ID_Producto_FK = p.ID_Producto;
-                        </code></pre>
-                        <button id="btnRunNextSql" class="btn btn-primary" style="margin-top:10px;"><i class="fas fa-step-forward"></i> Ejecutar Siguiente (Conceptual)</button>
-                        <button id="btnResetSqlSim" class="btn btn-accent"><i class="fas fa-undo"></i> Reiniciar Simulación</button>
-                        
-                        <h4>Salida/Visualización Conceptual:</h4>
-                        <div id="sqlTableVizArea">
-                            <p><em>Las tablas aparecerán aquí a medida que se ejecuten los <code>CREATE</code>...</em></p>
+                            </code></pre>
+                            <div id="highlight-line" style="position: absolute; left: 0; top: 0; height: 24px; width: 100%; background-color: rgba(231, 76, 60, 0.2); display: none; pointer-events: none;"></div>
+                            
+                            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                <button id="btnRunNextSql" class="btn btn-primary"><i class="fas fa-step-forward"></i> Ejecutar Siguiente</button>
+                                <button id="btnResetSqlSim" class="btn btn-accent"><i class="fas fa-undo"></i> Reiniciar Simulación</button>
                             </div>
-                        <div id="sqlOutputArea">
-                            <p><em>Los resultados de los <code>SELECT</code> aparecerán aquí...</em></p>
+                        </div>
+                        
+                        <div style="margin-top: 20px; display: flex; gap: 20px;">
+                            <div style="flex: 1;">
+                                <h5><i class="fas fa-database"></i> Tablas Creadas:</h5>
+                                <div id="sqlTableVizArea" style="background-color: #f5f5f5; border: 1px solid #ddd; padding: 1rem; border-radius: var(--radius); box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); min-height: 200px;">
+                                    <p><em>Las tablas aparecerán aquí a medida que se ejecuten los <code>CREATE</code>...</em></p>
+                                </div>
+                            </div>
+                            <div style="flex: 1;">
+                                <h5><i class="fas fa-terminal"></i> Resultado de Ejecución:</h5>
+                                <div id="sqlOutputArea" style="background-color: #f5f5f5; border: 1px solid #ddd; padding: 1rem; border-radius: var(--radius); box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); min-height: 200px; font-family: 'Consolas', monospace; white-space: pre-wrap;">
+                                    <p><em>Los resultados de los <code>SELECT</code> aparecerán aquí...</em></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <p><strong>Ejecución del Script:</strong></p>
-                    <ul>
+                    <ul data-aos="fade-right">
                         <li><strong>En Oracle SQL Developer:</strong> Abre una nueva "Hoja de Trabajo SQL" (Worksheet), pega el contenido del script y presiona F5 (Ejecutar Script) o el botón correspondiente.</li>
                         <li><strong>En SQL*Plus (línea de comandos):</strong> Guarda el script en un archivo (ej: <code>crear_tienda.sql</code>), conéctate a tu base de datos y ejecuta <code>@ruta/a/tu/crear_tienda.sql</code>.</li>
                     </ul>
-                    <p>Los scripts son tus aliados para construir y mantener tus bases de datos de forma ordenada y reproducible.</p>
-                </section>
-                <div class="lesson-navigation" style="margin-top:2rem;">
+                    
+                    <div class="alert alert-info" data-aos="fade-in" style="margin-top: 2rem;">
+                        <i class="fas fa-lightbulb"></i> <strong>Consejo Pro:</strong> Mantén tus scripts SQL en un sistema de control de versiones como Git. Esto te permitirá rastrear cambios, colaborar con otros desarrolladores y revertir modificaciones si es necesario.
+                    </div>
+
+                    <p>Los scripts son tus aliados para construir y mantener tus bases de datos de forma ordenada y reproducible. A medida que avances en tu carrera con Oracle, verás que los scripts SQL son una herramienta fundamental en tu arsenal de desarrollo.</p>
+                    
+                    <div class="lottie-placeholder" id="git-version-animation" style="height: 150px; margin-top: 2rem;">
+                        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                            <div style="text-align: center; margin: 0 20px;">
+                                <i class="fas fa-code-branch fa-3x" style="color: var(--primary-color);"></i>
+                                <p>Control de Versiones</p>
+                            </div>
+                            <div style="text-align: center; margin: 0 20px;">
+                                <i class="fas fa-users fa-3x" style="color: var(--secondary-color);"></i>
+                                <p>Colaboración</p>
+                            </div>
+                            <div style="text-align: center; margin: 0 20px;">
+                                <i class="fas fa-history fa-3x" style="color: var(--accent-color);"></i>
+                                <p>Historial de Cambios</p>
+                            </div>
+                        </div>
+                    </div>
+<div class="lesson-navigation">
                     <a href="#modulo15" class="lesson-nav-button prev"><i class="fas fa-arrow-left"></i> Módulo Anterior</a>
-                    <span style="flex-grow:1; text-align:center; color: #777;">¡Ahora puedes construir tus propias BD!</span>
+                    <a href="#modulo0" class="lesson-nav-button next">Siguiente Módulo <i class="fas fa-arrow-right"></i></a>
                 </div>
+            </section>
             </main>
         </div>
     </div>
 
-    <footer style="margin-top: 4rem;">
-        <div class="container footer-content">
-             <div class="footer-logo">
-                <a href="../../index.html" class="logo" style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
-                <p>Empoderando a través del conocimiento de datos.</p>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#" class="logo" style="font-size: 1.8rem; color: white;"><i class="fas fa-graduation-cap"></i> MoriDevEdu</a>
+                    <p style="font-size: 0.9rem; margin-top: 1rem; color: rgba(255,255,255,0.7);">Transformando el aprendizaje en la era digital. Cursos innovadores para potenciar tu carrera en tecnología.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Todos los Cursos</a></li>
+                        <li><a href="#">Sobre Nosotros</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos de Servicio</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#">Descargas</a></li>
+                        <li><a href="#">Herramientas Gratuitas</a></li>
+                        <li><a href="#">Comunidad</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Soporte Técnico</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Mantente Actualizado</h4>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7);">Suscríbete a nuestro boletín para recibir noticias sobre nuevos cursos y ofertas especiales.</p>
+                    <form style="display: flex; margin-top: 1rem;">
+                        <input type="email" placeholder="Tu email" style="padding: 8px; border-radius: 4px 0 0 4px; border: none; flex-grow: 1;">
+                        <button type="submit" class="btn btn-accent" style="border-radius: 0 4px 4px 0; box-shadow: none;">Suscribir</button>
+                    </form>
                 </div>
             </div>
-            <div class="footer-links">
-                <h4>Navegación del Curso</h4>
-                <ul>
-                    <li><a href="#modulo0">Introducción</a></li>
-                    <li><a href="#modulo13">Modelado Conceptual</a></li>
-                    <li><a href="#modulo14">Modelo Físico y SQL</a></li>
-                    <li><a href="#modulo15">Data Modeler</a></li>
-                    <li><a href="#modulo16">Scripts SQL</a></li>
-                    <li><a href="../../index.html#cursos">Todos los Cursos</a></li>
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> MoriDevEdu. Todos los derechos reservados. Diseñado con <i class="fas fa-heart" style="color: var(--accent-color);"></i> para la comunidad de aprendizaje.</p>
             </div>
-            <div class="footer-links">
-                <h4>Recursos Oracle</h4>
-                <ul>
-                    <li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/" target="_blank">Documentación Oracle DB</a></li>
-                    <li><a href="https://livesql.oracle.com/" target="_blank">Oracle Live SQL</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="container footer-bottom">
-            <p>&copy; <span id="currentYearDb"></span> MoriDevEdu. Todos los derechos reservados.</p>
-             <p>Una iniciativa de <a href="https://diegomori.online" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color); text-decoration: none;">diegomori.online</a> - MoriDev con apoyo de MoriCarp.</p>
         </div>
     </footer>
 
     <script>
-        // Menú móvil
-        const mobileMenuToggleDb = document.querySelector('.mobile-menu');
-        const navLinksDb = document.querySelector('.nav-links');
-        if (mobileMenuToggleDb && navLinksDb) {
-            mobileMenuToggleDb.addEventListener('click', () => {
-                navLinksDb.classList.toggle('active');
-                const icon = mobileMenuToggleDb.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar AOS (Animate On Scroll)
+            AOS.init({
+                duration: 800, // duración de la animación en ms
+                once: true // si la animación debe ocurrir solo una vez
             });
-        }
-        document.getElementById('currentYearDb').textContent = new Date().getFullYear();
 
-        // Navegación activa y smooth scroll para menú del curso
-        const courseNavLinksDb = document.querySelectorAll('.course-nav-link');
-        const moduleSectionsDb = document.querySelectorAll('.module-section');
-        let observerDb;
-        function makeLinkActiveDb(link) {
-            courseNavLinksDb.forEach(l => l.classList.remove('active'));
-            if (link) link.classList.add('active');
-        }
-        function onIntersectionDb(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const link = document.querySelector(`.course-nav-link[href="#${entry.target.id}"]`);
-                    makeLinkActiveDb(link);
+            // Navbar scroll effect
+            const nav = document.getElementById('main-nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
                 }
             });
-        }
-        if (moduleSectionsDb.length > 0) {
-            observerDb = new IntersectionObserver(onIntersectionDb, { rootMargin: "-30% 0px -60% 0px", threshold: 0.01 });
-            moduleSectionsDb.forEach(section => observerDb.observe(section));
-        }
-        courseNavLinksDb.forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    makeLinkActiveDb(this);
-                    const offsetTop = targetElement.offsetTop - 60;
-                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-                }
-            });
-        });
-        // Activar primer link o link del hash
-        if(courseNavLinksDb.length > 0) {
-            const currentHash = window.location.hash;
-            let linkToActivate = courseNavLinksDb[0]; // Por defecto el primero
-            if (currentHash) {
-                const hashedLink = document.querySelector(`.course-nav-link[href="${currentHash}"]`);
-                if (hashedLink) {
-                    linkToActivate = hashedLink;
-                }
+
+            // Mobile menu toggle
+            const mobileMenuToggle = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileMenuToggle && navLinks) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    mobileMenuToggle.querySelector('i').classList.toggle('fa-bars');
+                    mobileMenuToggle.querySelector('i').classList.toggle('fa-times');
+                });
             }
-            makeLinkActiveDb(linkToActivate);
-        }
-        
 
-        // Toggle para explicaciones conceptuales
-        function toggleExplanation(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.style.display = el.style.display === 'block' ? 'none' : 'block';
-            }
-        }
+            // Active link highlighting for course navigation
+            const courseNavLinks = document.querySelectorAll('.course-nav-link');
+            const moduleSections = document.querySelectorAll('.module-section');
 
-        // --- Simulación de SQL Script Runner ---
-        const btnRunNextSql = document.getElementById('btnRunNextSql');
-        const btnResetSqlSim = document.getElementById('btnResetSqlSim');
-        const sqlScriptContentEl = document.getElementById('sqlScriptContent');
-        const sqlOutputArea = document.getElementById('sqlOutputArea');
-        const sqlTableVizArea = document.getElementById('sqlTableVizArea');
-        
-        let originalSqlScript = "";
-        let sqlCommands = [];
-        let currentSqlCmdIndex = 0;
-        let createdTablesViz = {}; // Para simular tablas creadas
+            function changeActiveLink() {
+                let index = moduleSections.length;
 
-        function initializeSqlSim() {
-            if (!sqlScriptContentEl) return;
-            originalSqlScript = sqlScriptContentEl.querySelector('code').textContent;
-            resetSqlSimulation();
-        }
-
-        function resetSqlSimulation() {
-            currentSqlCmdIndex = 0;
-            // Separar por ; pero manejando los que están dentro de comentarios o strings (simplificado)
-            // Para una simulación real, se necesitaría un parser SQL más robusto.
-            // Esta simplificación puede fallar con SQL complejo.
-            sqlCommands = originalSqlScript.split(';').map(cmd => cmd.trim()).filter(cmd => cmd.length > 0 && !cmd.startsWith('--'));
-            sqlOutputArea.innerHTML = "<p><em>Los resultados de los <code>SELECT</code> aparecerán aquí...</em></p>";
-            sqlTableVizArea.innerHTML = "<p><em>Las tablas aparecerán aquí a medida que se ejecuten los <code>CREATE</code>...</em></p>";
-            createdTablesViz = {};
-            highlightNextCommand();
-        }
-
-        function highlightNextCommand() {
-            if (!sqlScriptContentEl) return;
-            let tempScript = originalSqlScript;
-            let executedLength = 0;
-            for(let i = 0; i < currentSqlCmdIndex; i++) {
-                executedLength += sqlCommands[i].length + 1; // +1 por el ;
-            }
-            if (currentSqlCmdIndex < sqlCommands.length) {
-                const nextCmd = sqlCommands[currentSqlCmdIndex];
-                const startIndex = tempScript.indexOf(nextCmd, executedLength); // Buscar después de lo ya ejecutado
-                if (startIndex !== -1) {
-                     tempScript = tempScript.substring(0, startIndex) +
-                                 '<mark style="background-color:yellow; color:black;">' + nextCmd + '</mark>' +
-                                 tempScript.substring(startIndex + nextCmd.length);
-                }
-            }
-            sqlScriptContentEl.querySelector('code').innerHTML = tempScript;
-        }
-        
-        function simulateSqlCommand(command) {
-            command = command.toUpperCase(); // SQL es case-insensitive para keywords
-            if (command.startsWith('CREATE TABLE')) {
-                const tableNameMatch = command.match(/CREATE TABLE\s+(\w+)/);
-                if (tableNameMatch) {
-                    const tableName = tableNameMatch[1];
-                    createdTablesViz[tableName] = []; // Simula tabla vacía
-                    sqlTableVizArea.innerHTML += `<p>✅ Tabla '<strong>${tableName}</strong>' creada (simulado).</p>`;
-                    // Simplificado: no parseamos columnas aquí
-                }
-            } else if (command.startsWith('INSERT INTO')) {
-                const tableNameMatch = command.match(/INSERT INTO\s+(\w+)/);
-                if (tableNameMatch) {
-                    const tableName = tableNameMatch[1];
-                    if (createdTablesViz[tableName]) {
-                        // Simular añadir una fila. Para una visualización real, necesitaríamos parsear VALUES
-                        createdTablesViz[tableName].push({simulatedData: 'Nueva Fila'}); 
-                        sqlOutputArea.innerHTML += `<p>➡️ Fila insertada en '<strong>${tableName}</strong>' (simulado).</p>`;
-                        updateTableVisual(tableName);
-                    } else {
-                         sqlOutputArea.innerHTML += `<p>⚠️ Tabla '<strong>${tableName}</strong>' no existe para INSERT (simulado).</p>`;
+                while(--index && window.scrollY + 100 < moduleSections[index].offsetTop) {}
+                
+                courseNavLinks.forEach((link) => link.classList.remove('active'));
+                // Asegurarse de que el índice sea válido antes de añadir la clase
+                if(index >= 0 && index < courseNavLinks.length) {
+                     // HACK: Hay un desface entre el numero de links y el numero de secciones
+                     // El primer link es #modulo0 pero el primer modulo es modulo0
+                     // El segundo link es #modulo13 pero el segundo modulo es modulo13
+                    const targetId = courseNavLinks[index].getAttribute('href').substring(1);
+                    const matchingSection = document.getElementById(targetId);
+                    if (matchingSection) {
+                         // Encontrar el link correcto por su href
+                        const correctLink = Array.from(courseNavLinks).find(link => link.getAttribute('href') === `#${moduleSections[index].id}`);
+                        if (correctLink) {
+                            correctLink.classList.add('active');
+                        }
                     }
                 }
-            } else if (command.startsWith('SELECT')) {
-                // Simulación muy básica de SELECT
-                let output = `🔍 Resultado de: ${command.substring(0,60)}...\n`;
-                Object.keys(createdTablesViz).forEach(tableName => {
-                    if (command.includes(tableName)) { // Si el SELECT menciona la tabla
-                        output += `  Tabla ${tableName}: ${createdTablesViz[tableName].length} fila(s) (simulado).\n`;
+                 // Activar la animación de la barra superior de la sección activa
+                moduleSections.forEach(section => section.classList.remove('active'));
+                if (moduleSections[index]) {
+                    moduleSections[index].classList.add('active');
+                }
+            }
+
+            window.addEventListener('scroll', changeActiveLink);
+            changeActiveLink(); // Initial call
+
+            // Smooth scroll for course navigation links
+            courseNavLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Calcula la posición del elemento menos un offset para la barra de navegación fija
+                        const offsetTop = targetElement.offsetTop - (nav.offsetHeight + 20); // 20px de margen extra
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                         // Actualizar el link activo inmediatamente al hacer clic
+                        courseNavLinks.forEach(link => link.classList.remove('active'));
+                        this.classList.add('active');
                     }
                 });
-                sqlOutputArea.innerHTML += `<pre>${output}</pre>`;
-            } else if (command.startsWith('COMMIT')) {
-                 sqlOutputArea.innerHTML += `<p>💾 COMMIT ejecutado (cambios guardados, simulado).</p>`;
-            } else if (command.startsWith('CREATE SEQUENCE')) {
-                const seqNameMatch = command.match(/CREATE SEQUENCE\s+(\w+)/);
-                if (seqNameMatch) {
-                    sqlOutputArea.innerHTML += `<p>🌀 Secuencia '<strong>${seqNameMatch[1]}</strong>' creada (simulado).</p>`;
-                }
-            }
-            // Añadir más simulaciones para DROP, etc. si se desea
-        }
-
-        function updateTableVisual(tableName) {
-            // Esta función podría actualizar una representación visual de la tabla en sqlTableVizArea
-            // Por ahora, solo contamos filas.
-            const tableInfo = sqlTableVizArea.querySelector(`#viz-${tableName}`);
-            if (tableInfo) {
-                tableInfo.textContent = `Tabla ${tableName}: ${createdTablesViz[tableName].length} fila(s)`;
-            } else {
-                sqlTableVizArea.innerHTML += `<div id="viz-${tableName}">Tabla ${tableName}: ${createdTablesViz[tableName].length} fila(s)</div>`;
-            }
-        }
-
-        if (btnRunNextSql) {
-            btnRunNextSql.addEventListener('click', () => {
-                if (currentSqlCmdIndex < sqlCommands.length) {
-                    const commandToRun = sqlCommands[currentSqlCmdIndex];
-                    simulateSqlCommand(commandToRun);
-                    currentSqlCmdIndex++;
-                    highlightNextCommand();
-                    if (currentSqlCmdIndex >= sqlCommands.length) {
-                        sqlOutputArea.innerHTML += "<p>🏁 Fin del script (simulado).</p>";
-                    }
-                } else {
-                     sqlOutputArea.innerHTML += "<p>🏁 Script ya finalizado. Reinicia la simulación.</p>";
-                }
             });
-        }
-        if (btnResetSqlSim) {
-            btnResetSqlSim.addEventListener('click', resetSqlSimulation);
-        }
-        
-        // Inicializar simulador al cargar la página
-        document.addEventListener('DOMContentLoaded', initializeSqlSim);
+            
+            // Toggle concept explanation
+            window.toggleExplanation = function(id) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.toggle('visible');
+                }
+            }
 
+            // Show M:N Resolution
+            const showDetailBtn = document.getElementById('show-detalle-btn');
+            const mnResolutionDiv = document.getElementById('mn-resolution');
+            if (showDetailBtn && mnResolutionDiv) {
+                showDetailBtn.addEventListener('click', () => {
+                    mnResolutionDiv.style.display = mnResolutionDiv.style.display === 'none' ? 'block' : 'none';
+                    if(mnResolutionDiv.style.display === 'block') {
+                        gsap.fromTo(mnResolutionDiv, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.5});
+                    }
+                });
+            }
+            
+            // Data Modeler Preview Button (Placeholder)
+            const previewDerBtn = document.getElementById('preview-der-btn');
+            if (previewDerBtn) {
+                previewDerBtn.addEventListener('click', () => {
+                    alert('Funcionalidad de visualización de diagrama completo no implementada en esta demo.');
+                });
+            }
+
+            // Normalization Demo
+            const normalizeBtn1 = document.getElementById('normalize-btn-1');
+            const normalizeBtn2 = document.getElementById('normalize-btn-2');
+            const stage0 = document.getElementById('stage-0');
+            const stage1 = document.getElementById('stage-1');
+            const stage2 = document.getElementById('stage-2');
+            const message1nf = document.getElementById('message-1nf');
+            const message3nf = document.getElementById('message-3nf');
+            const splitAnimation1 = document.getElementById('split-animation-1');
+            const splitAnimation2 = document.getElementById('split-animation-2');
+
+            if (normalizeBtn1) {
+                normalizeBtn1.addEventListener('click', () => {
+                    gsap.to(stage0, {opacity: 0, y: -20, duration: 0.3, onComplete: () => {
+                        stage0.classList.remove('active');
+                        message1nf.classList.add('active');
+                        gsap.fromTo(message1nf, {opacity:0, y:20}, {opacity:1, y:0, duration:0.5});
+                        splitAnimation1.classList.add('active');
+                        setTimeout(() => {
+                            message1nf.classList.remove('active');
+                            splitAnimation1.classList.remove('active');
+                            stage1.classList.add('active');
+                            gsap.fromTo(stage1, {opacity:0, y:20}, {opacity:1, y:0, duration:0.5});
+                            document.querySelectorAll('#stage-1 .highlight-column').forEach(col => {
+                                gsap.to(col, {backgroundColor: "rgba(231, 76, 60, 0.3)", duration: 0.5, yoyo: true, repeat: -1});
+                            });
+                        }, 1500);
+                    }});
+                });
+            }
+
+            if (normalizeBtn2) {
+                normalizeBtn2.addEventListener('click', () => {
+                    gsap.to(stage1, {opacity: 0, y: -20, duration: 0.3, onComplete: () => {
+                        stage1.classList.remove('active');
+                        message3nf.classList.add('active');
+                        gsap.fromTo(message3nf, {opacity:0, y:20}, {opacity:1, y:0, duration:0.5});
+                        splitAnimation2.classList.add('active');
+                        setTimeout(() => {
+                            message3nf.classList.remove('active');
+                            splitAnimation2.classList.remove('active');
+                            stage2.classList.add('active');
+                            gsap.fromTo(stage2, {opacity:0, y:20}, {opacity:1, y:0, duration:0.5});
+                        }, 1500);
+                    }});
+                });
+            }
+
+            // Normalization Quiz
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            quizOptions.forEach(button => {
+                button.addEventListener('click', () => {
+                    const isCorrect = button.dataset.correct === 'true';
+                    if (isCorrect) {
+                        quizFeedback.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success);"></i> ¡Correcto! Esta tabla viola la 3NF debido a la dependencia transitiva de Nombre_Autor.';
+                        quizFeedback.style.backgroundColor = 'rgba(39, 174, 96, 0.1)';
+                        quizFeedback.style.borderColor = 'var(--success)';
+                    } else {
+                        quizFeedback.innerHTML = '<i class="fas fa-times-circle" style="color: var(--danger);"></i> Incorrecto. Intenta de nuevo.';
+                        quizFeedback.style.backgroundColor = 'rgba(231, 76, 60, 0.1)';
+                        quizFeedback.style.borderColor = 'var(--danger)';
+                    }
+                    quizFeedback.style.display = 'block';
+                    gsap.fromTo(quizFeedback, {opacity:0, y:10}, {opacity:1, y:0, duration:0.3});
+                });
+            });
+
+            // SQL Animation
+            const animateSqlBtn = document.getElementById('animate-sql-btn');
+            const sqlArrow = document.getElementById('sql-arrow');
+            const sqlTable = document.getElementById('sql-table');
+            if(animateSqlBtn && sqlArrow && sqlTable){
+                animateSqlBtn.addEventListener('click', () => {
+                    gsap.timeline()
+                        .fromTo(sqlArrow, {opacity:0, scaleX:0}, {opacity:1, scaleX:1, duration: 0.5, ease: "power2.out"})
+                        .fromTo(sqlTable, {opacity:0, y:20}, {opacity:1, y:0, duration: 0.5, ease: "back.out(1.7)"}, "-=0.2");
+                });
+            }
+            
+            // Data Type Selector
+            const dataTypeOptions = document.querySelectorAll('.data-type-option');
+            const dataTypeInfoBox = document.getElementById('data-type-info');
+            const dataTypeTitle = document.getElementById('data-type-title');
+            const dataTypeDescription = document.getElementById('data-type-description');
+            const dataTypeIcon = document.getElementById('data-type-icon');
+            const dataTypeExamplesDiv = document.getElementById('data-type-examples');
+            const dataTypeSyntax = document.getElementById('data-type-syntax');
+            const dataTypeUsage = document.getElementById('data-type-usage');
+
+            const typeDetails = {
+                number: { icon: "fa-calculator", title: "NUMBER(p,s)", desc: "Para números exactos. 'p' es la precisión (total de dígitos) y 's' es la escala (dígitos después del punto decimal).", syntax: "ID_Cliente NUMBER(10);\nPrecio NUMBER(8,2);", usage: "IDs, cantidades, precios, valores monetarios." },
+                varchar2: { icon: "fa-font", title: "VARCHAR2(size)", desc: "Para cadenas de caracteres de longitud variable. 'size' es la longitud máxima en bytes o caracteres.", syntax: "Nombre VARCHAR2(50 CHAR);\nDescripcion VARCHAR2(4000 BYTE);", usage: "Nombres, direcciones, descripciones cortas." },
+                char: { icon: "fa-text-width", title: "CHAR(size)", desc: "Para cadenas de caracteres de longitud fija. 'size' es la longitud. Se rellena con espacios si es necesario.", syntax: "CodigoPais CHAR(2);\nTipo CHAR(1);", usage: "Códigos fijos, iniciales, indicadores de un solo carácter." },
+                date: { icon: "fa-calendar-alt", title: "DATE", desc: "Para almacenar fechas y horas (siglo, año, mes, día, hora, minuto, segundo).", syntax: "FechaNacimiento DATE;\nFechaPedido DATE DEFAULT SYSDATE;", usage: "Fechas de nacimiento, fechas de transacciones, etc." },
+                timestamp: { icon: "fa-clock", title: "TIMESTAMP(p)", desc: "Similar a DATE pero con mayor precisión para fracciones de segundo ('p' es la precisión de la fracción de segundo). También puede incluir zona horaria.", syntax: "Evento TIMESTAMP(6);\nLog TIMESTAMP WITH TIME ZONE;", usage: "Logs de eventos, marcas de tiempo de alta precisión." },
+                clob: { icon: "fa-file-alt", title: "CLOB", desc: "Character Large Object. Para almacenar grandes bloques de texto (hasta varios gigabytes).", syntax: "ArticuloCuerpo CLOB;\nComentarios CLOB;", usage: "Artículos extensos, documentos JSON/XML, comentarios largos." },
+                blob: { icon: "fa-file-image", title: "BLOB", desc: "Binary Large Object. Para almacenar datos binarios grandes como imágenes, audio o video.", syntax: "FotoPerfil BLOB;\nArchivoAdjunto BLOB;", usage: "Imágenes, archivos multimedia, ejecutables." }
+            };
+
+            dataTypeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    dataTypeOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const type = this.dataset.type;
+                    const details = typeDetails[type];
+
+                    dataTypeInfoBox.classList.remove('visible');
+                    gsap.fromTo(dataTypeInfoBox, {opacity:0, y:10}, {opacity:1, y:0, duration:0.3, onComplete: () => {
+                        dataTypeIcon.className = `fas ${details.icon}`;
+                        dataTypeTitle.textContent = details.title;
+                        dataTypeDescription.textContent = details.desc;
+                        dataTypeSyntax.textContent = details.syntax;
+                        dataTypeUsage.textContent = details.usage;
+                        dataTypeExamplesDiv.style.display = 'block';
+                        dataTypeInfoBox.classList.add('visible');
+                    }});
+                });
+            });
+
+            // Index animation
+            const fullScanBtn = document.getElementById('full-scan-btn');
+            const indexScanBtn = document.getElementById('index-scan-btn');
+            const dbRows = document.querySelectorAll('#index-animation .db-row');
+            const indexAnimationContainer = document.getElementById('index-animation');
+
+            function animateScan(isFullScan) {
+                gsap.killTweensOf(dbRows); // Detener animaciones previas
+                dbRows.forEach(row => gsap.set(row, {clearProps: "backgroundColor"})); // Limpiar colores
+
+                const timeline = gsap.timeline();
+                if (isFullScan) {
+                    dbRows.forEach((row, i) => {
+                        if (!row.classList.contains('db-header')) {
+                            timeline.to(row, {backgroundColor: "rgba(231, 76, 60, 0.2)", duration: 0.2}, `+=${i*0.1}`)
+                                    .to(row, {backgroundColor: "white", duration: 0.2});
+                        }
+                    });
+                } else {
+                    // Simula una búsqueda más directa (por ejemplo, al tercer elemento)
+                    const targetRow = dbRows[3]; // Asumiendo que el 4to row (índice 3) es el objetivo
+                     if(targetRow) {
+                        timeline.to(targetRow, {backgroundColor: "rgba(39, 174, 96, 0.3)", duration: 0.3})
+                                .to(targetRow, {backgroundColor: "white", duration: 0.3}, "+=0.5");
+                     }
+                }
+            }
+            if (fullScanBtn) fullScanBtn.addEventListener('click', () => animateScan(true));
+            if (indexScanBtn) indexScanBtn.addEventListener('click', () => animateScan(false));
+            
+            // GSAP Animations for table rows entry in index-animation
+            if (indexAnimationContainer) {
+                 const tableRows = indexAnimationContainer.querySelectorAll('.db-row');
+                 gsap.set(tableRows, {opacity:0, x: -50}); // Estado inicial
+
+                 ScrollTrigger.create({
+                    trigger: indexAnimationContainer,
+                    start: "top 80%", // Cuando el 80% superior del trigger entre en la vista
+                    onEnter: () => {
+                        gsap.to(tableRows, {
+                            opacity: 1,
+                            x: 0,
+                            duration: 0.5,
+                            stagger: 0.1,
+                            ease: "power2.out"
+                        });
+                    },
+                    once: true // La animación solo se dispara una vez
+                });
+            }
+
+
+            // Workflow steps for Data Modeler
+            const workflowSteps = document.querySelectorAll('.workflow-step');
+            const workflowContents = document.querySelectorAll('.workflow-content');
+            workflowSteps.forEach(button => {
+                button.addEventListener('click', () => {
+                    const step = button.dataset.step;
+                    workflowSteps.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    workflowContents.forEach(content => content.classList.remove('active'));
+                    
+                    const activeContent = document.getElementById(`step-content-${step}`);
+                    if (activeContent) {
+                        activeContent.classList.add('active');
+                        gsap.fromTo(activeContent, {opacity:0, x:30}, {opacity:1, x:0, duration:0.4, ease:'power2.out'});
+                    }
+                });
+            });
+
+            // SQL Script Runner Simulation
+            const btnRunNextSql = document.getElementById('btnRunNextSql');
+            const btnResetSqlSim = document.getElementById('btnResetSqlSim');
+            const sqlScriptContentEl = document.getElementById('sqlScriptContent').querySelector('code');
+            const sqlOutputArea = document.getElementById('sqlOutputArea');
+            const sqlTableVizArea = document.getElementById('sqlTableVizArea');
+            const highlightLine = document.getElementById('highlight-line');
+
+            let scriptLines = [];
+            let currentLineIndex = 0;
+            let createdTables = {}; // Para simular la creación de tablas
+
+            function initializeSqlSim() {
+                if (!sqlScriptContentEl) return;
+                scriptLines = sqlScriptContentEl.innerText.split('\n').map(line => line.trim()).filter(line => line.length > 0 && !line.startsWith('--'));
+                currentLineIndex = 0;
+                sqlOutputArea.innerHTML = '<p><em>Esperando ejecución...</em></p>';
+                sqlTableVizArea.innerHTML = '<p><em>Las tablas aparecerán aquí...</em></p>';
+                createdTables = {};
+                highlightLine.style.display = 'none';
+            }
+
+            function runNextSqlLine() {
+                if (currentLineIndex >= scriptLines.length) {
+                    sqlOutputArea.innerHTML += "<p><strong>Fin del script.</strong></p>";
+                    highlightLine.style.display = 'none';
+                    return;
+                }
+
+                const line = scriptLines[currentLineIndex];
+                const lineEl = sqlScriptContentEl.childNodes[currentLineIndex * 2]; // Aprox.
+                if(highlightLine && sqlScriptContentEl) {
+                    highlightLine.style.display = 'block';
+                    // Ajuste para que la línea resaltada se mueva bien con el scroll
+                    const scriptRect = sqlScriptContentEl.getBoundingClientRect();
+                    const lineRect = sqlScriptContentEl.innerText.split('\n').slice(0, currentLineIndex).join('\n').length;
+                    
+                    // Calcular el top relativo al scroll del pre
+                    let actualLineNumber = 0;
+                    let charCount = 0;
+                    const allLinesText = sqlScriptContentEl.innerText.split('\n');
+                    for(let i = 0; i < allLinesText.length; i++) {
+                        if (allLinesText[i].trim().length > 0 && !allLinesText[i].trim().startsWith('--')) {
+                           if (actualLineNumber === currentLineIndex) {
+                                break;
+                           }
+                           actualLineNumber++;
+                        }
+                        charCount += allLinesText[i].length + 1; // +1 for newline
+                    }
+                    // Esto es una aproximación, puede necesitar ajuste si el font-size o line-height cambian
+                    const lineHeight = parseFloat(getComputedStyle(sqlScriptContentEl).lineHeight) || 24; 
+                    highlightLine.style.top = (Array.from(sqlScriptContentEl.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).slice(0, currentLineIndex).reduce((acc, node) => acc + node.textContent.split('\n').length -1, 0) * lineHeight) + 'px';
+                    // Simple aproximación para el scroll
+                    sqlScriptContentEl.parentElement.scrollTop = Math.max(0, (actualLineNumber * lineHeight) - (sqlScriptContentEl.parentElement.clientHeight / 2));
+                }
+
+
+                sqlOutputArea.innerHTML += `<p class="animate__animated animate__fadeInUp animate__faster" style="font-size:0.9em;">Ejecutando: <code>${line}</code></p>`;
+                
+                if (line.toUpperCase().startsWith('CREATE SEQUENCE')) {
+                    const seqName = line.split(' ')[2];
+                    sqlOutputArea.innerHTML += `<p style="color:green;">Secuencia ${seqName} creada.</p>`;
+                } else if (line.toUpperCase().startsWith('CREATE TABLE')) {
+                    const tableNameMatch = line.match(/CREATE TABLE\s+(\w+)/i);
+                    if (tableNameMatch) {
+                        const tableName = tableNameMatch[1].toUpperCase();
+                        createdTables[tableName] = []; // Simula la tabla vacía
+                        sqlOutputArea.innerHTML += `<p style="color:green;">Tabla ${tableName} creada.</p>`;
+                        updateTableViz();
+                    }
+                } else if (line.toUpperCase().startsWith('INSERT INTO')) {
+                    const tableNameMatch = line.match(/INSERT INTO\s+(\w+)/i);
+                     if (tableNameMatch) {
+                        const tableName = tableNameMatch[1].toUpperCase();
+                        if (createdTables[tableName]) {
+                            // Simular una inserción (no parseamos los valores reales en esta demo)
+                            createdTables[tableName].push({simulated_row_id: createdTables[tableName].length + 1});
+                            sqlOutputArea.innerHTML += `<p style="color:green;">1 fila insertada en ${tableName}.</p>`;
+                            updateTableViz();
+                        } else {
+                            sqlOutputArea.innerHTML += `<p style="color:red;">Error: Tabla ${tableName} no existe.</p>`;
+                        }
+                    }
+                } else if (line.toUpperCase().startsWith('COMMIT')) {
+                     sqlOutputArea.innerHTML += `<p style="color:blue;">COMMIT completado.</p>`;
+                } else if (line.toUpperCase().startsWith('SELECT')) {
+                    // Simular salida de SELECT para el conteo
+                    if(line.includes("COUNT(*)")) {
+                        let outputHtml = "<h5>Resultado de Conteo:</h5><table><tr><th>Tabla</th><th>Registros</th></tr>";
+                        outputHtml += `<tr><td>Clientes:</td><td>${createdTables['CLIENTE'] ? createdTables['CLIENTE'].length : 0}</td></tr>`;
+                        outputHtml += `<tr><td>Productos:</td><td>${createdTables['PRODUCTO'] ? createdTables['PRODUCTO'].length : 0}</td></tr>`;
+                        outputHtml += `<tr><td>Ventas:</td><td>${createdTables['VENTA'] ? createdTables['VENTA'].length : 0}</td></tr>`;
+                        outputHtml += `<tr><td>Detalle Ventas:</td><td>${createdTables['DETALLE_VENTA'] ? createdTables['DETALLE_VENTA'].length : 0}</td></tr>`;
+                        outputHtml += "</table>";
+                        sqlOutputArea.innerHTML += outputHtml;
+                    } else {
+                         sqlOutputArea.innerHTML += `<p><em>SELECT ejecutado (simulación, no se muestran datos detallados aquí).</em></p>`;
+                    }
+                }
+                
+                currentLineIndex++;
+                sqlOutputArea.scrollTop = sqlOutputArea.scrollHeight; // Auto-scroll
+            }
+
+            function updateTableViz() {
+                let vizHtml = "";
+                for (const tableName in createdTables) {
+                    vizHtml += `<div style="margin-bottom:15px;"><strong>${tableName}</strong> (${createdTables[tableName].length} filas)</div>`;
+                    // Podríamos mostrar algunas columnas simuladas si quisiéramos
+                }
+                sqlTableVizArea.innerHTML = vizHtml || '<p><em>Ninguna tabla creada aún.</em></p>';
+            }
+
+            if (btnRunNextSql) btnRunNextSql.addEventListener('click', runNextSqlLine);
+            if (btnResetSqlSim) btnResetSqlSim.addEventListener('click', initializeSqlSim);
+            
+            // Initialize simulators
+            initializeSqlSim();
+
+
+            // Lottie animations placeholder loading
+            // No specific Lottie files are defined, so this is a generic loader
+            // If you have Lottie JSON files, you would load them here.
+            // Example for one placeholder:
+            const dbIntroAnimation = document.getElementById('db-intro-animation');
+            if (dbIntroAnimation && typeof lottie !== 'undefined') {
+                 // Assuming you might add actual Lottie files later:
+                 // lottie.loadAnimation({ container: dbIntroAnimation, renderer: 'svg', loop: true, autoplay: true, path: 'path_to_your_lottie.json' });
+                 // For now, it just uses FontAwesome icons with CSS animation.
+            }
+            // Repeat for other lottie-placeholders if they were intended for Lottie files.
+
+            // Footer Current Year
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        });
     </script>
 </body>
 </html>
+                    
