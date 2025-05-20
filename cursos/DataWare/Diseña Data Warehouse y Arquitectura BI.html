@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorando Data Warehouse y BI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0a4a7a; /* Azul oscuro */
+            --primary-light: #1976d2; /* Azul medio */
+            --secondary-color: #1e88e5; /* Azul más claro */
+            --accent-color: #ffab40; /* Naranja/Ámbar */
+            --accent-dark: #ff9100; /* Naranja oscuro */
+            --bg-color: #f4f7f9; /* Gris muy claro */
+            --bg-gradient: linear-gradient(135deg, #f4f7f9, #e8f0f5);
+            --text-color: #333;
+            --light-text-color: #f8f8f8;
+            --border-color: #d1d9e0;
+            --card-bg: #ffffff;
+            --card-hover: #f9fbfd;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --info-color: #2196f3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Encabezado --- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text-color);
+            padding: 100px 20px 80px;
+            text-align: center;
+            border-bottom-left-radius: 50% 20px;
+            border-bottom-right-radius: 50% 20px;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: backgroundShift 60s linear infinite;
+            opacity: 0.5;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-50px) translateX(30px);
+                opacity: 0.8;
+            }
+            75% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes backgroundShift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(120deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 28px;
+            margin-top: 20px;
+            background-color: var(--accent-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-dark);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* --- Navegación --- */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container.scrolled {
+            padding: 5px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Menú móvil */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Secciones --- */
+        .section {
+            margin-bottom: 70px;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            opacity: 0.8;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section h2 i {
+            margin-right: 15px;
+            color: var(--accent-color);
+            transform-origin: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .section-desc {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        /* --- Estadísticas en tarjetas --- */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            top: 0;
+            left: 0;
+        }
+
+        .stat-card:nth-child(1)::before { background-color: var(--primary-color); }
+        .stat-card:nth-child(2)::before { background-color: var(--success-color); }
+        .stat-card:nth-child(3)::before { background-color: var(--warning-color); }
+        .stat-card:nth-child(4)::before { background-color: var(--accent-color); }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            transition: transform 0.5s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: rotate(360deg);
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .stat-title {
+            font-size: 1em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Acordeón --- */
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            background-color: #fff;
+        }
+        .accordion-item:hover {
+           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+           transform: translateY(-5px);
+        }
+
+        .accordion-header {
+            background-color: #e9f1f6;
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .accordion-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            opacity: 0.7;
+        }
+
+        .accordion-header:hover {
+            background-color: #dbe8f1;
+        }
+
+        .accordion-header h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header:hover h3 {
+            transform: translateX(10px);
+        }
+
+        .accordion-header .icon {
+            font-size: 1.2em;
+            transition: transform 0.5s ease;
+            color: var(--secondary-color);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.44, 0.06, 0.05, 0.93), padding 0.6s cubic-bezier(0.44, 0.06, 0.05, 0.93);
+            background-color: var(--card-bg);
+            padding: 0 25px;
+        }
+
+        .accordion-content p, .accordion-content ul {
+            margin-bottom: 15px;
+        }
+        .accordion-content ul {
+            padding-left: 25px;
+        }
+        .accordion-content li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .accordion-content li::before {
+            content: "\f061";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: -25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-content li:hover::before {
+            transform: translateX(5px);
+        }
+
+        .accordion-content.active {
+            max-height: 1500px;
+            padding: 25px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .accordion-header.active .icon {
+            transform: rotate(180deg);
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* --- Elementos gráficos y layout --- */
+        .graphic-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 35px 0;
+            flex-wrap: wrap;
+        }
+
+        .graphic-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .graphic-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .graphic-container i {
+            font-size: 3.5em;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            transition: all 0.5s ease;
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        .graphic-item span {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .graphic-container i:hover {
+            transform: scale(1.2) rotate(5deg);
+            background: linear-gradient(120deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .diagram-container {
+            position: relative;
+            margin: 40px auto;
+            background-color: #fdfdfd;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            max-width: 700px;
+        }
+
+        .diagram-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(30, 136, 229, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .diagram {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .diagram text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+        }
+        
+        .diagram .label {
+            font-weight: 600;
+            fill: var(--primary-color);
+        }
+        
+        .diagram .connector {
+            stroke: var(--secondary-color);
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrow);
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 3s ease-in-out forwards;
+        }
+        
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .diagram .box {
+            fill: #e9f1f6;
+            stroke: var(--primary-color);
+            stroke-width: 1.5;
+            rx: 5;
+            filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Animación secuencial de los elementos del diagrama */
+        .diagram .box:nth-child(1) { animation-delay: 0.2s; }
+        .diagram .box:nth-child(3) { animation-delay: 0.4s; }
+        .diagram .box:nth-child(5) { animation-delay: 0.6s; }
+        .diagram .box:nth-child(7) { animation-delay: 0.8s; }
+
+        /* --- Charts y gráficas --- */
+        .chart-container {
+            position: relative;
+            margin: 40px auto;
+            height: 300px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .chart-container canvas {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            background-color: white;
+            padding: 20px;
+        }
+
+        .chart-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chart-tab {
+            padding: 8px 20px;
+            border: none;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .chart-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .chart-tab:hover:not(.active) {
+            background-color: #d0d0d0;
+        }
+
+        /* --- Timeline --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 10px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.5s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            transform: translateX(50px);
+        }
+
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 15px;
+            background-color: white;
+            border: 4px solid var(--accent-color);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -50px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -50px;
+        }
+
+        .timeline-date {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* --- Process Steps --- */
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 60px;
+            right: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            z-index: 1;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 150px;
+            max-width: 200px;
+            text-align: center;
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover .step-number {
+            transform: scale(1.1) rotate(10deg);
+            background-color: var(--accent-color);
+        }
+
+        .step-title {
+            font-size: 1.1em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .step-desc {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* --- 3D Cube --- */
+        .cube-container {
+            perspective: 1000px;
+            width: 200px;
+            height: 200px;
+            margin: 80px auto;
+            transform-style: preserve-3d;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+            backface-visibility: visible;
+            transform-style: preserve-3d;
+        }
+
+        .cube-face i {
+            font-size: 3em;
+        }
+
+        .front { 
+            transform: translateZ(100px);
+            background-color: rgba(10, 74, 122, 0.8);
+        }
+        .back { 
+            transform: rotateY(180deg) translateZ(100px);
+            background-color: rgba(30, 136, 229, 0.8);
+        }
+        .right { 
+            transform: rotateY(90deg) translateZ(100px);
+            background-color: rgba(76, 175, 80, 0.8);
+        }
+        .left { 
+            transform: rotateY(-90deg) translateZ(100px);
+            background-color: rgba(255, 171, 64, 0.8);
+        }
+        .top { 
+            transform: rotateX(90deg) translateZ(100px);
+            background-color: rgba(244, 67, 54, 0.8);
+        }
+        .bottom { 
+            transform: rotateX(-90deg) translateZ(100px);
+            background-color: rgba(156, 39, 176, 0.8);
+        }
+
+        @keyframes rotate {
+            0% { transform: rotateY(0) rotateX(0); }
+            100% { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        /* --- Floating Cards --- */
+        .floating-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px auto;
+            perspective: 1000px;
+            flex-wrap: wrap;
+        }
+
+        .float-card {
+            width: 200px;
+            padding: 25px;
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: rotateY(10deg) rotateX(5deg);
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .float-card:hover {
+            transform: rotateY(-10deg) rotateX(-5deg) translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .float-card i {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .float-card h4 {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .float-card p {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* --- Hexagon Grid --- */
+        .hexagon-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 60px 0;
+            justify-content: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hexagon-row {
+            display: flex;
+            margin-top: -30px;
+        }
+
+        .hexagon-row:nth-child(even) {
+            margin-left: 90px;
+        }
+
+        .hexagon {
+            width: 100px;
+            height: 110px;
+            background-color: var(--primary-color);
+            margin: 0 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9em;
+            text-align: center;
+            padding: 0 10px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            transition: all 0.3s ease;
+        }
+
+        .hexagon:hover {
+            transform: scale(1.1);
+            background-color: var(--accent-color);
+        }
+
+        .hexagon i {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 0 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        code {
+            background-color: #e3e6e8;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            color: var(--primary-color);
+        }
+
+        /* --- Tablas --- */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .custom-table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .custom-table th {
+            padding: 15px;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        .custom-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .custom-table tbody tr {
+            background-color: white;
+            transition: all 0.3s;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f5f9ff;
+            transform: scale(1.01);
+        }
+
+        .custom-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* --- Cards con hover effect --- */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .info-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            top: 0;
+        }
+
+        .info-card:hover {
+            top: -10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-header i {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .card-header h3 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-body p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .card-body ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .card-body li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .card-body li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: var(--primary-color);
+            position: absolute;
+            left: -20px;
+        }
+
+        /* --- Clases para ScrollReveal --- */
+        .reveal {
+            visibility: hidden;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8em;
+            }
+            .section {
+                padding: 30px;
+            }
+            .timeline::before {
+                left: 40px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 80px;
+                padding-right: 0;
+            }
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -40px;
+            }
+            .process-steps::before {
+                display: none;
+            }
+            .process-step {
+                margin-bottom: 40px;
+            }
+            .cube-container {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .section h2 {
+                font-size: 1.8em;
+            }
+            .accordion-header h3 {
+                font-size: 1.1em;
+            }
+            .graphic-container i {
+                font-size: 2.8em;
+            }
+            .stats-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .hexagon-grid {
+                transform: scale(0.8);
+                margin: 0 auto;
+            }
+            .float-card {
+                width: 170px;
+            }
+        }
+        
+        @media (max-width: 580px) {
+            .cube-container {
+                transform: scale(0.6);
+                margin: 40px auto;
+            }
+            .hexagon-grid {
+                transform: scale(0.6);
+                margin: -20px auto;
+            }
+            .float-card {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            .hero {
+                padding: 60px 15px 40px;
+                border-bottom-left-radius: 40% 15px;
+                border-bottom-right-radius: 40% 15px;
+            }
+            .hero h1 {
+                font-size: 1.8em;
+            }
+            .section {
+                padding: 20px;
+            }
+            .accordion-header {
+                padding: 12px 15px;
+            }
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            .hexagon-grid {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="nav-container">
+        <nav class="navbar">
+            <a href="../../index.html" class="logo">
+                <img src="../../img/logo2.png" style="border-radius: 50%; width: 70px;"> MoriDevEdu</a>
+            <div class="nav-links">
+                <a href="../../index.html">Inicio</a>
+                <a href="../../index.html#cursos">Cursos</a>
+                <a href="../../index.html#about">Sobre Nosotros</a>
+            <a href="../../index.html#contact">Contacto</a>
+                
+            </div>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="particles">
+            <!-- Partículas generadas dinámicamente con JS -->
+        </div>
+        <div class="hero-content">
+            <h1 class="reveal">Data Warehouse y Business Intelligence</h1>
+            <p class="reveal">Una guía interactiva y visual para dominar los conceptos clave del análisis de datos empresariales.</p>
+            <a href="#introduccion" class="cta-button reveal">Explorar Ahora</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Estadísticas Destacadas -->
+        <div class="stats-container reveal">
+            <div class="stat-card">
+                <i class="fas fa-database stat-icon"></i>
+                <div class="stat-number" data-target="85">0</div>
+                <div class="stat-title">Empresas que utilizan DW</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line stat-icon"></i>
+                <div class="stat-number" data-target="68">0</div>
+                <div class="stat-title">Incremento en Eficiencia</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock stat-icon"></i>
+                <div class="stat-number" data-target="73">0</div>
+                <div class="stat-title">Reducción en Tiempo de Análisis</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy stat-icon"></i>
+                <div class="stat-number" data-target="92">0</div>
+                <div class="stat-title">Satisfacción de Usuarios</div>
+            </div>
+        </div>
+
+        <!-- Sección de Introducción -->
+        <section id="introduccion" class="section reveal">
+            <h2><i class="fas fa-lightbulb"></i> Conceptos Fundamentales</h2>
+            <p class="section-desc">Exploramos las bases del Data Warehouse y Business Intelligence, dos pilares fundamentales para transformar datos en decisiones estratégicas.</p>
+
+            <div class="graphic-container reveal">
+                <div class="graphic-item">
+                    <i class="fas fa-database" title="Base de Datos"></i>
+                    <span>Almacenamiento</span>
+                </div>
+                <div class="graphic-item">
+                    <i class="fas fa-cogs" title="Procesamiento"></i>
+                    <span>Procesamiento</span>
+                </div>
+                <div class="graphic-item">
+                    <i class="fas fa-chart-line" title="Análisis"></i>
+                    <span>Análisis</span>
+                </div>
+                <div class="graphic-item">
+                    <i class="fas fa-brain" title="Decisiones"></i>
+                    <span>Decisiones</span>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>¿Qué es Data Warehouse (DW) y Arquitectura BI?</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Es el proceso global de diseñar sistemas para analizar datos empresariales de manera eficiente y convertirlos en conocimiento accionable.</p>
+                    <ul>
+                        <li><strong>Data Warehouse (DW):</strong> Un repositorio centralizado de datos históricos integrados, optimizado para consultas y análisis. ¡Piensa en él como la biblioteca central de datos de la empresa!</li>
+                        <li><strong>Arquitectura BI:</strong> El marco completo (herramientas, procesos, personas) para convertir datos crudos en información útil para tomar decisiones. Incluye ETL, DW, Análisis y Visualización.</li>
+                    </ul>
+                    
+                    <div class="diagram-container">
+                        <svg class="diagram" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--secondary-color)" />
+                            </marker>
+                            <linearGradient id="boxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#e9f1f6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#c7dff0;stop-opacity:1" />
+                            </linearGradient>
+                          </defs>
+                          
+                          <!-- Fuentes de Datos -->
+                          <g class="data-source-group">
+                              <rect class="box" x="30" y="30" width="90" height="50" rx="5" fill="url(#boxGradient)"/>
+                              <text x="75" y="55" text-anchor="middle" class="label">Fuentes de Datos</text>
+                              <text x="75" y="70" text-anchor="middle" font-size="10">ERP, CRM, CSV...</text>
+                          </g>
+                          
+                          <!-- ETL Process -->
+                          <g class="etl-group">
+                              <rect class="box" x="205" y="30" width="90" height="50" rx="5" fill="url(#boxGradient)"/>
+                              <text x="250" y="55" text-anchor="middle" class="label">Procesos ETL</text>
+                              <text x="250" y="70" text-anchor="middle" font-size="10">Transformación</text>
+                          </g>
+                          
+                          <!-- Data Warehouse -->
+                          <g class="dw-group">
+                              <rect class="box" x="205" y="130" width="90" height="50" rx="5" fill="url(#boxGradient)"/>
+                              <text x="250" y="155" text-anchor="middle" class="label">Data Warehouse</text>
+                              <text x="250" y="170" text-anchor="middle" font-size="10">Almacenamiento</text>
+                          </g>
+                          
+                          <!-- OLAP Cubes -->
+                          <g class="olap-group">
+                              <rect class="box" x="380" y="80" width="90" height="50" rx="5" fill="url(#boxGradient)"/>
+                              <text x="425" y="105" text-anchor="middle" class="label">Cubos OLAP</text>
+                              <text x="425" y="120" text-anchor="middle" font-size="10">Análisis Dimensional</text>
+                          </g>
+                          
+                          <!-- Visualización -->
+                          <g class="vis-group">
+                              <rect class="box" x="380" y="180" width="90" height="50" rx="5" fill="url(#boxGradient)"/>
+                              <text x="425" y="205" text-anchor="middle" class="label">Visualización BI</text>
+                              <text x="425" y="220" text-anchor="middle" font-size="10">Dashboards, Informes</text>
+                          </g>
+                          
+                          <!-- Conectores -->
+                          <path class="connector" d="M 120 55 L 205 55" />
+                          <path class="connector" d="M 250 80 L 250 130" />
+                          <path class="connector" d="M 295 155 L 380 105" />
+                          <path class="connector" d="M 295 155 L 380 205" />
+                        </svg>
+                    </div>
+                    
+                    <p>En este flujo, los datos se <strong>extraen</strong> de sistemas transaccionales (fuentes), se <strong>transforman</strong> para garantizar consistencia y calidad, y finalmente se <strong>cargan</strong> en el Data Warehouse para posterior análisis y visualización.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Características Clave del Data Warehouse</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Un Data Warehouse efectivo se define por estas características esenciales:</p>
+                    <ul>
+                        <li><i class="fas fa-bullseye" style="color: var(--accent-color);"></i> <strong>Orientado al Tema:</strong> Organizado por temas de negocio (Ventas, Clientes, Inventario) y no por aplicaciones específicas.</li>
+                        <li><i class="fas fa-puzzle-piece" style="color: var(--accent-color);"></i> <strong>Integrado:</strong> Datos consistentes desde múltiples fuentes heterogéneas (mismos formatos, nomenclatura y unidades).</li>
+                        <li><i class="fas fa-history" style="color: var(--accent-color);"></i> <strong>Variante en el Tiempo:</strong> Almacena historial para análisis de tendencias y evolución temporal.</li>
+                        <li><i class="fas fa-lock" style="color: var(--accent-color);"></i> <strong>No Volátil:</strong> Los datos no se borran ni modifican, solo se añaden. Es un registro histórico fiable e inmutable.</li>
+                    </ul>
+                    
+                    <div class="chart-container reveal">
+                        <canvas id="dwCharacteristics"></canvas>
+                    </div>
+                    
+                    <p>Estas características diferencian fundamentalmente un Data Warehouse de una base de datos operacional tradicional (OLTP), que está más enfocada en transacciones diarias que en análisis histórico y estratégico.</p>
+                </div>
+            </div>
+            
+            <div class="info-cards reveal">
+                <div class="info-card">
+                    <div class="card-header">
+                        <i class="fas fa-database"></i>
+                        <h3>OLTP vs OLAP</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Sistemas con objetivos diferentes en el manejo de datos:</p>
+                        <ul>
+                            <li><strong>OLTP:</strong> Procesamiento de Transacciones (Operacional)</li>
+                            <li><strong>OLAP:</strong> Procesamiento Analítico (Business Intelligence)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-header">
+                        <i class="fas fa-cube"></i>
+                        <h3>Cubos Dimensionales</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Estructuras de datos especializadas para análisis rápido:</p>
+                        <ul>
+                            <li>Precomputan agregaciones y KPIs</li>
+                            <li>Permiten análisis multidimensional</li>
+                            <li>Facilitan consultas complejas en tiempo real</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-pie"></i>
+                        <h3>Herramientas BI</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Software para visualizar y analizar datos:</p>
+                        <ul>
+                            <li>Power BI</li>
+                            <li>Tableau</li>
+                            <li>QlikView/QlikSense</li>
+                            <li>Looker</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Arquitectura -->
+        <section id="arquitectura" class="section reveal">
+            <h2><i class="fas fa-drafting-compass"></i> Diseño y Arquitectura</h2>
+            <p class="section-desc">La arquitectura adecuada es fundamental para construir un sistema DW/BI escalable, eficiente y adaptado a las necesidades del negocio.</p>
+
+            <!-- Diseño 3D Cube -->
+            <div class="cube-container reveal">
+                <div class="cube">
+                    <div class="cube-face front"><i class="fas fa-layer-group"></i></div>
+                    <div class="cube-face back"><i class="fas fa-sitemap"></i></div>
+                    <div class="cube-face right"><i class="fas fa-database"></i></div>
+                    <div class="cube-face left"><i class="fas fa-chart-pie"></i></div>
+                    <div class="cube-face top"><i class="fas fa-cogs"></i></div>
+                    <div class="cube-face bottom"><i class="fas fa-network-wired"></i></div>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Arquitecturas de Data Warehouse</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Existen diversos enfoques arquitectónicos para implementar un sistema de Data Warehouse:</p>
+                    
+                    <div class="diagram-container">
+                        <svg class="diagram" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <marker id="arrow2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--secondary-color)" />
+                            </marker>
+                          </defs>
+                          
+                          <!-- Título -->
+                          <text x="250" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="var(--primary-color)">Arquitecturas de Data Warehouse</text>
+                          
+                          <!-- Arquitectura Empresarial -->
+                          <rect class="box" x="40" y="60" width="180" height="70" rx="5" />
+                          <text x="130" y="85" text-anchor="middle" class="label">Arquitectura Empresarial</text>
+                          <text x="130" y="105" text-anchor="middle" font-size="10">(Inmon)</text>
+                          <text x="130" y="120" text-anchor="middle" font-size="10">DW Centralizado → Data Marts</text>
+                          
+                          <!-- Arquitectura Data Mart -->
+                          <rect class="box" x="280" y="60" width="180" height="70" rx="5" />
+                          <text x="370" y="85" text-anchor="middle" class="label">Arquitectura Data Mart</text>
+                          <text x="370" y="105" text-anchor="middle" font-size="10">(Kimball)</text>
+                          <text x="370" y="120" text-anchor="middle" font-size="10">Data Marts Integrados → DW</text>
+                          
+                          <!-- Arquitectura Hub-and-Spoke -->
+                          <rect class="box" x="40" y="170" width="180" height="70" rx="5" />
+                          <text x="130" y="195" text-anchor="middle" class="label">Hub-and-Spoke</text>
+                          <text x="130" y="215" text-anchor="middle" font-size="10">DW Central + Data Marts</text>
+                          <text x="130" y="230" text-anchor="middle" font-size="10">Equilibrio de enfoques</text>
+                          
+                          <!-- Arquitectura Federada -->
+                          <rect class="box" x="280" y="170" width="180" height="70" rx="5" />
+                          <text x="370" y="195" text-anchor="middle" class="label">Arquitectura Federada</text>
+                          <text x="370" y="215" text-anchor="middle" font-size="10">Sistemas conectados</text>
+                          <text x="370" y="230" text-anchor="middle" font-size="10">Integración virtual de fuentes</text>
+                        </svg>
+                    </div>
+                    
+                    <ul>
+                        <li><strong>Arquitectura Empresarial (Inmon):</strong> Enfoque "top-down" con un DW corporativo centralizado del que derivan data marts departamentales. Alta consistencia pero desarrollo inicial más lento.</li>
+                        <li><strong>Arquitectura Data Mart (Kimball):</strong> Enfoque "bottom-up" que comienza con data marts departamentales que luego se integran. Implementación más rápida y enfocada a necesidades empresariales inmediatas.</li>
+                        <li><strong>Hub-and-Spoke:</strong> Combina aspectos de ambos enfoques con un DW central y data marts independientes pero consistentes.</li>
+                        <li><strong>Arquitectura Federada:</strong> Integra virtualmente datos de múltiples fuentes sin centralización física completa. Útil para entornos muy distribuidos.</li>
+                    </ul>
+                    
+                    <p>La elección de la arquitectura depende de factores como tamaño de la organización, presupuesto, recursos disponibles y urgencia de resultados.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Diseño de DW con Conexión SQL</h3>
+                     <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                 <div class="accordion-content">
+                    <p>Implica usar bases de datos relacionales (como SQL Server, Oracle, PostgreSQL) que se consultan con <strong>SQL</strong> para implementar el Data Warehouse.</p>
+                    
+                    <div class="diagram-container reveal">
+                        <svg class="diagram" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <marker id="arrow3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--secondary-color)" />
+                            </marker>
+                          </defs>
+                          
+                          <!-- Esquema Estrella -->
+                          <rect class="box" x="210" y="130" width="80" height="60" style="fill: var(--accent-color); stroke: var(--primary-color);" rx="5" />
+                          <text x="250" y="165" text-anchor="middle" class="label" style="fill: #333;">Hechos</text>
+                          <text x="250" y="180" text-anchor="middle" font-size="9" style="fill: #333;">Ventas</text>
+                          
+                          <!-- Dimensiones -->
+                          <rect class="box" x="70" y="50" width="80" height="50" rx="5" />
+                          <text x="110" y="75" text-anchor="middle" class="label">Tiempo</text>
+                          <text x="110" y="90" text-anchor="middle" font-size="9">Fecha, Mes, Año</text>
+                          
+                          <rect class="box" x="350" y="50" width="80" height="50" rx="5" />
+                          <text x="390" y="75" text-anchor="middle" class="label">Producto</text>
+                          <text x="390" y="90" text-anchor="middle" font-size="9">ID, Nombre, Cat.</text>
+                          
+                          <rect class="box" x="70" y="210" width="80" height="50" rx="5" />
+                          <text x="110" y="235" text-anchor="middle" class="label">Cliente</text>
+                          <text x="110" y="250" text-anchor="middle" font-size="9">ID, Nombre, Seg.</text>
+                          
+                          <rect class="box" x="350" y="210" width="80" height="50" rx="5" />
+                          <text x="390" y="235" text-anchor="middle" class="label">Ubicación</text>
+                          <text x="390" y="250" text-anchor="middle" font-size="9">Tienda, Ciudad</text>
+                          
+                          <rect class="box" x="210" y="270" width="80" height="50" rx="5" />
+                          <text x="250" y="295" text-anchor="middle" class="label">Promoción</text>
+                          <text x="250" y="310" text-anchor="middle" font-size="9">ID, Tipo, Canal</text>
+                          
+                          <!-- Conector central superior -->
+                          <path class="connector" d="M 150 75 L 210 145" />
+                          <path class="connector" d="M 350 75 L 290 145" />
+                          
+                          <!-- Conector central inferior -->
+                          <path class="connector" d="M 150 235 L 210 175" />
+                          <path class="connector" d="M 350 235 L 290 175" />
+                          
+                          <!-- Conector inferior -->
+                          <path class="connector" d="M 250 270 L 250 190" />
+                          
+                          <!-- Título -->
+                          <text x="250" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="var(--primary-color)">Esquema Estrella</text>
+                        </svg>
+                    </div>
+                    
+                    <p>Los pasos clave para el diseño efectivo incluyen:</p>
+                    
+                    <ul>
+                        <li><strong>Definir el modelo de datos:</strong> Generalmente se utiliza un Esquema Estrella (más simple y eficiente) o Copo de Nieve (más normalizado).</li>
+                        <li><strong>Diseñar Tablas de Hechos:</strong> Contienen las métricas y KPIs del negocio (ventas, cantidades, montos).</li>
+                        <li><strong>Diseñar Tablas de Dimensiones:</strong> Proporcionan el contexto analítico (quién, qué, cuándo, dónde).</li>
+                        <li><strong>Crear procesos ETL:</strong> Para extraer, transformar y cargar datos desde las fuentes al DW.</li>
+                        <li><strong>Optimizar para consultas analíticas:</strong> Índices, particionamiento, vistas materializadas.</li>
+                    </ul>
+                    
+                    <div class="chart-container reveal">
+                        <canvas id="sqlQueryPerformance"></canvas>
+                    </div>
+                    
+                    <p>La optimización adecuada de consultas SQL puede mejorar drásticamente el rendimiento, especialmente en conjuntos de datos muy grandes.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Modelado y Arquitectura de BD (¡Escalabilidad!)</h3>
+                     <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                 <div class="accordion-content">
+                     <p>Diseñar bases de datos (operacionales o DW) pensando en el futuro crecimiento es crucial para la sostenibilidad del sistema.</p>
+                     
+                     <div class="process-steps reveal">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Análisis de Requisitos</div>
+                            <div class="step-desc">Identificar necesidades actuales y futuras</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Modelado Conceptual</div>
+                            <div class="step-desc">Diseñar esquema conceptual</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Modelado Lógico</div>
+                            <div class="step-desc">Convertir a modelo relacional</div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div class="step-title">Modelado Físico</div>
+                            <div class="step-desc">Implementar con estrategias de optimización</div>
+                        </div>
+                     </div>
+                     
+                     <ul>
+                        <li><strong>Modelado:</strong> Incluye diagramas ER, normalización/desnormalización estratégica, selección precisa de tipos de datos e índices optimizados.</li>
+                        <li><strong>Arquitectura BD:</strong> Abarca estructura lógica y física, selección apropiada del SGBD e infraestructura robusta.</li>
+                        <li><strong>Estrategias de Escalabilidad:</strong>
+                            <ul>
+                                <li><em>Vertical (Scale-Up):</em> Incrementar recursos a un servidor (CPU, RAM, SSD) para manejar mayor carga.</li>
+                                <li><em>Horizontal (Scale-Out):</em> Distribuir carga entre múltiples servidores mediante técnicas como sharding, particionamiento o replicación.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="diagram-container reveal">
+                        <svg class="diagram" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                          <!-- Escalabilidad Vertical vs Horizontal -->
+                          <rect x="50" y="30" width="160" height="80" rx="10" class="box" />
+                          <text x="130" y="55" text-anchor="middle" class="label">Escalabilidad Vertical</text>
+                          <text x="130" y="75" text-anchor="middle" font-size="10">Más recursos a un servidor</text>
+                          <text x="130" y="95" text-anchor="middle" font-size="10">Límite físico de hardware</text>
+                          
+                          <!-- Iconos para Escalabilidad Vertical -->
+                          <rect x="60" y="110" width="140" height="5" fill="var(--primary-color)" />
+                          <rect x="80" y="115" width="100" height="50" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="130" y="145" text-anchor="middle" font-size="12">Servidor Potente</text>
+                          
+                          <!-- Escalabilidad Horizontal -->
+                          <rect x="290" y="30" width="160" height="80" rx="10" class="box" />
+                          <text x="370" y="55" text-anchor="middle" class="label">Escalabilidad Horizontal</text>
+                          <text x="370" y="75" text-anchor="middle" font-size="10">Más servidores</text>
+                          <text x="370" y="95" text-anchor="middle" font-size="10">Prácticamente sin límite</text>
+                          
+                          <!-- Iconos para Escalabilidad Horizontal -->
+                          <rect x="300" y="110" width="140" height="5" fill="var(--primary-color)" />
+                          <rect x="300" y="115" width="40" height="30" rx="3" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <rect x="350" y="115" width="40" height="30" rx="3" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <rect x="400" y="115" width="40" height="30" rx="3" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <rect x="320" y="150" width="100" height="30" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="370" y="170" text-anchor="middle" font-size="10">Balanceador de Carga</text>
+                          
+                          <!-- Conector vertical a horizontal -->
+                          <path d="M 130 180 L 130 200 L 250 200 L 370 200 L 370 180" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-dasharray="5,3" />
+                          <text x="250" y="220" text-anchor="middle" font-size="12" fill="var(--primary-color)">Combinación óptima de ambas estrategias</text>
+                        </svg>
+                    </div>
+                    
+                    <p>Una <strong>arquitectura bien diseñada</strong> combina estrategias de escalabilidad vertical y horizontal junto con optimización de consultas para lograr máximo rendimiento incluso con crecimiento exponencial de datos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Modelado -->
+        <section id="modelado" class="section reveal">
+            <h2><i class="fas fa-project-diagram"></i> Modelado Dimensional</h2>
+            <p class="section-desc">El modelado dimensional es la técnica preferida para diseñar data warehouses enfocados en el rendimiento analítico y la usabilidad.</p>
+
+            <div class="hexagon-grid reveal">
+                <div class="hexagon-row">
+                    <div class="hexagon">
+                        <i class="fas fa-cube"></i>
+                        Dimensiones
+                    </div>
+                    <div class="hexagon">
+                        <i class="fas fa-chart-bar"></i>
+                        Hechos
+                    </div>
+                </div>
+                <div class="hexagon-row">
+                    <div class="hexagon">
+                        <i class="fas fa-star"></i>
+                        Estrella
+                    </div>
+                    <div class="hexagon">
+                        <i class="fas fa-snowflake"></i>
+                        Copo de Nieve
+                    </div>
+                    <div class="hexagon">
+                        <i class="fas fa-gem"></i>
+                        Constelación
+                    </div>
+                </div>
+                <div class="hexagon-row">
+                    <div class="hexagon">
+                        <i class="fas fa-calendar-alt"></i>
+                        Jerarquías
+                    </div>
+                    <div class="hexagon">
+                        <i class="fas fa-search"></i>
+                        Granularidad
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Conceptos Clave del Modelado Dimensional</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>El modelado dimensional organiza los datos en un formato intuitivo y de alto rendimiento para consultas analíticas complejas.</p>
+                    
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Descripción</th>
+                                <th>Ejemplo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Tabla de Hechos</strong></td>
+                                <td>Contiene medidas numéricas del negocio</td>
+                                <td>Ventas, cantidades, montos, márgenes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tabla de Dimensiones</strong></td>
+                                <td>Contiene atributos descriptivos</td>
+                                <td>Producto, Cliente, Tiempo, Ubicación</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Esquema Estrella</strong></td>
+                                <td>Modelo desnormalizado con dimensiones directamente conectadas a hechos</td>
+                                <td>Modelo más común en retail, ventas</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Esquema Copo de Nieve</strong></td>
+                                <td>Dimensiones normalizadas en múltiples tablas</td>
+                                <td>Útil para dimensiones complejas</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jerarquías</strong></td>
+                                <td>Relaciones de nivel entre atributos</td>
+                                <td>Año → Trimestre → Mes → Día</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="chart-container reveal">
+                        <canvas id="dimensionalModels"></canvas>
+                    </div>
+                    
+                    <p>La elección entre esquemas Estrella y Copo de Nieve implica un balance entre rendimiento de consultas y mantenimiento de datos.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Diseño de Medidas y KPIs</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Las medidas y KPIs (Key Performance Indicators) son el corazón del análisis de datos empresariales.</p>
+                    
+                    <div class="floating-cards reveal">
+                        <div class="float-card">
+                            <i class="fas fa-calculator"></i>
+                            <h4>Medidas Base</h4>
+                            <p>Valores directamente almacenados (cantidad, precio, costo)</p>
+                        </div>
+                        <div class="float-card">
+                            <i class="fas fa-percent"></i>
+                            <h4>Medidas Derivadas</h4>
+                            <p>Calculadas a partir de otras (margen, porcentaje, ratio)</p>
+                        </div>
+                        <div class="float-card">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <h4>KPIs</h4>
+                            <p>Indicadores clave para evaluar desempeño</p>
+                        </div>
+                    </div>
+                    
+                    <p>Para diseñar medidas efectivas:</p>
+                    <ul>
+                        <li><strong>Identificar las métricas críticas</strong> para cada área de negocio.</li>
+                        <li><strong>Determinar la granularidad adecuada</strong> (nivel de detalle) para cada medida.</li>
+                        <li><strong>Establecer fórmulas claras</strong> para cálculos derivados.</li>
+                        <li><strong>Definir dimensiones de análisis</strong> relevantes para cada medida.</li>
+                        <li><strong>Documentar unidades</strong> y reglas de agregación (suma, promedio, máximo).</li>
+                    </ul>
+                    
+                    <div class="diagram-container reveal">
+                        <svg class="diagram" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                          <!-- KPI Dashboard -->
+                          <rect x="50" y="30" width="400" height="180" rx="10" fill="#f9f9f9" stroke="var(--primary-color)" />
+                          <text x="250" y="55" text-anchor="middle" font-size="16" fill="var(--primary-color)" font-weight="bold">Dashboard de KPIs</text>
+                          
+                          <!-- KPI 1 -->
+                          <rect x="70" y="80" width="100" height="90" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="120" y="100" text-anchor="middle" font-size="12" fill="var(--primary-color)">Ventas Totales</text>
+                          <text x="120" y="130" text-anchor="middle" font-size="18" font-weight="bold" fill="var(--accent-color)">$1.45M</text>
+                          <text x="120" y="150" text-anchor="middle" font-size="10" fill="green">↑ 12.3%</text>
+                          
+                          <!-- KPI 2 -->
+                          <rect x="190" y="80" width="100" height="90" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="240" y="100" text-anchor="middle" font-size="12" fill="var(--primary-color)">Margen Bruto</text>
+                          <text x="240" y="130" text-anchor="middle" font-size="18" font-weight="bold" fill="var(--accent-color)">32.7%</text>
+                          <text x="240" y="150" text-anchor="middle" font-size="10" fill="green">↑ 2.1%</text>
+                          
+                          <!-- KPI 3 -->
+                          <rect x="310" y="80" width="100" height="90" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="360" y="100" text-anchor="middle" font-size="12" fill="var(--primary-color)">Clients Nuevos</text>
+                          <text x="360" y="130" text-anchor="middle" font-size="18" font-weight="bold" fill="var(--accent-color)">843</text>
+                          <text x="360" y="150" text-anchor="middle" font-size="10" fill="red">↓ 5.8%</text>
+                          
+                          <!-- Dashboard Border -->
+                          <rect x="50" y="30" width="400" height="180" rx="10" fill="none" stroke="var(--primary-color)" stroke-width="2" />
+                        </svg>
+                    </div>
+                    
+                    <p>Los KPIs bien diseñados deben ser <strong>S.M.A.R.T.</strong>: Específicos, Medibles, Alcanzables, Relevantes y con Tiempo definido.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Procesos ETL -->
+        <section id="procesos" class="section reveal">
+            <h2><i class="fas fa-exchange-alt"></i> Procesos ETL y Calidad de Datos</h2>
+            <p class="section-desc">Los procesos de Extracción, Transformación y Carga (ETL) son fundamentales para alimentar el Data Warehouse con datos limpios y consistentes.</p>
+
+            <div class="timeline reveal">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Fase 1</div>
+                        <div class="timeline-title">Extracción</div>
+                        <p>Obtención de datos desde múltiples fuentes: bases de datos relacionales, APIs, archivos planos, etc.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Fase 2</div>
+                        <div class="timeline-title">Transformación</div>
+                        <p>Limpieza, validación, normalización, enriquecimiento y conversión de los datos para hacerlos consistentes.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Fase 3</div>
+                        <div class="timeline-title">Carga</div>
+                        <p>Inserción de los datos transformados en el Data Warehouse, actualizando dimensiones e incorporando nuevos hechos.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Fase 4</div>
+                        <div class="timeline-title">Orquestación</div>
+                        <p>Programación, secuenciación y monitoreo de los procesos ETL para garantizar su ejecución correcta.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Desafíos y Buenas Prácticas en ETL</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Los procesos ETL enfrentan diversos desafíos que requieren estrategias y prácticas adecuadas:</p>
+                    
+                    <div class="chart-container reveal">
+                        <canvas id="etlChallenges"></canvas>
+                    </div>
+                    
+                    <ul>
+                        <li><strong>Volumen de datos:</strong> Implementar procesamiento por lotes o incremental para manejar grandes volúmenes.</li>
+                        <li><strong>Calidad de datos:</strong> Establecer reglas de validación, corrección y enriquecimiento para garantizar consistencia.</li>
+                        <li><strong>Integración de fuentes heterogéneas:</strong> Crear mapeos claros entre diferentes formatos, códigos y estructuras.</li>
+                        <li><strong>Rendimiento:</strong> Optimizar consultas, utilizar procesamiento paralelo y definir ventanas de tiempo adecuadas.</li>
+                        <li><strong>Manejo de errores:</strong> Implementar sistemas robustos de logging, notificación y recuperación.</li>
+                    </ul>
+                    
+                    <div class="diagram-container reveal">
+                        <svg class="diagram" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                          <!-- ETL Process Flow -->
+                          <rect x="30" y="80" width="100" height="50" rx="8" class="box" />
+                          <text x="80" y="110" text-anchor="middle" class="label">Extracción</text>
+                          
+                          <rect x="200" y="80" width="100" height="50" rx="8" class="box" />
+                          <text x="250" y="110" text-anchor="middle" class="label">Transformación</text>
+                          
+                          <rect x="370" y="80" width="100" height="50" rx="8" class="box" />
+                          <text x="420" y="110" text-anchor="middle" class="label">Carga</text>
+                          
+                          <!-- Arrows -->
+                          <path class="connector" d="M 130 105 L 200 105" />
+                          <path class="connector" d="M 300 105 L 370 105" />
+                          
+                          <!-- Additional boxes -->
+                          <rect x="200" y="20" width="100" height="30" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="250" y="40" text-anchor="middle" font-size="10">Limpieza</text>
+                          
+                          <rect x="200" y="160" width="100" height="30" rx="5" fill="#e9f1f6" stroke="var(--primary-color)" />
+                          <text x="250" y="180" text-anchor="middle" font-size="10">Enriquecimiento</text>
+                          
+                          <!-- Vertical connectors -->
+                          <path d="M 250 80 L 250 50" fill="none" stroke="var(--primary-color)" stroke-width="1.5" />
+                          <path d="M 250 130 L 250 160" fill="none" stroke="var(--primary-color)" stroke-width="1.5" />
+                        </svg>
+                    </div>
+                    
+                    <p><strong>Herramientas ETL comunes</strong> incluyen SQL Server Integration Services (SSIS), Informatica PowerCenter, Talend, Apache NiFi y modernos enfoques basados en cloud como AWS Glue o Azure Data Factory.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Calidad y Gobierno de Datos</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>La calidad de los datos es fundamental para que el análisis y la toma de decisiones sean confiables.</p>
+                    
+                    <div class="stats-container reveal">
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle stat-icon"></i>
+                            <div class="stat-number" data-target="60">0</div>
+                            <div class="stat-title">Costo de Datos Deficientes (%)</div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-times-circle stat-icon"></i>
+                            <div class="stat-number" data-target="95">0</div>
+                            <div class="stat-title">Organizaciones con Problemas de Datos (%)</div>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Principales dimensiones de la calidad de datos:</strong></p>
+                    <ul>
+                        <li><i class="fas fa-check" style="color: var(--success-color);"></i> <strong>Exactitud:</strong> Los datos reflejan la realidad que representan.</li>
+                        <li><i class="fas fa-check" style="color: var(--success-color);"></i> <strong>Integridad:</strong> Los datos están completos, sin valores faltantes críticos.</li>
+                        <li><i class="fas fa-check" style="color: var(--success-color);"></i> <strong>Consistencia:</strong> Los mismos datos tienen el mismo valor en diferentes ubicaciones.</li>
+                        <li><i class="fas fa-check" style="color: var(--success-color);"></i> <strong>Validez:</strong> Los datos cumplen con reglas de negocio y formatos definidos.</li>
+                        <li><i class="fas fa-check" style="color: var(--success-color);"></i> <strong>Oportunidad:</strong> Los datos están disponibles cuando se necesitan.</li>
+                        <li><i class="fas fa-check" style="color: var(--success-color);"></i> <strong>Unicidad:</strong> No existen duplicados no intencionados.</li>
+                    </ul>
+                    
+                    <p><strong>El gobierno de datos</strong> establece políticas, procedimientos y estándares para gestionar adecuadamente los activos de datos, asegurando que sean seguros, accesibles, confiables y utilizables.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Visualización -->
+        <section id="visualizacion" class="section reveal">
+            <h2><i class="fas fa-chart-pie"></i> Visualización y Análisis</h2>
+            <p class="section-desc">La visualización efectiva de datos transforma información compleja en insights accionables para la toma de decisiones empresariales.</p>
+
+            <div class="chart-tabs reveal">
+                <button class="chart-tab active" data-chart="bar">Barras</button>
+                <button class="chart-tab" data-chart="line">Líneas</button>
+                <button class="chart-tab" data-chart="pie">Circular</button>
+                <button class="chart-tab" data-chart="radar">Radar</button>
+            </div>
+            
+            <div class="chart-container reveal">
+                <canvas id="dynamicChart"></canvas>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Herramientas de BI y Visualización</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Las herramientas modernas de Business Intelligence permiten crear dashboards interactivos y análisis en profundidad sin necesidad de conocimientos técnicos avanzados.</p>
+                    
+                    <div class="floating-cards reveal">
+                        <div class="float-card">
+                            <i class="fab fa-microsoft"></i>
+                            <h4>Power BI</h4>
+                            <p>Microsoft</p>
+                        </div>
+                        <div class="float-card">
+                            <i class="fas fa-chart-pie"></i>
+                            <h4>Tableau</h4>
+                            <p>Salesforce</p>
+                        </div>
+                        <div class="float-card">
+                            <i class="fas fa-search-plus"></i>
+                            <h4>QlikView</h4>
+                            <p>Qlik</p>
+                        </div>
+                        <div class="float-card">
+                            <i class="far fa-eye"></i>
+                            <h4>Looker</h4>
+                            <p>Google</p>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Características clave a considerar en herramientas BI:</strong></p>
+                    <ul>
+                        <li><strong>Facilidad de uso:</strong> Interfaz intuitiva que no requiere programación compleja.</li>
+                        <li><strong>Conectividad:</strong> Capacidad para conectarse a múltiples fuentes de datos diferentes.</li>
+                        <li><strong>Interactividad:</strong> Filtros, drill-down y análisis ad-hoc para explorar los datos.</li>
+                        <li><strong>Colaboración:</strong> Compartir e incorporar comentarios entre equipos.</li>
+                        <li><strong>Seguridad:</strong> Control de acceso granular y protección de datos sensibles.</li>
+                        <li><strong>Escalabilidad:</strong> Capacidad para manejar grandes volúmenes de datos.</li>
+                    </ul>
+                    
+                    <p>La elección de la herramienta BI debe alinearse con las necesidades específicas de la organización, considerando factores como presupuesto, habilidades disponibles, sistemas existentes y complejidad de los análisis requeridos.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item reveal">
+                <div class="accordion-header">
+                    <h3>Principios de Visualización Efectiva</h3>
+                    <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="accordion-content">
+                    <p>Crear visualizaciones efectivas requiere comprender tanto los datos como la percepción humana.</p>
+                    
+                    <div class="info-cards reveal">
+                        <div class="info-card">
+                            <div class="card-header">
+                                <i class="fas fa-bullseye"></i>
+                                <h3>Propósito Claro</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Cada visualización debe responder a una pregunta de negocio específica.</p>
+                                <ul>
+                                    <li>Identifica la audiencia</li>
+                                    <li>Define el objetivo</li>
+                                    <li>Establece la acción esperada</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="card-header">
+                                <i class="fas fa-paint-brush"></i>
+                                <h3>Diseño Intuitivo</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>El diseño debe facilitar la comprensión rápida de la información.</p>
+                                <ul>
+                                    <li>Usa esquemas de color apropiados</li>
+                                    <li>Elimina elementos decorativos innecesarios</li>
+                                    <li>Organiza información jerárquicamente</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar"></i>
+                                <h3>Gráfico Adecuado</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Cada tipo de dato y relación requiere un tipo específico de visualización.</p>
+                                <ul>
+                                    <li>Barras: comparaciones entre categorías</li>
+                                    <li>Líneas: tendencias a lo largo del tiempo</li>
+                                    <li>Circulares: proporciones de un todo</li>
+                                    <li>Dispersión: correlaciones entre variables</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>Una visualización efectiva debe ser <strong>precisa</strong> (representar los datos fielmente), <strong>clara</strong> (fácil de interpretar), <strong>eficiente</strong> (transmitir información compleja rápidamente) y <strong>estética</strong> (agradable visualmente sin sacrificar contenido).</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Data Warehouse & BI</h3>
+                <p>Guía completa para entender y aplicar conceptos avanzados de almacenamiento y análisis de datos empresariales.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="#introduccion">Conceptos Fundamentales</a></li>
+                    <li><a href="#arquitectura">Diseño y Arquitectura</a></li>
+                    <li><a href="#modelado">Modelado Dimensional</a></li>
+                    <li><a href="#procesos">Procesos ETL</a></li>
+                    <li><a href="#visualizacion">Visualización</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Recursos</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Descarga PDF</a></li>
+                    <li><a href="#">Webinars</a></li>
+                    <li><a href="#">Casos de Estudio</a></li>
+                    <li><a href="#">Certificaciones</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 - Guía Interactiva de Data Warehouse y BI. Creada con fines educativos.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Navegación Scroll ---
+        const navContainer = document.querySelector('.nav-container');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navContainer.classList.add('scrolled');
+            } else {
+                navContainer.classList.remove('scrolled');
+            }
+        });
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Animar barras del menú hamburguesa
+            const bars = menuToggle.querySelectorAll('span');
+            bars[0].style.transform = bars[0].style.transform === 'rotate(45deg) translate(5px, 5px)' ? 'none' : 'rotate(45deg) translate(5px, 5px)';
+            bars[1].style.opacity = bars[1].style.opacity === '0' ? '1' : '0';
+            bars[2].style.transform = bars[2].style.transform === 'rotate(-45deg) translate(5px, -5px)' ? 'none' : 'rotate(-45deg) translate(5px, -5px)';
+        });
+        
+        // --- Script para el Acordeón ---
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const accordionItem = header.parentElement;
+                const accordionContent = header.nextElementSibling;
+                
+                // Cerrar el que estaba abierto (si existe y no es el mismo que se clickeó)
+                const currentlyActive = document.querySelector('.accordion-header.active');
+                if (currentlyActive && currentlyActive !== header) {
+                    currentlyActive.classList.remove('active');
+                    currentlyActive.nextElementSibling.classList.remove('active');
+                    currentlyActive.nextElementSibling.style.maxHeight = 0;
+                    currentlyActive.nextElementSibling.style.padding = '0 25px';
+                }
+
+                // Abrir/cerrar el clickeado
+                header.classList.toggle('active');
+                accordionContent.classList.toggle('active');
+
+                if (accordionContent.classList.contains('active')) {
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                    accordionContent.style.padding = '25px'; 
+                } else {
+                    accordionContent.style.maxHeight = 0;
+                    accordionContent.style.padding = '0 25px'; 
+                }
+            });
+        });
+
+        // --- Generar partículas para el hero ---
+        const createParticles = () => {
+            const particlesContainer = document.querySelector('.particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Posición aleatoria
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 10 + 3;
+                
+                // Retraso aleatorio para la animación
+                const delay = Math.random() * 10;
+                
+                // Duración aleatoria
+                const duration = Math.random() * 10 + 10;
+                
+                particle.style.left = posX + '%';
+                particle.style.top = posY + '%';
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.animationDelay = delay + 's';
+                particle.style.animationDuration = duration + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        };
+        
+        createParticles();
+
+        // --- Animación de contadores en Stats ---
+        const animateStats = () => {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                const duration = 2000; // ms
+                const startTime = Date.now();
+                const startValue = 0;
+                
+                const updateCounter = () => {
+                    const currentTime = Date.now();
+                    const progress = Math.min((currentTime - startTime) / duration, 1);
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(1 - progress, 3); // Cubic ease out
+                    
+                    const value = Math.floor(startValue + (target - startValue) * easeProgress);
+                    stat.textContent = value;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                };
+                
+                updateCounter();
+            });
+        };
+        
+        // --- Timeline Animation ---
+        const animateTimeline = () => {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+        };
+        
+        // --- Chart.js Configuración ---
+        const initCharts = () => {
+            // Características DW Chart
+            const dwCtx = document.getElementById('dwCharacteristics');
+            if (dwCtx) {
+                const dwChart = new Chart(dwCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Orientado al Tema', 'Integrado', 'Variante en el Tiempo', 'No Volátil', 'Soporta Análisis'],
+                        datasets: [{
+                            label: 'Data Warehouse',
+                            data: [85, 90, 95, 80, 92],
+                            backgroundColor: 'rgba(30, 136, 229, 0.2)',
+                            borderColor: 'rgba(30, 136, 229, 1)',
+                            borderWidth: 2
+                        }, {
+                            label: 'BD Operacional',
+                            data: [50, 40, 30, 20, 45],
+                            backgroundColor: 'rgba(255, 171, 64, 0.2)',
+                            borderColor: 'rgba(255, 171, 64, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: true,
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // SQL Query Performance
+            const sqlCtx = document.getElementById('sqlQueryPerformance');
+            if (sqlCtx) {
+                const sqlChart = new Chart(sqlCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sin Optimizar', 'Índices', 'Particionado', 'Vistas Materializadas', 'Caching', 'Combinado'],
+                        datasets: [{
+                            label: 'Tiempo de Respuesta (ms)',
+                            data: [8500, 3200, 2100, 1500, 920, 450],
+                            backgroundColor: [
+                                'rgba(244, 67, 54, 0.7)',
+                                'rgba(255, 152, 0, 0.7)',
+                                'rgba(255, 235, 59, 0.7)',
+                                'rgba(76, 175, 80, 0.7)',
+                                'rgba(33, 150, 243, 0.7)',
+                                'rgba(76, 175, 80, 0.9)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Tiempo de Respuesta (ms)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Dimensional Models Chart
+            const dimensionalCtx = document.getElementById('dimensionalModels');
+            if (dimensionalCtx) {
+                const dimensionalChart = new Chart(dimensionalCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Esquema Estrella', 'Esquema Copo de Nieve'],
+                        datasets: [
+                            {
+                                label: 'Rendimiento Consultas',
+                                data: [85, 75],
+                                backgroundColor: 'rgba(30, 136, 229, 0.7)',
+                                borderColor: 'rgba(30, 136, 229, 1)',
+                                borderWidth: 1,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Flexibilidad',
+                                data: [70, 90],
+                                backgroundColor: 'rgba(255, 171, 64, 0.7)',
+                                borderColor: 'rgba(255, 171, 64, 1)',
+                                borderWidth: 1,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Facilidad de Mantenimiento',
+                                data: [90, 75],
+                                backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                                borderColor: 'rgba(76, 175, 80, 1)',
+                                borderWidth: 1,
+                                yAxisID: 'y'
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Puntuación'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // ETL Challenges Chart
+            const etlCtx = document.getElementById('etlChallenges');
+            if (etlCtx) {
+                const etlChart = new Chart(etlCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Calidad de Datos', 'Integración', 'Rendimiento', 'Volumen', 'Complejidad'],
+                        datasets: [{
+                            data: [35, 25, 15, 15, 10],
+                            backgroundColor: [
+                                'rgba(30, 136, 229, 0.7)',
+                                'rgba(255, 171, 64, 0.7)',
+                                'rgba(76, 175, 80, 0.7)',
+                                'rgba(233, 30, 99, 0.7)',
+                                'rgba(156, 39, 176, 0.7)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Principales Desafíos en ETL',
+                                font: {
+                                    size: 16
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Dynamic Chart
+            const dynamicCtx = document.getElementById('dynamicChart');
+            if (dynamicCtx) {
+                let dynamicChart;
+                
+                // Datos para diferentes tipos de gráficos
+                const chartData = {
+                    bar: {
+                        labels: ['Ventas', 'Marketing', 'Operaciones', 'RR.HH.', 'TI', 'Finanzas'],
+                        datasets: [{
+                            label: 'Presupuesto',
+                            data: [1200, 1900, 800, 500, 1400, 2000],
+                            backgroundColor: [
+                                'rgba(30, 136, 229, 0.7)',
+                                'rgba(255, 171, 64, 0.7)',
+                                'rgba(76, 175, 80, 0.7)',
+                                'rgba(233, 30, 99, 0.7)',
+                                'rgba(156, 39, 176, 0.7)',
+                                'rgba(255, 87, 34, 0.7)'
+                            ]
+                        }]
+                    },
+                    line: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+                        datasets: [{
+                            label: 'Ventas 2024',
+                            data: [1200, 1400, 1300, 1500, 1800, 2000, 2200, 2400, 2300],
+                            borderColor: 'rgba(30, 136, 229, 1)',
+                            backgroundColor: 'rgba(30, 136, 229, 0.2)',
+                            tension: 0.3,
+                            fill: true
+                        }, {
+                            label: 'Ventas 2023',
+                            data: [1000, 1100, 1200, 1250, 1400, 1600, 1800, 2000, 1900],
+                            borderColor: 'rgba(255, 171, 64, 1)',
+                            backgroundColor: 'rgba(255, 171, 64, 0.2)',
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    pie: {
+                        labels: ['Norteamérica', 'Europa', 'Asia', 'Latinoamérica', 'África'],
+                        datasets: [{
+                            data: [40, 25, 20, 10, 5],
+                            backgroundColor: [
+                                'rgba(30, 136, 229, 0.7)',
+                                'rgba(255, 171, 64, 0.7)',
+                                'rgba(76, 175, 80, 0.7)',
+                                'rgba(233, 30, 99, 0.7)',
+                                'rgba(156, 39, 176, 0.7)'
+                            ]
+                        }]
+                    },
+                    radar: {
+                        labels: ['Velocidad', 'Fiabilidad', 'Escalabilidad', 'Seguridad', 'Usabilidad', 'Flexibilidad'],
+                        datasets: [{
+                            label: 'Solución A',
+                            data: [90, 85, 70, 95, 80, 75],
+                            backgroundColor: 'rgba(30, 136, 229, 0.2)',
+                            borderColor: 'rgba(30, 136, 229, 1)',
+                            borderWidth: 2
+                        }, {
+                            label: 'Solución B',
+                            data: [75, 90, 85, 80, 90, 95],
+                            backgroundColor: 'rgba(255, 171, 64, 0.2)',
+                            borderColor: 'rgba(255, 171, 64, 1)',
+                            borderWidth: 2
+                        }]
+                    }
+                };
+                
+                // Función para cambiar el tipo de gráfico
+                const updateChartType = (type) => {
+                    if (dynamicChart) {
+                        dynamicChart.destroy();
+                    }
+                    
+                    dynamicChart = new Chart(dynamicCtx, {
+                        type: type,
+                        data: chartData[type],
+                        options: {
+                            responsive: true,
+                            animation: {
+                                duration: 1000,
+                                easing: 'easeOutQuart'
+                            }
+                        }
+                    });
+                };
+                
+                // Inicializar con gráfico de barras
+                updateChartType('bar');
+                
+                // Event listeners para los tabs de gráficos
+                const chartTabs = document.querySelectorAll('.chart-tab');
+                chartTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        chartTabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        updateChartType(tab.getAttribute('data-chart'));
+                    });
+                });
+            }
+        };
+
+        // --- Configuración de ScrollReveal ---
+        const initScrollReveal = () => {
+            ScrollReveal({
+                distance: '60px',
+                duration: 1500,
+                delay: 200,
+                easing: 'ease-out'
+            });
+
+            ScrollReveal().reveal('.reveal', {
+                origin: 'bottom',
+                interval: 100
+            });
+            
+            ScrollReveal().reveal('.hero h1', { delay: 300, origin: 'top' });
+            ScrollReveal().reveal('.hero p', { delay: 500, origin: 'top' });
+            ScrollReveal().reveal('.cta-button', { delay: 700, origin: 'bottom' });
+            
+            ScrollReveal().reveal('.section h2', { origin: 'left' });
+            ScrollReveal().reveal('.section-desc', { origin: 'right', delay: 300 });
+            
+            ScrollReveal().reveal('.graphic-item', { interval: 150, origin: 'top', distance: '30px', scale: 0.9 });
+            ScrollReveal().reveal('.diagram', { scale: 0.9, duration: 1200 });
+            
+            ScrollReveal().reveal('.stat-card', { interval: 200, origin: 'top', distance: '30px' });
+            ScrollReveal().reveal('.info-card', { interval: 200, origin: 'bottom', distance: '30px' });
+            ScrollReveal().reveal('.float-card', { interval: 150, origin: 'bottom', distance: '30px' });
+            
+            ScrollReveal().reveal('.chart-container', { origin: 'bottom', delay: 300 });
+            ScrollReveal().reveal('.timeline-item', { interval: 200, distance: '50px', origin: 'left' });
+            
+            ScrollReveal().reveal('.process-step', { interval: 200, distance: '30px', origin: 'top' });
+        };
+
+        // --- Inicialización al cargar el DOM ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar ScrollReveal
+            initScrollReveal();
+            
+            // Inicializar contador de estadísticas cuando sean visibles
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            const statsContainer = document.querySelector('.stats-container');
+            if (statsContainer) {
+                statsObserver.observe(statsContainer);
+            }
+            
+            // Inicializar timeline animation
+            animateTimeline();
+            
+            // Inicializar charts
+            initCharts();
+            
+            // Abrir primer acordeón automáticamente después de cargar
+            setTimeout(() => {
+                const firstAccordion = document.querySelector('.accordion-header');
+                if (firstAccordion) {
+                    firstAccordion.click();
+                }
+            }, 1500);
+        });
+
+        // GSAP para animaciones adicionales
+        if (typeof gsap !== 'undefined') {
+            // Animaciones simples sin ScrollTrigger
+            gsap.from('.process-steps', {
+                opacity: 0,
+                y: 50,
+                stagger: 0.2,
+                duration: 1,
+                delay: 0.5
+            });
+            
+            gsap.from('.hexagon', {
+                opacity: 0,
+                scale: 0.5,
+                stagger: 0.1,
+                duration: 0.8,
+                ease: 'back.out(1.7)',
+                delay: 0.2
+            });
+        }
+    </script>
+</body>
+</html>

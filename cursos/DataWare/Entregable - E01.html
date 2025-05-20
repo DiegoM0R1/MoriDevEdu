@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva de Bases de Datos</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #14b8a6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --info: #0ea5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav {
+            background-color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-item {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .nav-item.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+
+        p, ul li {
+            margin-bottom: 1rem;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            justify-content: space-around; /* Changed for better spacing */
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            flex: 1 1 300px; /* Allows cards to grow and shrink */
+            min-width: 280px; /* Minimum width for smaller screens */
+            max-width: 350px; /* Maximum width */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            background-color: var(--primary-light);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0; /* Prevents icon from shrinking */
+        }
+
+        .card h3 {
+            margin: 0;
+            color: var(--dark);
+            font-size: 1.25rem; /* Slightly larger card titles */
+        }
+
+        .code-block {
+            background-color: #2d3748; /* Darker background for code */
+            color: #e2e8f0; /* Lighter text for code */
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px; /* Rounded all corners */
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem; /* Slightly smaller code font */
+        }
+        .code-block br { display: none; } /* Hide <br> in actual display, use pre for formatting */
+        .code-block pre { margin: 0; white-space: pre-wrap; }
+
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #0d9488;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background-color: #d97706;
+        }
+         .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+
+        .database-visual {
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            /* display: block; Removed for standard table behavior */
+        }
+
+        .table th, .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+        }
+
+        .table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .table tr:hover {
+            background-color: #e2e8f0;
+        }
+
+        .crud-demo {
+            margin: 2rem 0;
+            padding: 1.5rem; /* Increased padding */
+            background-color: #f1f5f9;
+            border-radius: 8px;
+        }
+
+        .crud-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem; /* Increased gap */
+            margin-bottom: 1.5rem; /* Increased margin */
+            justify-content: center; /* Center buttons */
+        }
+
+        .crud-result {
+            margin-top: 1rem;
+            min-height: 100px;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted var(--primary);
+            cursor: help;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 220px; /* Wider tooltip */
+            background-color: var(--dark);
+            color: white;
+            text-align: left; /* Better for more text */
+            border-radius: 6px;
+            padding: 0.75rem; /* Increased padding */
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px; /* Adjusted for wider tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .highlight {
+            background-color: #fff1a7; /* Softer highlight */
+            padding: 2px 4px; /* Adjusted padding */
+            border-radius: 3px; /* Slightly more rounded */
+            font-weight: 500; /* Make highlighted text bold */
+        }
+
+        .accordion {
+            margin: 1rem 0;
+        }
+
+        .accordion-header {
+            background-color: #f1f5f9;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background-color: #e2e8f0;
+        }
+        .accordion-header .icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.active .icon {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out; /* Smoother transition */
+            background-color: white;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .accordion-content-inner {
+            padding: 1.5rem; /* Increased padding */
+            border: 1px solid #e2e8f0;
+            border-top: none;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden; /* Ensures progress bar stays within bounds */
+        }
+
+        .progress-bar {
+            height: 15px; /* Thicker progress bar */
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0; /* Initial width */
+            transition: width 1s ease-in-out; /* Smoother transition */
+            text-align: center;
+            color: white;
+            font-size: 0.75rem;
+            line-height: 15px;
+        }
+
+        .tabs {
+            margin: 1.5rem 0;
+        }
+
+        .tab-header {
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--dark);
+            border-bottom: 3px solid transparent; /* Thicker indicator line */
+            margin-bottom: -1px; /* Align with container border */
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+
+        .tab-btn.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            padding: 1.5rem 0;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s; /* Add fade-in for tab content */
+        }
+
+        /* Diagrama ER */
+        .er-diagram {
+            margin: 2rem auto;
+            max-width: 100%; /* Make it responsive */
+            overflow-x: auto;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .er-diagram svg { display: block; margin: 0 auto; }
+
+
+        .entity {
+            fill: var(--primary-light); /* Softer fill */
+            stroke: var(--primary);
+            stroke-width: 1.5;
+        }
+
+        .entity-text {
+            text-anchor: middle;
+            font-weight: bold;
+            font-size: 12px; /* Smaller text for better fit */
+            fill: white; /* White text on darker background */
+        }
+        .attribute { /* Not used in provided SVG, but kept for completeness */
+            fill: #f0fdf4;
+            stroke: #22c55e;
+            stroke-width: 1;
+        }
+        .attribute-text { text-anchor: middle; font-size: 12px; }
+
+
+        .relationship-text {
+            text-anchor: middle;
+            font-size: 10px; /* Smaller text */
+            fill: var(--dark);
+        }
+
+        .connector {
+            stroke: var(--dark); /* Darker connector */
+            stroke-width: 1.5;
+            marker-end: url(#arrowhead); /* Add arrowhead */
+        }
+         .connector-many {
+            stroke: var(--dark);
+            stroke-width: 1.5;
+            marker-end: url(#crowfoot); /* Custom marker for "many" */
+        }
+
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            50% { transform: scale(1.03); box-shadow: 0 10px 15px rgba(0,0,0,0.15); }
+            100% { transform: scale(1); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        }
+
+        .pulse-card { /* Apply pulse to cards for emphasis */
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .nav-container {
+                justify-content: space-around;
+            }
+            .nav-item {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+            }
+            .card {
+                max-width: 95%; /* Full width on smaller screens */
+                min-width: unset;
+            }
+             h2 { font-size: 1.5rem; }
+             h3 { font-size: 1.2rem; }
+        }
+         @media (max-width: 480px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-item { width: 80%; text-align: center; }
+        }
+
+
+        /* Ventana Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 8% auto; /* Adjusted margin */
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 700px; /* Wider modal for more content */
+            width: 90%; /* Responsive width */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: fadeInModal 0.4s;
+        }
+
+        @keyframes fadeInModal {
+             from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem; /* Adjusted position */
+            font-size: 2rem; /* Larger close icon */
+            font-weight: bold; /* Bolder close icon */
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover { color: var(--danger); }
+
+
+        /* Ejemplos interactivos */
+        .example-form {
+            margin: 1rem 0;
+            padding: 1.5rem; /* Increased padding */
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem; /* Increased padding */
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            outline: none;
+        }
+
+
+        .result-container {
+            margin-top: 1.5rem; /* Increased margin */
+            padding: 1.5rem; /* Increased padding */
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            min-height: 100px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap; /* Preserve formatting */
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--dark);
+            color: var(--light);
+            margin-top: 3rem;
+        }
+        footer p { margin-bottom: 0; }
+        footer a { color: var(--secondary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+   
+
+    <nav id="navbar">
+        <div class="nav-container">
+          <a href="../../index.html" ><img src="../../img/logo2.png" style="width: 70px; border-radius: 50%;">
+                </a>
+                <a href="../../index.html#cursos" style="background-color: #cbd5e1; color: #1e293b; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 500; transition: all 0.3s ease; text-decoration: none;" onmouseover="this.style.backgroundColor='#2563eb'; this.style.color='white';" onmouseout="this.style.backgroundColor='#cbd5e1'; this.style.color='#1e293b';" onclick="window.location.href='../../index.html#cursos'" >Cursos</a>
+                <a href="../../index.html#about" style="background-color: #cbd5e1; color: #1e293b; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 500; transition: all 0.3s ease; text-decoration: none;" onmouseover="this.style.backgroundColor='#2563eb'; this.style.color='white';" onmouseout="this.style.backgroundColor='#cbd5e1'; this.style.color='#1e293b';" onclick="window.location.href='../../index.html#cursos'">Sobre Nosotros</a>
+                <a href="../../index.html#contact" style="background-color: #cbd5e1; color: #1e293b; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 500; transition: all 0.3s ease; text-decoration: none;" onmouseover="this.style.backgroundColor='#2563eb'; this.style.color='white';" onmouseout="this.style.backgroundColor='#cbd5e1'; this.style.color='#1e293b';" onclick="window.location.href='../../index.html#cursos'" >Contacto</a>
+            <a href="#introduccion" class="nav-item active" >Introducción</a>
+            <a href="#diseno-bd" class="nav-item">Diseño de BD</a>
+            <a href="#crud" class="nav-item">Operaciones CRUD</a>
+            <a href="#consultas" class="nav-item">Consultas y Reportes</a>
+            <a href="#optimizacion" class="nav-item">Optimización</a>
+            <a href="#automatizacion" class="nav-item">Automatización</a>
+            <a href="#mejores-practicas" class="nav-item">Mejores Prácticas</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="introduccion" class="fade-in">
+            <h2>Introducción a las Bases de Datos Relacionales (BDR)</h2>
+            <p>
+                Una base de datos relacional es como una biblioteca gigante llena de archivadores (tablas). Cada archivador contiene fichas (registros) con información específica, y estas fichas están organizadas en columnas (campos). Lo especial es que estos archivadores pueden "hablar" entre sí, compartiendo información relacionada.
+            </p>
+
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <h3>Organización Lógica</h3>
+                    </div>
+                    <p>Permite almacenar la información de manera estructurada y ordenada, como en hojas de cálculo, pero con superpoderes para evitar repeticiones y errores.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🔄</div>
+                        <h3>Relaciones Significativas</h3>
+                    </div>
+                    <p>Conecta información entre diferentes tablas usando "llaves" (claves primarias y foráneas). Imagina que una llave abre múltiples archivadores relacionados.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🔎</div>
+                        <h3>Consultas Poderosas</h3>
+                    </div>
+                    <p>Permite hacer preguntas complejas (consultas SQL) para extraer información específica, combinar datos de varias tablas y obtener respuestas valiosas.</p>
+                </div>
+            </div>
+
+            <h3>¿Para qué se usa en una tienda online?</h3>
+            <p>
+                En nuestro proyecto de Tienda Online, la base de datos es el cerebro que gestiona todo:
+            </p>
+            <ul>
+                <li><span class="highlight">Catálogo de productos</span>: Nombres, descripciones, precios, imágenes y a qué categoría pertenecen.</li>
+                <li><span class="highlight">Información de clientes</span>: Nombres, direcciones, historial de compras.</li>
+                <li><span class="highlight">Pedidos</span>: Qué compró cada cliente, cuándo, cómo pagó y el estado del envío.</li>
+                <li><span class="highlight">Inventario</span>: Cuántos productos de cada tipo tenemos disponibles.</li>
+                <li><span class="highlight">Ventas y Análisis</span>: Generar reportes para saber qué se vende más, en qué épocas, etc.</li>
+            </ul>
+            <button class="btn btn-accent pulse-card" onclick="showModal('intro-modal')">Ver Ejemplo Sencillo</button>
+        </section>
+
+        <section id="diseno-bd" class="fade-in">
+            <h2>Diseño de Base de Datos: El Plano Maestro</h2>
+            <p>
+                El diseño es como el plano de un arquitecto para construir una casa. Si el plano es bueno, la casa será fuerte y funcional. Un buen diseño de base de datos asegura que la información sea <span class="tooltip">confiable<span class="tooltip-text">Los datos son correctos y consistentes.</span></span>, <span class="tooltip">eficiente<span class="tooltip-text">Las consultas son rápidas y no se desperdicia espacio.</span></span> y fácil de manejar.
+            </p>
+
+            <h3>Componentes Clave del Diseño</h3>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📋</div>
+                        <h3>Tablas (Entidades)</h3>
+                    </div>
+                    <p>Representan "cosas" o "conceptos" del mundo real, como `Clientes`, `Productos`, `Pedidos`. Cada tabla tiene filas (registros) y columnas (atributos o campos).</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🔑</div>
+                        <h3>Claves (Llaves)</h3>
+                    </div>
+                    <p>Son campos especiales. La <span class="highlight">Clave Primaria</span> (PK) identifica unívocamente cada fila en una tabla (ej. `cliente_id`). La <span class="highlight">Clave Foránea</span> (FK) crea un enlace a la clave primaria de otra tabla para establecer una relación.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🔗</div>
+                        <h3>Relaciones</h3>
+                    </div>
+                    <p>Definen cómo se conectan las tablas. Tipos comunes: <span class="tooltip">Uno a Muchos<span class="tooltip-text">Un cliente puede tener muchos pedidos.</span></span> (1:N), <span class="tooltip">Muchos a Muchos<span class="tooltip-text">Muchos productos pueden estar en muchos pedidos (a través de una tabla intermedia).</span></span> (N:M).</p>
+                </div>
+            </div>
+
+            <h3>Modelo Entidad-Relación (MER) de Nuestra Tienda</h3>
+            <p>Este diagrama visualiza las tablas y sus relaciones. (Basado en la imagen proporcionada anteriormente).</p>
+            <div class="er-diagram">
+                <svg width="750" height="450" viewBox="0 0 750 450" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#555" />
+                        </marker>
+                         <marker id="crowfoot" markerWidth="15" markerHeight="10" refX="15" refY="5" orient="auto">
+                            <line x1="0" y1="5" x2="15" y2="5" stroke="#555" stroke-width="1.5"/>
+                            <line x1="0" y1="0" x2="15" y2="5" stroke="#555" stroke-width="1.5"/>
+                            <line x1="0" y1="10" x2="15" y2="5" stroke="#555" stroke-width="1.5"/>
+                        </marker>
+                         <marker id="one" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+                            <line x1="0" y1="5" x2="10" y2="5" stroke="#555" stroke-width="1.5"/>
+                            <line x1="0" y1="0" x2="0" y2="10" stroke="#555" stroke-width="1.5"/>
+                        </marker>
+                    </defs>
+
+                    <rect x="50" y="30" width="110" height="50" class="entity" rx="5" /><text x="105" y="60" class="entity-text">Clientes</text>
+                    <rect x="300" y="30" width="110" height="50" class="entity" rx="5" /><text x="355" y="60" class="entity-text">Pedidos</text>
+                    <rect x="50" y="200" width="110" height="50" class="entity" rx="5" /><text x="105" y="230" class="entity-text">Categorías</text>
+                    <rect x="300" y="200" width="110" height="50" class="entity" rx="5" /><text x="355" y="230" class="entity-text">Productos</text>
+                    <rect x="530" y="115" width="110" height="50" class="entity" rx="5" /><text x="585" y="145" class="entity-text">Detalles_P</text> <rect x="300" y="370" width="110" height="50" class="entity" rx="5" /><text x="355" y="400" class="entity-text">Inventario</text>
+
+                    <line x1="160" y1="55" x2="300" y2="55" class="connector" marker-start="url(#one)" marker-end="url(#crowfoot)" />
+                    <text x="225" y="45" class="relationship-text">1Cliente-NPedidos</text>
+
+                    <line x1="410" y1="55" x2="530" y2="125" class="connector" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+                    <text x="450" y="95" class="relationship-text">1Pedido-NDetalles</text>
+
+                    <line x1="410" y1="225" x2="530" y2="155" class="connector" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+                    <text x="450" y="185" class="relationship-text">1Producto-NDetalles</text>
+
+                    <line x1="160" y1="225" x2="300" y2="225" class="connector" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+                    <text x="225" y="215" class="relationship-text">1Categoría-NProductos</text>
+
+                    <line x1="355" y1="250" x2="355" y2="370" class="connector" marker-start="url(#one)" marker-end="url(#one)"/>
+                    <text x="365" y="310" class="relationship-text">1Prod-1Inv</text>
+                </svg>
+            </div>
+
+            <div class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Estructura Detallada de Tablas (Ejemplos)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <h4>Tabla Clientes</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead><tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr></thead>
+                                <tbody>
+                                    <tr><td>cliente_id</td><td>INT (PK)</td><td>Identificador único del cliente</td></tr>
+                                    <tr><td>nombre</td><td>VARCHAR(50)</td><td>Nombre del cliente</td></tr>
+                                    <tr><td>apellido</td><td>VARCHAR(50)</td><td>Apellido del cliente</td></tr>
+                                    <tr><td>email</td><td>VARCHAR(100)</td><td>Correo electrónico (único)</td></tr>
+                                    <tr><td>fecha_registro</td><td>DATETIME</td><td>Cuándo se registró</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h4>Tabla Productos</h4>
+                         <div class="table-responsive">
+                            <table class="table">
+                                <thead><tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr></thead>
+                                <tbody>
+                                    <tr><td>producto_id</td><td>INT (PK)</td><td>Identificador único del producto</td></tr>
+                                    <tr><td>nombre</td><td>VARCHAR(100)</td><td>Nombre del producto</td></tr>
+                                    <tr><td>descripcion</td><td>TEXT</td><td>Descripción detallada</td></tr>
+                                    <tr><td>precio</td><td>DECIMAL(10,2)</td><td>Precio unitario</td></tr>
+                                    <tr><td>categoria_id</td><td>INT (FK)</td><td>Referencia a la tabla Categorías</td></tr>
+                                    <tr><td>fecha_creacion</td><td>DATETIME</td><td>Cuándo se añadió</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         <h4>Tabla Pedidos</h4>
+                         <div class="table-responsive">
+                            <table class="table">
+                                <thead><tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr></thead>
+                                <tbody>
+                                    <tr><td>pedido_id</td><td>INT (PK)</td><td>Identificador único del pedido</td></tr>
+                                    <tr><td>cliente_id</td><td>INT (FK)</td><td>Referencia a la tabla Clientes</td></tr>
+                                    <tr><td>fecha_pedido</td><td>DATETIME</td><td>Cuándo se hizo el pedido</td></tr>
+                                    <tr><td>estado</td><td>ENUM(...)</td><td>Ej: 'pendiente', 'pagado', 'enviado'</td></tr>
+                                    <tr><td>total</td><td>DECIMAL(10,2)</td><td>Monto total del pedido</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Normalización: Evitando el Caos de Datos</h3>
+            <p>
+                La <span class="tooltip">normalización<span class="tooltip-text">Es un proceso para organizar los datos en tablas para minimizar la redundancia (duplicación) y mejorar la integridad de los datos.</span></span> es un conjunto de reglas para diseñar tablas de forma que se eviten problemas como datos repetidos o dificultad para actualizar la información. Piénsalo como "ordenar tu habitación digital".
+            </p>
+            <div class="tabs">
+                <div class="tab-header">
+                    <button class="tab-btn active" onclick="openTab(event, 'tab1NF')">1FN</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab2NF')">2FN</button>
+                    <button class="tab-btn" onclick="openTab(event, 'tab3NF')">3FN</button>
+                </div>
+                <div id="tab1NF" class="tab-content active">
+                    <h4>Primera Forma Normal (1FN): ¡No Listas en una Celda!</h4>
+                    <p>Reglas principales:</p>
+                    <ul>
+                        <li>Cada celda de la tabla debe contener un solo valor (atómico). No puedes tener "Producto A, Producto B" en una misma celda.</li>
+                        <li>No debe haber grupos repetidos de columnas (ej. telefono1, telefono2, telefono3).</li>
+                    </ul>
+                    <p><strong>Solución Tienda:</strong> Si un cliente tiene varios teléfonos, creamos una tabla `Telefonos_Cliente` separada, relacionada con `Clientes`.</p>
+                </div>
+                <div id="tab2NF" class="tab-content">
+                    <h4>Segunda Forma Normal (2FN): Todo Depende de la Llave Completa</h4>
+                    <p>Primero, la tabla debe estar en 1FN. Luego:</p>
+                    <ul>
+                        <li>Todos los atributos que no son parte de la clave primaria deben depender funcionalmente de TODA la clave primaria. Esto es relevante si tu clave primaria está compuesta por varias columnas.</li>
+                    </ul>
+                    <p><strong>Solución Tienda:</strong> En la tabla `Detalles_Pedido` (PK: pedido_id, producto_id), el `precio_unitario` de ese momento SÍ depende de ambas partes de la clave. Pero si tuviéramos la descripción del producto ahí, dependería solo de `producto_id`, rompiendo 2FN (la descripción ya está en `Productos`).</p>
+                </div>
+                <div id="tab3NF" class="tab-content">
+                    <h4>Tercera Forma Normal (3FN): Sin "Saltos" Innecesarios</h4>
+                    <p>Primero, la tabla debe estar en 2FN. Luego:</p>
+                    <ul>
+                        <li>Ningún atributo que no sea clave primaria debe depender de otro atributo que tampoco sea clave primaria (no dependencias transitivas).</li>
+                    </ul>
+                    <p><strong>Solución Tienda:</strong> Si en la tabla `Productos` tuviéramos `nombre_categoria` además de `categoria_id`. El `nombre_categoria` depende de `categoria_id` (que no es la PK de Productos, sino una FK), lo cual rompe 3FN. La solución es tener `nombre_categoria` solo en la tabla `Categorias`.</p>
+                </div>
+            </div>
+            <button class="btn" onclick="showModal('design-principles-modal')">Principios de Diseño Clave</button>
+        </section>
+
+        <section id="crud" class="fade-in">
+            <h2>Operaciones CRUD: El Corazón de la Interacción</h2>
+            <p>
+                CRUD son las iniciales de las cuatro acciones básicas que podemos realizar sobre los datos en una base de datos:
+                <span class="highlight">C</span>rear (<strong>C</strong>reate), <span class="highlight">L</span>eer (<strong>R</strong>ead), <span class="highlight">A</span>ctualizar (<strong>U</strong>pdate) y <span class="highlight">E</span>liminar (<strong>D</strong>elete). Son los verbos de nuestro sistema.
+            </p>
+
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: var(--success);">C</div>
+                        <h3>Create (Crear / INSERT)</h3>
+                    </div>
+                    <p>Añadir nueva información. Por ejemplo, registrar un nuevo cliente o un nuevo producto.</p>
+                    <div class="code-block"><pre>
+INSERT INTO categorias (nombre, descripcion)
+VALUES ('Electrónica', 'Gadgets y más'); [cite: 1]
+
+INSERT INTO productos (nombre, precio, categoria_id) 
+VALUES ('Smartphone XYZ', 699.99, 1); [cite: 2]</pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: var(--info);">R</div>
+                        <h3>Read (Leer / SELECT)</h3>
+                    </div>
+                    <p>Consultar o recuperar datos existentes. Por ejemplo, ver todos los productos de una categoría.</p>
+                     <div class="code-block"><pre>
+SELECT p.nombre, p.precio, c.nombre AS categoria
+FROM productos p
+JOIN categorias c ON p.categoria_id = c.categoria_id; [cite: 3]</pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: var(--accent);">U</div>
+                        <h3>Update (Actualizar / UPDATE)</h3>
+                    </div>
+                    <p>Modificar datos que ya existen. Por ejemplo, cambiar el precio de un producto o el estado de un pedido.</p>
+                     <div class="code-block"><pre>
+UPDATE productos
+SET precio = precio * 1.05
+WHERE categoria_id = (SELECT categoria_id FROM categorias WHERE nombre = 'Electrónica'); [cite: 5]
+
+UPDATE pedidos SET estado = 'enviado' WHERE pedido_id = 4; [cite: 6]</pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background-color: var(--danger);">D</div>
+                        <h3>Delete (Eliminar / DELETE)</h3>
+                    </div>
+                    <p>Quitar datos de la base de datos. Por ejemplo, eliminar un producto descatalogado.</p>
+                    <div class="code-block"><pre>
+DELETE FROM inventario WHERE producto_id = 8; [cite: 7]
+DELETE FROM productos WHERE producto_id = 8; [cite: 7]</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="crud-demo">
+                <h3>Prueba Interactiva CRUD (Simulada)</h3>
+                <p>Haz clic en los botones para ver una simulación de las sentencias SQL y sus efectos.</p>
+                <div class="crud-actions">
+                    <button class="btn" style="background-color: var(--success);" onclick="simulateCRUD('create')">INSERTAR Producto</button>
+                    <button class="btn" style="background-color: var(--info);" onclick="simulateCRUD('read')">LEER Productos</button>
+                    <button class="btn" style="background-color: var(--accent);" onclick="simulateCRUD('update')">ACTUALIZAR Precio</button>
+                    <button class="btn" style="background-color: var(--danger);" onclick="simulateCRUD('delete')">ELIMINAR Producto</button>
+                </div>
+                <div class="crud-result" id="crudResultArea">
+                    Selecciona una acción para ver el resultado simulado aquí.
+                </div>
+            </div>
+        </section>
+
+        <section id="consultas" class="fade-in">
+            <h2>Consultas y Reportes: Extrayendo Inteligencia</h2>
+            <p>
+                Las <span class="tooltip">consultas<span class="tooltip-text">Son preguntas escritas en lenguaje SQL para pedirle información específica a la base de datos.</span></span> (usando `SELECT`) son la forma de pedirle a la base de datos que nos muestre información. Los reportes son a menudo el resultado de consultas más elaboradas, presentados de forma útil para tomar decisiones.
+            </p>
+
+            <div class="tabs">
+                <div class="tab-header">
+                    <button class="tab-btn active" onclick="openTab(event, 'consultaBasica')">Consultas Básicas</button>
+                    <button class="tab-btn" onclick="openTab(event, 'consultaAnalisis')">Análisis de Ventas</button>
+                    <button class="tab-btn" onclick="openTab(event, 'consultaVistas')">Vistas</button>
+                </div>
+
+                <div id="consultaBasica" class="tab-content active">
+                    <h3>Consultas Básicas del Día a Día</h3>
+                    <p>Ejemplos de información que podríamos necesitar rápidamente:</p>
+                    <h4>1. Ver productos con su categoría:</h4>
+                    <div class="code-block"><pre>
+SELECT p.nombre AS producto, p.precio, c.nombre AS categoria
+FROM productos p
+JOIN categorias c ON p.categoria_id = c.categoria_id; [cite: 3]</pre>
+                    </div>
+                    <p><em>Resultado simulado:</em></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>Producto</th><th>Precio</th><th>Categoría</th></tr></thead>
+                            <tbody>
+                                <tr><td>Smartphone XYZ</td><td>699.99</td><td>Electrónica</td></tr>
+                                <tr><td>Laptop Pro</td><td>1299.99</td><td>Electrónica</td></tr>
+                                <tr><td>Camiseta Cool</td><td>25.50</td><td>Ropa</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>2. Productos con bajo stock (menos de 30 unidades):</h4>
+                    <div class="code-block"><pre>
+SELECT p.nombre AS producto, i.cantidad
+FROM productos p
+JOIN inventario i ON p.producto_id = i.producto_id
+WHERE i.cantidad < 30; [cite: 4]</pre>
+                    </div>
+                     <p><em>Resultado simulado:</em></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>Producto</th><th>Cantidad en Stock</th></tr></thead>
+                            <tbody>
+                                <tr><td>Teclado Gamer</td><td>15</td><td>Electrónica</td></tr>
+                                <tr><td>Jeans SlimFit</td><td>25</td><td>Ropa</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="consultaAnalisis" class="tab-content">
+                    <h3>Análisis de Ventas para Crecer</h3>
+                    <p>Consultas más complejas para entender el negocio:</p>
+                    <h4>1. Productos más vendidos:</h4>
+                    <div class="code-block"><pre>
+SELECT p.nombre, SUM(dp.cantidad) AS unidades_vendidas
+FROM productos p
+JOIN detalles_pedido dp ON p.producto_id = dp.producto_id
+GROUP BY p.nombre
+ORDER BY unidades_vendidas DESC; [cite: 9]</pre>
+                    </div>
+                     <p><em>Resultado simulado:</em></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>Producto</th><th>Unidades Vendidas</th></tr></thead>
+                            <tbody>
+                                <tr><td>Smartphone XYZ</td><td>150</td></tr>
+                                <tr><td>Camiseta Cool</td><td>120</td></tr>
+                                <tr><td>Laptop Pro</td><td>80</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>2. Ingresos totales por categoría:</h4>
+                    <div class="code-block"><pre>
+SELECT c.nombre AS categoria, SUM(dp.subtotal) AS ingresos_totales
+FROM categorias c
+JOIN productos p ON c.categoria_id = p.categoria_id
+JOIN detalles_pedido dp ON p.producto_id = dp.producto_id
+GROUP BY c.nombre
+ORDER BY ingresos_totales DESC; [cite: 10]</pre>
+                    </div>
+                    <p><em>Resultado simulado:</em></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>Categoría</th><th>Ingresos Totales</th></tr></thead>
+                            <tbody>
+                                <tr><td>Electrónica</td><td>$ 150,500.75</td></tr>
+                                <tr><td>Ropa</td><td>$ 75,200.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="consultaVistas" class="tab-content">
+                    <h3>Vistas: Simplificando Consultas Complejas</h3>
+                    <p>Una <span class="highlight">Vista</span> es como una consulta guardada que se comporta como una tabla virtual. Es muy útil para simplificar el acceso a datos que requieren uniones o cálculos complejos y se usan frecuentemente.</p>
+                    <h4>Crear una vista para resumen de pedidos:</h4>
+                    <div class="code-block"><pre>
+CREATE VIEW vista_resumen_pedidos AS
+SELECT
+    p.pedido_id,
+    CONCAT(c.nombre, ' ', c.apellido) AS cliente,
+    p.estado,
+    COUNT(dp.producto_id) AS num_productos, -- Contar productos distintos en el pedido
+    p.total
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.cliente_id
+JOIN detalles_pedido dp ON p.pedido_id = dp.pedido_id
+GROUP BY p.pedido_id, cliente, p.estado, p.total; [cite: 11]</pre>
+                    </div>
+                    <h4>Usar la vista:</h4>
+                    <div class="code-block"><pre>
+SELECT * FROM vista_resumen_pedidos WHERE estado = 'enviado';</pre>
+                    </div>
+                     <p><em>Resultado simulado de usar la vista:</em></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead><tr><th>ID Pedido</th><th>Cliente</th><th>Estado</th><th>Nº Productos</th><th>Total</th></tr></thead>
+                            <tbody>
+                                <tr><td>4</td><td>Ana Torres</td><td>enviado</td><td>2</td><td>$ 150.99</td></tr>
+                                <tr><td>12</td><td>Luis Vera</td><td>enviado</td><td>1</td><td>$ 699.99</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="optimizacion" class="fade-in">
+            <h2>Optimización: Haciendo que Vuele y Esté Segura</h2>
+            <p>
+                Una base de datos no solo debe funcionar, ¡debe hacerlo <span class="tooltip">rápido<span class="tooltip-text">Las consultas deben devolver resultados en tiempos aceptables para el usuario.</span></span> y de forma <span class="tooltip">segura<span class="tooltip-text">Los datos deben estar protegidos contra accesos no autorizados y pérdidas.</span></span>! La optimización se enfoca en mejorar el rendimiento y la seguridad.
+            </p>
+
+            <h3>Índices Estratégicos: El GPS de tus Datos</h3>
+            <p>
+                Los <span class="highlight">índices</span> son como un índice alfabético en un libro gigante. En lugar de leer página por página (toda la tabla) para encontrar lo que buscas, la base de datos usa el índice para ir directamente al grano. Esto acelera muchísimo las consultas (`SELECT`), especialmente en tablas grandes.
+            </p>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">⚡</div>
+                        <h3>Búsquedas Rápidas</h3>
+                    </div>
+                    <p>Ideal para columnas que usas mucho en filtros (`WHERE`) o para ordenar (`ORDER BY`).</p>
+                    <div class="code-block"><pre>
+-- Para buscar productos por nombre rápidamente
+CREATE INDEX idx_productos_busqueda ON productos(nombre); [cite: 13]</pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🔗</div>
+                        <h3>Uniones (JOINs) Eficientes</h3>
+                    </div>
+                    <p>Las columnas usadas para unir tablas (claves foráneas) suelen beneficiarse enormemente de tener índices.</p>
+                    <div class="code-block"><pre>
+-- Para filtrar pedidos por estado más rápido
+CREATE INDEX idx_pedidos_estado ON pedidos(estado); [cite: 14]</pre>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🗺️</div>
+                        <h3>Índices Compuestos</h3>
+                    </div>
+                    <p>Un índice sobre múltiples columnas, útil si filtras frecuentemente por una combinación de ellas (el orden importa).</p>
+                    <div class="code-block"><pre>
+-- Para reportes que filtran por fecha y estado
+CREATE INDEX idx_pedidos_fecha_estado ON pedidos(fecha_pedido, estado); [cite: 15]</pre>
+                    </div>
+                </div>
+            </div>
+            <p class="highlight"><strong>Ojo:</strong> No te excedas. Demasiados índices pueden hacer más lentas las operaciones de escritura (`INSERT`, `UPDATE`, `DELETE`) porque cada índice también debe actualizarse. ¡Se trata de estrategia!</p>
+
+            <h3>Seguridad de los Datos</h3>
+            <p>Aunque no se detallan sentencias SQL de seguridad en el proyecto, es vital:</p>
+            <ul>
+                <li><strong>Gestión de Usuarios y Permisos:</strong> No todos los usuarios deben poder hacer todo. Define roles y concede solo los permisos necesarios (Principio de Menor Privilegio).</li>
+                <li><strong>Copias de Seguridad (Backups):</strong> Realiza copias periódicas de tu base de datos para poder recuperarla en caso de desastre.</li>
+                <li><strong>Evitar Inyección SQL:</strong> Al construir aplicaciones que interactúan con la BD, usa consultas parametrizadas o ORMs para prevenir ataques.</li>
+                <li><strong>Encriptación:</strong> Considera encriptar datos sensibles tanto en tránsito (SSL/TLS) como en reposo.</li>
+            </ul>
+             <button class="btn" onclick="showModal('optimization-tips-modal')">Más Consejos de Optimización</button>
+        </section>
+
+        <section id="automatizacion" class="fade-in">
+            <h2>Automatización: Dejando que la BD Trabaje por Ti</h2>
+            <p>
+                Podemos programar la base de datos para que realice ciertas tareas automáticamente. Esto ahorra tiempo, reduce errores humanos y mantiene la consistencia. Las herramientas principales son los <span class="highlight">Procedimientos Almacenados</span> y los <span class="highlight">Triggers</span>.
+            </p>
+             <div class="card-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🤖</div>
+                        <h3>Procedimientos Almacenados</h3>
+                    </div>
+                    <p>Son como "mini-programas" escritos en SQL que se guardan en la base de datos. Puedes ejecutarlos cuando quieras llamándolos por su nombre. Útiles para encapsular lógica de negocio compleja o tareas repetitivas.</p>
+                    <p><strong>Ejemplo conceptual Tienda:</strong> Un procedimiento `ProcesarNuevoPedido` que, al recibir un `pedido_id`:
+                        <ol>
+                            <li>Verifica el stock de los productos.</li>
+                            <li>Si hay stock, lo descuenta del inventario.</li>
+                            <li>Actualiza el estado del pedido a 'Pagado'.</li>
+                            <li>Registra la transacción de venta.</li>
+                        </ol>
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🎯</div>
+                        <h3>Triggers (Disparadores)</h3>
+                    </div>
+                    <p>Son un tipo especial de procedimiento que se ejecuta AUTOMÁTICAMENTE cuando ocurre un evento específico en una tabla (un `INSERT`, `UPDATE` o `DELETE`).</p>
+                    <p><strong>Ejemplo conceptual Tienda:</strong>
+                        <ul>
+                            <li>Un trigger `AFTER INSERT ON detalles_pedido` podría recalcular y actualizar el `total` en la tabla `pedidos` cada vez que se añade un nuevo producto a un pedido.</li>
+                            <li>Un trigger `BEFORE UPDATE ON productos` podría registrar el precio antiguo en una tabla de historial de precios antes de que se actualice el precio actual.</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <p>La automatización ayuda a mantener la integridad de los datos y a simplificar la lógica en las aplicaciones que usan la base de datos.</p>
+            <button class="btn btn-accent" onclick="showModal('automation-usecases-modal')">Casos de Uso Detallados</button>
+        </section>
+
+        <section id="mejores-practicas" class="fade-in">
+            <h2>Mejores Prácticas: Construyendo Cimientos Sólidos</h2>
+            <p>
+                Seguir buenas prácticas desde el inicio asegura que tu base de datos sea robusta, escalable y fácil de mantener a largo plazo. Son como las reglas de oro de la construcción.
+            </p>
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header"><div class="card-icon">📏</div><h3>Diseño Normalizado</h3></div>
+                    <p>Organiza tus tablas para <span class="highlight">evitar la redundancia</span> de datos y mejorar la integridad. Sigue las Formas Normales (1FN, 2FN, 3FN) como guía.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon">🛡️</div><h3>Uso de Transacciones</h3></div>
+                    <p>Para operaciones críticas (ej. un pago), agrupa múltiples sentencias SQL en una <span class="tooltip">transacción<span class="tooltip-text">Asegura que todas las operaciones se completen con éxito (commit) o ninguna se aplique (rollback) si algo falla. Mantiene la consistencia.</span></span>. Esto garantiza el "todo o nada".</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon">✅</div><h3>Validaciones en la BD</h3></div>
+                    <p>Usa restricciones (`NOT NULL`, `UNIQUE`, `CHECK`, `FOREIGN KEY`) directamente en la base de datos para asegurar la calidad de los datos desde la fuente.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon">💡</div><h3>Índices Estratégicos</h3></div>
+                    <p>Crea índices en columnas usadas frecuentemente para filtros, uniones u ordenamiento para acelerar consultas, pero <span class="highlight">sin abusar</span>.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon">📖</div><h3>Documentación Adecuada</h3></div>
+                    <p>Mantén documentado tu esquema, decisiones de diseño, relaciones y cualquier lógica compleja. Un <span class="tooltip">diccionario de datos<span class="tooltip-text">Describe cada tabla, columna, su propósito, tipo de dato, restricciones, etc.</span></span> es invaluable.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon">📦</div><h3>Control de Versiones</h3></div>
+                    <p>Usa herramientas como Git para tus scripts SQL (especialmente para cambios de esquema o migraciones). Permite rastrear cambios, colaborar y revertir si es necesario.</p>
+                </div>
+            </div>
+        </section>
+        <div class="progress-container">
+            <div class="progress-bar" id="pageProgressBar">0%</div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Guía Interactiva de Bases de Datos. Inspirado en el proyecto de <a href="www.diegomori.online" target="_blank">diegomori</a></p>
+        <p><a href="https://www.facebook.com/profile.php?id=61573393773065" target="_blank">MoriDev</a> - Inteligencia de Negocios y Dataware</p>
+    </footer>
+
+    <div id="intro-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('intro-modal')">&times;</span>
+            <h2>Demostración: Introducción</h2>
+            <p>Imagina una tabla simple de "Amigos":</p>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead><tr><th>ID_Amigo</th><th>Nombre</th><th>Teléfono</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>Ana</td><td>555-1234</td></tr>
+                        <tr><td>2</td><td>Luis</td><td>555-5678</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Y otra de "Hobbies":</p>
+            <div class="table-responsive">
+                 <table class="table">
+                    <thead><tr><th>ID_Hobby</th><th>Nombre_Hobby</th></tr></thead>
+                    <tbody>
+                        <tr><td>H1</td><td>Leer</td></tr>
+                        <tr><td>H2</td><td>Correr</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Una base de datos relacional nos permitiría tener una tercera tabla "Amigos_Hobbies" para conectar quién tiene qué hobby, ¡sin repetir información en las tablas originales!</p>
+             <div class="table-responsive">
+                 <table class="table">
+                    <thead><tr><th>ID_Amigo (FK)</th><th>ID_Hobby (FK)</th></tr></thead>
+                    <tbody>
+                        <tr><td>1 (Ana)</td><td>H1 (Leer)</td></tr>
+                        <tr><td>2 (Luis)</td><td>H1 (Leer)</td></tr>
+                        <tr><td>2 (Luis)</td><td>H2 (Correr)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="design-principles-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('design-principles-modal')">&times;</span>
+            <h2>Principios Clave del Diseño de BD</h2>
+            <ul>
+                <li><strong>Claridad y Simplicidad:</strong> El modelo debe ser fácil de entender.</li>
+                <li><strong>Atomicidad de Datos:</strong> Cada campo debe guardar la unidad de información más pequeña posible (ej. separar Nombre y Apellido).</li>
+                <li><strong>Evitar Redundancia Controlada:</strong> La normalización ayuda, pero a veces se desnormaliza un poco por rendimiento (¡con cuidado!).</li>
+                <li><strong>Integridad Referencial:</strong> Asegurar que las claves foráneas siempre apunten a registros válidos en la tabla primaria.</li>
+                <li><strong>Escalabilidad:</strong> Diseñar pensando en el crecimiento futuro de los datos y usuarios.</li>
+                <li><strong>Consistencia en Nombres:</strong> Usar convenciones claras para nombrar tablas y columnas (ej. `nombre_tabla` o `NombreTabla`).</li>
+            </ul>
+        </div>
+    </div>
+     <div id="optimization-tips-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('optimization-tips-modal')">&times;</span>
+            <h2>Más Consejos de Optimización y Seguridad</h2>
+            <h3>Rendimiento:</h3>
+            <ul>
+                <li><strong>Analiza tus Consultas:</strong> Usa `EXPLAIN` (o similar) para entender cómo la base de datos ejecuta tus consultas e identificar cuellos de botella.</li>
+                <li><strong>Tipos de Datos Adecuados:</strong> Usa el tipo de dato más pequeño que pueda contener la información necesaria (ej. `INT` vs `BIGINT`, `VARCHAR(50)` vs `VARCHAR(255)` si sabes el límite).</li>
+                <li><strong>Evita `SELECT *` :</strong> Selecciona solo las columnas que realmente necesitas.</li>
+                <li><strong>Cuidado con los `JOIN` en exceso:</strong> Muchos `JOIN` pueden ser costosos. Evalúa si son necesarios o si el diseño se puede mejorar.</li>
+                <li><strong>Actualiza Estadísticas:</strong> Asegúrate de que la base de datos tenga estadísticas actualizadas sobre los datos para que el optimizador tome buenas decisiones.</li>
+                <li><strong>Mantenimiento Regular:</strong> Tareas como la reorganización de índices o la limpieza de datos obsoletos pueden ayudar.</li>
+            </ul>
+             <h3>Seguridad:</h3>
+            <ul>
+                <li><strong>Contraseñas Fuertes:</strong> Para los usuarios de la base de datos.</li>
+                <li><strong>Actualizaciones y Parches:</strong> Mantén tu sistema gestor de base de datos (SGBD) actualizado.</li>
+                <li><strong>Auditoría:</strong> Configura registros (logs) para rastrear quién hace qué, especialmente en datos sensibles.</li>
+                <li><strong>Firewall:</strong> Limita el acceso a la base de datos solo desde aplicaciones y IPs autorizadas.</li>
+            </ul>
+        </div>
+    </div>
+     <div id="automation-usecases-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('automation-usecases-modal')">&times;</span>
+            <h2>Casos de Uso Detallados para Automatización</h2>
+            <h3>Procedimientos Almacenados:</h3>
+            <ul>
+                <li><strong>Generación de Reportes Complejos:</strong> Un procedimiento que tome parámetros (ej. rango de fechas, categoría) y genere un conjunto de resultados complejo que la aplicación solo necesita consumir.</li>
+                <li><strong>Procesos Batch Nocturnos:</strong> Tareas de limpieza, consolidación de datos, o cálculos intensivos que se pueden programar para ejecutarse fuera de horas pico.</li>
+                <li><strong>Encapsular Lógica de Negocio Reutilizable:</strong> Si varias partes de tu aplicación necesitan realizar la misma secuencia de operaciones en la BD, un procedimiento lo centraliza. Ejemplo: `RegistrarNuevoUsuarioConBienvenida(email, password)` que crea el usuario y envía un email (simulado o llamando a un servicio externo si la BD lo permite).</li>
+            </ul>
+             <h3>Triggers:</h3>
+            <ul>
+                <li><strong>Mantener Columnas de Auditoría:</strong> Un trigger `BEFORE UPDATE` en una tabla importante podría actualizar automáticamente las columnas `fecha_modificacion` y `usuario_modificacion`.</li>
+                <li><strong>Validaciones Complejas Condicionadas:</strong> Si una validación depende del estado de otros datos y es demasiado compleja para un `CHECK constraint`, un trigger `BEFORE INSERT OR UPDATE` podría implementarla y cancelar la operación si no se cumple.</li>
+                <li><strong>Sincronización Simple de Tablas:</strong> Al insertar en una tabla `Productos`, un trigger podría crear una entrada inicial en `Inventario` con stock cero. (Cuidado con la complejidad excesiva en triggers).</li>
+                <li><strong>Prevenir Eliminaciones Accidentales:</strong> Un trigger `BEFORE DELETE` en una tabla crítica podría verificar ciertas condiciones (ej. si hay pedidos activos para un cliente) antes de permitir la eliminación, o mover el registro a una tabla de "borrados lógicos" en lugar de eliminarlo físicamente.</li>
+            </ul>
+            <p class="highlight"><strong>Importante:</strong> Usar triggers con precaución. Pueden hacer que la lógica de la base de datos sea más difícil de seguir y depurar si se abusa de ellos o se crean dependencias complejas entre triggers.</p>
+        </div>
+    </div>
+
+
+<script>
+    // Smooth scrolling and active nav item
+    const navLinks = document.querySelectorAll('.nav-item');
+    const sections = document.querySelectorAll('main section');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 70) { // 70 for nav height + شويه margin
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === current) {
+                link.classList.add('active');
+            }
+        });
+
+        // Progress Bar
+        const progressBar = document.getElementById('pageProgressBar');
+        const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (window.pageYOffset / totalHeight) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.textContent = Math.round(progress) + '%';
+    });
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - document.getElementById('navbar').offsetHeight, // Adjust for sticky nav
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+
+    // Accordion
+    function toggleAccordion(header) {
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.icon');
+        header.classList.toggle('active');
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    }
+
+    // Tabs
+    function openTab(event, tabName) {
+        let i, tabcontent, tablinks;
+        const parentTabs = event.target.closest('.tabs');
+
+        tabcontent = parentTabs.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+
+        tablinks = parentTabs.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+
+    // Modals
+    function showModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    // Close modal if clicked outside content
+    window.onclick = function(event) {
+        const modals = document.getElementsByClassName('modal');
+        for (let i = 0; i < modals.length; i++) {
+            if (event.target == modals[i]) {
+                modals[i].style.display = "none";
+            }
+        }
+    }
+
+    // CRUD Demo Simulation
+    function simulateCRUD(action) {
+        const resultArea = document.getElementById('crudResultArea');
+        let message = `Simulando acción: ${action.toUpperCase()}\n\n`;
+        let sqlExample = "";
+
+        switch (action) {
+            case 'create':
+                sqlExample = `INSERT INTO productos (nombre, precio, categoria_id)\nVALUES ('Nuevo Gadget', 49.99, 1);`;
+                message += `SQL Ejecutado (simulado):\n${sqlExample}\n\nResultado: ¡Producto 'Nuevo Gadget' insertado con éxito! (ID: 101)`;
+                break;
+            case 'read':
+                sqlExample = `SELECT producto_id, nombre, precio FROM productos WHERE categoria_id = 1;`;
+                message += `SQL Ejecutado (simulado):\n${sqlExample}\n\nResultado:\n1. Smartphone XYZ - $699.99\n2. Laptop Pro - $1299.99\n3. Nuevo Gadget - $49.99 (si fue insertado)`;
+                break;
+            case 'update':
+                sqlExample = `UPDATE productos SET precio = 55.00 WHERE nombre = 'Nuevo Gadget';`;
+                message += `SQL Ejecutado (simulado):\n${sqlExample}\n\nResultado: ¡Precio del producto 'Nuevo Gadget' actualizado a $55.00! (1 fila afectada)`;
+                break;
+            case 'delete':
+                sqlExample = `DELETE FROM productos WHERE nombre = 'Nuevo Gadget';`;
+                message += `SQL Ejecutado (simulado):\n${sqlExample}\n\nResultado: ¡Producto 'Nuevo Gadget' eliminado! (1 fila afectada)`;
+                break;
+            default:
+                message = "Acción desconocida.";
+        }
+        resultArea.textContent = message;
+    }
+
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Ensure the first tab is active on load if any
+    document.addEventListener('DOMContentLoaded', () => {
+        const firstTabs = document.querySelectorAll('.tabs');
+        firstTabs.forEach(tabGroup => {
+            const firstBtn = tabGroup.querySelector('.tab-btn');
+            if (firstBtn) {
+                // No need to click, just ensure classes are set for the default active tab
+                const firstContentId = firstBtn.getAttribute('onclick').match(/'([^']+)'/)[1];
+                if(document.getElementById(firstContentId)){
+                     document.getElementById(firstContentId).classList.add('active');
+                     document.getElementById(firstContentId).style.display = "block"; // Explicitly show
+                }
+
+            }
+        });
+        // Initial progress bar update
+        const progressBar = document.getElementById('pageProgressBar');
+        const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (window.pageYOffset / totalHeight) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.textContent = Math.round(progress) + '%';
+    });
+
+</script>
+</body>
+</html>
